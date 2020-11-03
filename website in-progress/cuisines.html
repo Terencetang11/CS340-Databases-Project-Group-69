@@ -67,15 +67,21 @@
         <ul>
             <li><p align = "left">Database:</h6></p>
                 <ul>
-                    <li><p align = "left">Add</p></li>
-                    <li><p align = "left">Delete</p></li>
-                    <li><p align = "left">Update</p></li>
+                    <li><p align = "left">Add: Adds new record of a new cuisine to the Cuisines table</p></li>
+                    <li><p align = "left">Delete: Deletes an existing record of a cuisine from the Cuisines table</p></li>
+                    <li><p align = "left">Update: Updates an existing record of a cuisine from the Cuisines table</p></li>
                 </ul>
             <li><p align = "left">Cascade Effects:</p></li>
                 <ul>
-                    <li><p align = "left">On Add: </p></li>
-                    <li><p align = "left">On Delete: </p></li>
-                    <li><p align = "left">On Update: </p></li>
+                    <li><p align = "left">On Add: N/A</p></li>
+                    <li><p align = "left">On Delete: 
+                        <ul>
+                            <li><p align = "left">Deletes associated records in the MenuItems table based on FK cuisineID</p></li>
+                            <li><p align = "left">Nulls cuisineID data in associated records in the RestaurantSchedule table based on FK cuisineID</p></li>
+                            <li><p align = "left">Nulls cuisineID data in associated records in the Chefs table based on FK cuisineID</p></li>
+                        </ul>
+                        </p></li>
+                    <li><p align = "left">On Update: N/A</p></li>
                 </ul>
         </ul>    
     </div>

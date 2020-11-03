@@ -67,15 +67,15 @@
         <ul>
             <li><p align = "left">Database:</h6></p>
                 <ul>
-                    <li><p align = "left">Add</p></li>
-                    <li><p align = "left">Delete</p></li>
-                    <li><p align = "left">Update</p></li>
+                    <li><p align = "left">Add:  Adds a new record of a new restaurant day schedule to the RestaurantSchedule table.  Asks for what cuisine is related to what day</p></li>
+                    <li><p align = "left">Delete: Deletes an existing record of a restaurant day schedule from the Restaurant Schedule table</p></li>
+                    <li><p align = "left">Update: Updates an existing record of a restaurant day schedule from the Restaurant Schedule table</p></li>
                 </ul>
             <li><p align = "left">Cascade Effects:</p></li>
                 <ul>
-                    <li><p align = "left">On Add: </p></li>
-                    <li><p align = "left">On Delete: </p></li>
-                    <li><p align = "left">On Update: </p></li>
+                    <li><p align = "left">On Add: N/A</p></li>
+                    <li><p align = "left">On Delete: Deletes associated records in the ChefSchedule table based on FK dayOfWeek</p></li>
+                    <li><p align = "left">On Update: Cascades dayOfWeek update to ChefScheduleTable</p></li>
                 </ul>
         </ul>    
     </div>
