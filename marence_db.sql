@@ -7,6 +7,11 @@ DROP TABLE IF EXISTS cuisines;
 DROP TABLE IF EXISTS ingredients;
 
 
+CREATE TABLE `cuisines` (
+	`cuisineID` INT(11) AUTO_INCREMENT PRIMARY KEY,
+	`cuisineName` VARCHAR(255) NOT NULL
+	) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
 
 CREATE TABLE `ingredients` (
 	`ingredientID` INT(11) AUTO_INCREMENT PRIMARY KEY,
@@ -15,46 +20,67 @@ CREATE TABLE `ingredients` (
 	`inventory` INT(11)
 	) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-CREATE TABLE `cuisines` (
-	`cuisineID` INT(11) AUTO_INCREMENT PRIMARY KEY,
-	`cuisineName` VARCHAR(255) NOT NULL
-	) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 CREATE TABLE `menuItems` (
 	`menuItemID` INT(11) AUTO_INCREMENT PRIMARY KEY,
 	`menuItemName` VARCHAR(255) NOT NULL,
 	`cuisineID` INT(11) NOT NULL,
 	`price` DECIMAL(10,2) NOT NULL,
-	CONSTRAINT `menuItems_ibfk_1` FOREIGN KEY (`cuisineID`) REFERENCES `cuisines` (`cuisineID`)
+	FOREIGN KEY(`cuisineID`)
+	REFERENCES cuisines(`cuisineID`)
+		ON UPDATE CASCADE
+		ON DELETE CASCADE
 	) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+
 CREATE TABLE `menuItemIngredients` (
-	`menuItemID` INT(11) NOT NULL DEFAULT '0',
-	`ingredientID` INT(11) NOT NULL DEFAULT '0',
-	CONSTRAINT `menuItemIngredients_ibfk_1` FOREIGN KEY (`menuItemID`) REFERENCES `menuItems` (`menuItemID`),
-	CONSTRAINT `menuItemIngredients_ibfk_2` FOREIGN KEY (`ingredientID`) REFERENCES `ingredients` (`ingredientID`)
+	`menuItemID` INT(11) NOT NULL,
+	`ingredientID` INT(11) NOT NULL,
+	FOREIGN KEY(`ingredientID`)
+	REFERENCES ingredients(`ingredientID`)
+		ON UPDATE CASCADE
+		ON DELETE CASCADE,
+	FOREIGN KEY(`menuItemID`)
+	REFERENCES menuItems(`menuItemID`)
+		ON UPDATE CASCADE
+		ON DELETE CASCADE
 	) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
 
 CREATE TABLE `chefs` (
 	`chefID` INT(11) AUTO_INCREMENT PRIMARY KEY,
 	`firstName` VARCHAR(255) NOT NULL,
 	`lastName` VARCHAR(255) NOT NULL,
-	`cuisineID` INT(11) NOT NULL DEFAULT '0',
-	CONSTRAINT `chefs_ibfk_1` FOREIGN KEY (`cuisineID`) REFERENCES `cuisines` (`cuisineID`)
+	`cuisineID` INT(11),
+	FOREIGN KEY(`cuisineID`)
+	REFERENCES cuisines(`cuisineID`)
+		ON UPDATE CASCADE
+		ON DELETE SET NULL
 	) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
 
 CREATE TABLE `restaurantSchedule` (
 	`dayofWeek` VARCHAR(255) NOT NULL PRIMARY KEY,
-	`cuisineID` INT(11) NOT NULL DEFAULT '0',
-	CONSTRAINT `restaurantSchedule_ibfk_1` FOREIGN KEY (`cuisineID`) REFERENCES `cuisines` (`cuisineID`)
+	`cuisineID` INT(11),
+	FOREIGN KEY(`cuisineID`)
+	REFERENCES cuisines(`cuisineID`)
+		ON UPDATE CASCADE
+		ON DELETE SET NULL
 	) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+
 CREATE TABLE `chefSchedule` (
-	`dayofWeek` VARCHAR(255) NOT NULL DEFAULT '0',
-	`chefID` INT(11) NOT NULL DEFAULT '0',
+	`dayofWeek` VARCHAR(255) NOT NULL,
+	`chefID` INT(11) NOT NULL,
 	PRIMARY KEY (`dayofWeek`, `chefID`),
-	CONSTRAINT `chefSchedule_ibfk_1` FOREIGN KEY (`dayofWeek`) REFERENCES `restaurantSchedule` (`dayofWeek`),
-	CONSTRAINT `chefSchedule_ibfk_2` FOREIGN KEY (`chefID`) REFERENCES `chefs` (`chefID`)
+	FOREIGN KEY (`dayofWeek`)
+	REFERENCES restaurantSchedule(`dayofWeek`)
+		ON UPDATE CASCADE
+		ON DELETE CASCADE,
+	FOREIGN KEY (`chefID`)
+	REFERENCES chefs(`chefID`)
+		ON UPDATE CASCADE
+		ON DELETE CASCADE	
 	) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 INSERT INTO `ingredients` (ingredientName, isVegan, inventory) VALUES ('Carrots', TRUE, '100');
