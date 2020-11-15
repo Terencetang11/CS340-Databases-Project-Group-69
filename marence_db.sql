@@ -83,17 +83,24 @@ CREATE TABLE `chefSchedule` (
 		ON DELETE CASCADE	
 	) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+
+INSERT INTO `cuisines` (cuisineName) VALUES ('Italian');
+INSERT INTO `cuisines` (cuisineName) VALUES ('South Asian');
+INSERT INTO `cuisines` (cuisineName) VALUES ('Southern');
 INSERT INTO `ingredients` (ingredientName, isVegan, inventory) VALUES ('Carrots', TRUE, '100');
 INSERT INTO `ingredients` (ingredientName, isVegan, inventory) VALUES ('Chicken Thighs', FALSE, '73');
 INSERT INTO `ingredients` (ingredientName, isVegan, inventory) VALUES ('Eggs', FALSE, '89');
 INSERT INTO `ingredients` (ingredientName, isVegan, inventory) VALUES ('Steak', FALSE, '47');
 INSERT INTO `ingredients` (ingredientName, isVegan, inventory) VALUES ('Pasta', TRUE, '172');
-INSERT INTO `cuisines` (cuisineName) VALUES ('Italian');
-INSERT INTO `cuisines` (cuisineName) VALUES ('South Asian');
-INSERT INTO `cuisines` (cuisineName) VALUES ('Southern');
 INSERT INTO `menuItems` (menuItemName, cuisineID, price) VALUES ('Ribeye Steak', '3', '14.99');
 INSERT INTO `menuItems` (menuItemName, cuisineID, price) VALUES ('Chicken Makhani', '2', '11.99');
 INSERT INTO `menuItems` (menuItemName, cuisineID, price) VALUES ('Chicken Cacciatore', '1', '17.99');
+INSERT INTO `menuItemIngredients` (menuItemID, ingredientID) VALUES ('1', '4');
+INSERT INTO `menuItemIngredients` (menuItemID, ingredientID) VALUES ('2', '1');
+INSERT INTO `menuItemIngredients` (menuItemID, ingredientID) VALUES ('2', '2');
+INSERT INTO `menuItemIngredients` (menuItemID, ingredientID) VALUES ('3', '2');
+INSERT INTO `menuItemIngredients` (menuItemID, ingredientID) VALUES ('3', '3');
+INSERT INTO `menuItemIngredients` (menuItemID, ingredientID) VALUES ('3', '5');
 INSERT INTO `chefs` (firstName, lastName, cuisineID) VALUES ('John', 'Doe', '2');
 INSERT INTO `chefs` (firstName, lastName, cuisineID) VALUES ('Jane', 'Doe', '3');
 INSERT INTO `chefs` (firstName, lastName, cuisineID) VALUES ('Mary', 'Smith', '1');
@@ -111,9 +118,3 @@ INSERT INTO `chefSchedule` (dayofWeek, chefID) VALUES ('Thursday', '2');
 INSERT INTO `chefSchedule` (dayofWeek, chefID) VALUES ('Friday', '3');
 INSERT INTO `chefSchedule` (dayofWeek, chefID) VALUES ('Saturday', '3');
 INSERT INTO `chefSchedule` (dayofWeek, chefID) VALUES ('Sunday', '3');
-INSERT INTO `menuItemIngredients` (menuItemID, ingredientID) VALUES ('1', '4');
-INSERT INTO `menuItemIngredients` (menuItemID, ingredientID) VALUES ('2', '1');
-INSERT INTO `menuItemIngredients` (menuItemID, ingredientID) VALUES ('2', '2');
-INSERT INTO `menuItemIngredients` (menuItemID, ingredientID) VALUES ('3', '2');
-INSERT INTO `menuItemIngredients` (menuItemID, ingredientID) VALUES ('3', '3');
-INSERT INTO `menuItemIngredients` (menuItemID, ingredientID) VALUES ('3', '5');
