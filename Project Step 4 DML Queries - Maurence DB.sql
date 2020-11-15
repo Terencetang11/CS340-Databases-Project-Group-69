@@ -109,3 +109,87 @@ WHERE cuisineID = {{cuisineID}}
 -- DELETE statement
 DELETE FROM cuisines WHERE cuisineID = {{cuisineID}}
 
+
+----- Chefs Table -----
+-- SELECT statement
+SELECT chefID
+, firstName
+, lastName
+, chefs.cuisineID
+, cuisines.cuisineName
+FROM chefs
+LEFT JOIN (SELECT * FROM cuisines WHERE cuisineName = {{cuisineFilter}})
+ON cuisines.cuisineID = chefs.cuisineID
+
+-- INSERT statement
+INSERT INTO chefs (firstName, lastName, cuisineID)
+VALUES (
+	firstName
+	, lastName
+	, (SELECT cuisines.cuisineID FROM cuisines WHERE cuisines.cuisineName = {{cuisineName}})
+	)
+
+-- UPDATE statement
+UPDATE cuisines 
+SET cuisineName = {{cuisineNameUpdate}}
+WHERE cuisineID = {{cuisineID}}
+
+-- DELETE statement
+DELETE FROM cuisines WHERE cuisineID = {{cuisineID}}
+
+
+----- Restaurant Schedule Table -----
+-- SELECT statement
+SELECT dayofWeek
+, restaurantSchedule.cuisineID
+, cuisines.cuisineName
+FROM restaurantSchedule
+LEFT JOIN (SELECT * FROM cuisines WHERE cuisineName = {{cuisineFilter}})
+ON cuisines.cuisineID = restaurantSchedule.cuisineID
+
+-- INSERT statement
+INSERT INTO restaurantSchedule(dayofWeek, cuisineID)
+VALUES (
+	dayofWeek
+	, (SELECT cuisines.cuisineID FROM cuisines WHERE cuisines.cuisineName = {{cuisineName}})
+	)
+
+-- UPDATE statement
+UPDATE restaurantSchedule
+SET cuisineID = (SELECT cuisines.cuisineID FROM cuisines WHERE cuisines.cuisineName = {{cuisineName}})
+WHERE dayofWeek = {{dayofWeek}}
+
+-- DELETE statement
+DELETE FROM restaurantSchedule WHERE dayofWeek = {{dayofWeek}}
+
+
+----- Chefs Schedule Table -----
+-- SELECT statement
+SELECT dayofWeek
+, chefSchedule.chefID
+, chefs.firstName
+, chefs.lastName
+FROM chefSchedule
+LEFT JOIN chefs ON chefs.chefID = chefSchedule.chefID
+WHERE chefSchedule.dayofWeek = {{dayofWeek}}
+
+-- INSERT statement
+INSERT INTO chefSchedule(dayofWeek, chefID)
+VALUES (
+	dayofWeek
+	, (SELECT chefs.chefID FROM chefs 
+		WHERE chefs.firstName = {{firstName}} 
+		AND chefs.lastName = {{lastName}})
+	)
+
+-- UPDATE statement
+UPDATE chefSchedule
+SET chefID = (SELECT chefs.chefID FROM chefs 
+		WHERE chefs.firstName = {{firstName}} 
+		AND chefs.lastName = {{lastName}})
+WHERE dayofWeek = {{dayofWeek}}
+
+-- DELETE statement
+DELETE FROM chefSchedule WHERE chefID = {{chefID}}
+
+
