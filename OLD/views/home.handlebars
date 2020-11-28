@@ -1,0 +1,42 @@
+<h1>My Exercise Tracker:</h1>
+
+<d id="exercise_form">
+    <form id="input_form">
+        <fieldset>
+            <legend>Input your exercise here!</legend>
+            <p><strong>Instructions:</strong> Please input the name, # of reps, weight, date, and units for the exercises you'd like to track!</p>
+            <label>
+                Exercise Name: <input type="text" name="name" id="name_input">
+            </label>
+            <label>
+                Reps: <input type="number" name="reps" id="reps_input">
+            </label>
+            <label>
+                Weight: <input type="number" name="weight" id="weight_input">
+            </label>
+            <label>
+                Date: <input type="date" name="date" id="date_input">
+            </label>
+            <label>
+                Units: 
+                <label><input id = "lbs" type="radio" name="units" value="lbs"/>lbs</label>
+                <label><input id = "kg" type="radio" name="units" value="kg"/>kg</label>
+            </label>
+            <br>
+            <br>
+            <input type="submit" id="exercise_submit">
+            <input type="submit" id="updates_submit" value="Update Entry" hidden>
+        </fieldset>
+    </form>
+</d>
+<d id="results_output">
+    <p id="resultsP"></p>
+    <!-- dom manipulation for dynamic table building, depending on # of rows returned -->
+    <table id="results_table">
+
+    </table>
+<form><input type="submit" id="reset_table" value="Reset Table"></form>
+</d>
+
+
+<script src="client_side.js"></script>

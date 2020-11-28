@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Terence's Website</title>
+        <!-- Stylesheets here -->
+        <link rel="stylesheet" href="styles.css" type="text/css">
+    </head>
+
+    <body>
+       
+        <!-- Website top container -->
+        <div class="container_head">
+            <h1>Portfolio Project: CS290 Website</h1>
+            <h3>Designed by Terence</h3>
+        </div>
+        
+        <!-- Top navigation bar -->
+        <!-- built on unordered list where items displayed inline with some hover over and active icon styling -->
+        <ul class= "navbar">
+            <li><a class="active" href="/">Home</a></li>
+            <li><a href="/travel">Travel</a></li>
+            <li><a href="/gaming">Gaming</a></li>
+            <li><a href="/jalen">Art</a></li>
+            <li class="feedback"><a href="/feedback">Feedback</a></li>
+        </ul>
+            
+        <!-- Carousel object -->
+        <!-- Adapted from Christian Schaefer example on https://css-tricks.com/css-only-carousel/ -->
+        <section class="carousel" aria-label="Gallery">
+            <ol class="carousel__viewport">
+                <li id="carousel__slide1"
+                    tabindex="0"
+                    class="carousel__slide">
+                    <img src="carousel_images/nepal_mtns.jpg">
+                    <div class="carousel__snapper">
+                    <a href="#carousel__slide4"
+                        class="carousel__prev">Go to last slide</a>
+                    <a href="#carousel__slide2"
+                        class="carousel__next">Go to next slide</a>
+                    </div>
+                </li>
+                <li id="carousel__slide2"
+                    tabindex="0"
+                    class="carousel__slide">
+                    <img src="carousel_images/go_karting.jpg">
+                    <div class="carousel__snapper"></div>
+                    <a href="#carousel__slide1"
+                        class="carousel__prev">Go to previous slide</a>
+                    <a href="#carousel__slide3"
+                        class="carousel__next">Go to next slide</a>
+                </li>
+                <li id="carousel__slide3"
+                    tabindex="0"
+                    class="carousel__slide">
+                    <img src="carousel_images/skydiving.jpg">
+                    <div class="carousel__snapper"></div>
+                    <a href="#carousel__slide2"
+                        class="carousel__prev">Go to previous slide</a>
+                    <a href="#carousel__slide4"
+                        class="carousel__next">Go to next slide</a>
+                </li>
+                <li id="carousel__slide4"
+                    tabindex="0"
+                    class="carousel__slide">
+                    <img src="carousel_images/portugal_window.jpg">
+                    <div class="carousel__snapper"></div>
+                    <a href="#carousel__slide3"
+                        class="carousel__prev">Go to previous slide</a>
+                    <a href="#carousel__slide1"
+                        class="carousel__next">Go to first slide</a>
+                </li>
+            </ol>
+            <aside class="carousel__navigation">
+                <ol class="carousel__navigation-list">
+                    <li class="carousel__navigation-item">
+                        <a href="#carousel__slide1"
+                            class="carousel__navigation-button">Go to slide 1</a>
+                    </li>
+                    <li class="carousel__navigation-item">
+                        <a href="#carousel__slide2"
+                            class="carousel__navigation-button">Go to slide 2</a>
+                    </li>
+                    <li class="carousel__navigation-item">
+                        <a href="#carousel__slide3"
+                            class="carousel__navigation-button">Go to slide 3</a>
+                    </li>
+                    <li class="carousel__navigation-item">
+                        <a href="#carousel__slide4"
+                            class="carousel__navigation-button">Go to slide 4</a>
+                    </li>
+                </ol>
+            </aside>
+        </section>
+            
+        <!-- Homepage text body -->
+        <div class="homepage_text">
+            <h1>Welcome to my first website!</h1>
+            <hr>
+            <h3>Check it out, read about some cool stuff and please provide feedback!</h3>
+            <p>
+                This is filler text. 
+            </p>
+            <p>
+                Turismo Carretera (Road racing, lit., Road Touring) is a popular touring car racing series in Argentina, and the oldest car racing series still active in the world. The first TC competition took place in 1937 with 12 races, each in a different province. Future Formula One star Juan Manuel Fangio (Chevrolet) won the 1940 and 1941 editions of the TC. It was during this time that the series' Chevrolet-Ford rivalry began, with Ford acquiring most of its historical victories.
+            </p>
+            <p>
+                The two most popular varieties of open-wheel road racing are Formula One and the IndyCar Series.  Formula One is a European-based series that runs only street circuit and race tracks. These cars are heavily based around technology and their aerodynamics. The speed record was set in 2005 by Juan Pablo Montoya hitting 373 km/h (232 mph). Some of the most prominent races are the Monaco Grand Prix, the Italian Grand Prix, and the British Grand Prix. The season ends with the crowning of the World Championship for drivers and constructors.
+            </p>
+        </div>
+
+        <!-- Contact me links - FB, Linkedin, Twitter, Linkedin -->
+        <div class="contact_me_wrapper">
+            <div class="contact_me">
+                <h3>Stay Connected:</h3>
+                
+                <a href="https://www.facebook.com">
+                    <img src="https://image.flaticon.com/icons/svg/174/174848.svg" 
+                    alt="FB-link"
+                    class="fb-contact">
+                </a>          
+            
+                <a href="https://www.instagram.com">
+                    <img src="https://image.flaticon.com/icons/svg/174/174855.svg" 
+                    alt="IG-link"
+                    class="IG-contact">
+                </a>
+                            
+                <a href="https://www.twitter.com">
+                    <img src="https://image.flaticon.com/icons/svg/124/124021.svg" 
+                    alt="TW-link"
+                    class="tw-contact">
+                </a>
+                            
+                <a href="https://www.linkedin.com/in/terence-tang-212923188/">
+                    <img src="https://image.flaticon.com/icons/svg/174/174857.svg" 
+                    alt="LN-link"
+                    class="linkedin-contact">
+                </a>
+                
+                <!-- download link to my resume -->
+                <a href="download/resume.docx" download="terence-tang-resume.docx">
+                    <img src="download/headshot.jpg" 
+                    class="resume-contact">
+                </a>
+
+            </div>
+        </div>
+
+        <!-- JS scripts here -->
+        <script src="index_page.js"></script>
+    </body>
+</html>
