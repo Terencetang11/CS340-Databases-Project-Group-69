@@ -16,7 +16,7 @@ def hello():
 def browse_ingredients():
     db_connection = connect_to_database()
 
-    # checks URL params for type = insert for adding a new ingredient and then executes query for adding new ingredient
+    # checks URL params for type = INSERT for adding a new ingredient and then executes query for adding new ingredient
     if request.args.get('type') == "insert":
         print("Add new ingredient!")
         ingredientName = request.form['ingredientName']
@@ -28,6 +28,14 @@ def browse_ingredients():
         execute_query(db_connection, query, data)
 
         print('Ingredient added!')
+
+    # checks URL params for type = DELETE for deleting an existing ingredient and then executes query to DB
+    elif request.args.get('type') == "delete":
+        print("Deletes an ingredient!")
+
+        query = 'DELETE FROM ingredients WHERE ingredientID = ' + request.args.get('id')
+        execute_query(db_connection, query)
+        print('Ingredient deleted')
 
     # renders ingredients form with latest results from query
     print("Fetching and rendering ingredients web page")
