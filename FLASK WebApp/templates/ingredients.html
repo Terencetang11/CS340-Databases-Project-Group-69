@@ -84,7 +84,7 @@
                     <td> {{ r[3] }} </td>
                     <td>
                     <button type="button" class="btn btn-success" title = "Update"><i class="fas fa-edit"></i></button>
-                    <button type="button" class="btn btn-danger" title = "Delete"  onClick="window.location='/ingredients?type=delete&id="{{ r.0 }}"'"><i class="far fa-trash-alt"></i></button>
+                    <button type="button" class="btn btn-danger" title = "Delete"  onClick="window.location='/ingredients?type=delete&id={{ r.0 }}'"><i class="far fa-trash-alt"></i></button>
                     </td>
                 </tr>
                 {% endfor %}
