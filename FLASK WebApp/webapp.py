@@ -14,12 +14,48 @@ def hello():
 @webapp.route('/ingredients')
 #the name of this function is just a cosmetic thing
 def browse_ingredients():
-    print("Fetching and rendering ingredients web page")
     db_connection = connect_to_database()
+
+    # checks URL params for type = insert for adding a new ingredient and then executes query for adding new ingredient
+    if request.args.get('type') == "insert":
+        print("Add new ingredient!")
+        ingredientName = request.form['ingredientName']
+        isVegan = request.form['isVegan']
+        inventory = request.form['inventory']
+
+        query = 'INSERT INTO ingredients (ingredientName, isVegan, inventory) VALUES (%s,%s,%s)'
+        data = (ingredientName, isVegan, inventory)
+        execute_query(db_connection, query, data)
+
+        print('Ingredient added!')
+
+    # renders ingredients form with latest results from query
+    print("Fetching and rendering ingredients web page")
     query = "SELECT ingredientID, ingredientName, isVegan, inventory FROM ingredients"
     result = execute_query(db_connection, query).fetchall()
     print(result)
     return render_template('ingredients.html', rows=result)
+
+
+@webapp.route('/add_new_ingredient', methods=['POST','GET'])
+def add_new_ingredient():
+    db_connection = connect_to_database()
+    if request.method == 'GET':
+        query = 'SELECT ingredientID, ingredientName, isVegan, inventory from ingredients'
+        result = execute_query(db_connection, query).fetchall()
+        print(result)
+
+        return render_template('ingredient_add_new.html', ingredients = result)
+    elif request.method == 'POST':
+        print("Add new ingredient!")
+        ingredientName = request.form['ingredientName']
+        isVegan = request.form['isVegan']
+        inventory = request.form['inventory']
+
+        query = 'INSERT INTO ingredients (ingredientName, isVegan, inventory) VALUES (%s,%s,%s)'
+        data = (ingredientName, isVegan, inventory)
+        execute_query(db_connection, query, data)
+        return ('Ingredient added!')
 
 @webapp.route('/menuItems')
 #the name of this function is just a cosmetic thing
@@ -71,26 +107,6 @@ def browse_chefSchedule():
     print(result)
     return render_template('chefSchedule.html', rows=result)
 
-
-@webapp.route('/add_new_ingredient', methods=['POST','GET'])
-def add_new_ingredient():
-    db_connection = connect_to_database()
-    if request.method == 'GET':
-        query = 'SELECT ingredientID, ingredientName, isVegan, inventory from ingredients'
-        result = execute_query(db_connection, query).fetchall()
-        print(result)
-
-        return render_template('ingredient_add_new.html', ingredients = result)
-    elif request.method == 'POST':
-        print("Add new ingredient!")
-        ingredientName = request.form['ingredientName']
-        isVegan = request.form['isVegan']
-        inventory = request.form['inventory']
-
-        query = 'INSERT INTO ingredients (ingredientName, isVegan, inventory) VALUES (%s,%s,%s)'
-        data = (ingredientName, isVegan, inventory)
-        execute_query(db_connection, query, data)
-        return ('Ingredient added!')
 
 @webapp.route('/add_new_menuItem', methods=['POST','GET'])
 def add_new_menuItem():
