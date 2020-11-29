@@ -10,6 +10,32 @@ webapp = Flask(__name__)
 def hello():
     return "Hello World!"
 
+@webapp.route('/db_test')
+def test_database_connection():
+    print("Executing a sample query on the database using the credentials from db_credentials.py")
+    db_connection = connect_to_database()
+    query = "SELECT * from bsg_people;"
+    result = execute_query(db_connection, query)
+    return render_template('db_test.html', rows=result)
+
+@webapp.route('/home')
+def home():
+    db_connection = connect_to_database()
+    query = "DROP TABLE IF EXISTS diagnostic;"
+    execute_query(db_connection, query)
+    query = "CREATE TABLE diagnostic(id INT PRIMARY KEY, text VARCHAR(255) NOT NULL);"
+    execute_query(db_connection, query)
+    query = "INSERT INTO diagnostic (text) VALUES ('MySQL is working');"
+    execute_query(db_connection, query)
+    query = "SELECT * from diagnostic;"
+    result = execute_query(db_connection, query)
+    for r in result:
+        print(f"{r[0]}, {r[1]}")
+    return render_template('home.html', result = result)
+
+@webapp.route('/')
+def index():
+    return render_template('index.html')
 
 @webapp.route('/ingredients')
 #the name of this function is just a cosmetic thing
@@ -70,32 +96,5 @@ def browse_chefSchedule():
     result = execute_query(db_connection, query).fetchall()
     print(result)
     return render_template('chefSchedule.html', rows=result)
-
-@webapp.route('/')
-def index():
-    return render_template('index.html')
-
-@webapp.route('/home')
-def home():
-    db_connection = connect_to_database()
-    query = "DROP TABLE IF EXISTS diagnostic;"
-    execute_query(db_connection, query)
-    query = "CREATE TABLE diagnostic(id INT PRIMARY KEY, text VARCHAR(255) NOT NULL);"
-    execute_query(db_connection, query)
-    query = "INSERT INTO diagnostic (text) VALUES ('MySQL is working');"
-    execute_query(db_connection, query)
-    query = "SELECT * from diagnostic;"
-    result = execute_query(db_connection, query)
-    for r in result:
-        print(f"{r[0]}, {r[1]}")
-    return render_template('home.html', result = result)
-
-@webapp.route('/db_test')
-def test_database_connection():
-    print("Executing a sample query on the database using the credentials from db_credentials.py")
-    db_connection = connect_to_database()
-    query = "SELECT * from bsg_people;"
-    result = execute_query(db_connection, query)
-    return render_template('db_test.html', rows=result)
 
 
