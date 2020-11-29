@@ -1,0 +1,10 @@
+<h3>Add new Entry to Restaurant Schedule:</h3>
+<form id="addrestaurantSchedule" action="/add_new_restaurantSchedule" method="post">
+    Day of Week: <input type="text" name="dayofWeek" required="1"><br>
+    Cuisine ID: (Type 1 for 'Italian', 2 for 'South Asian', or 3 for 'Southern') <input type="number" min="1" name="cuisineID" required="1"><br>
+    NOTES:<br>
+    1) Can not add a entry for a day of the week if a cuisine already exists for that day. Please delete entry for that day or update the entry if a change is needed.<br>
+    2) If desired cuisine is not present in Cuisines table, please add desired cuisine to Cuisines table prior to entering it here.<br>
+    <input type="submit" value="Submit">
+ </form>
+<br/>

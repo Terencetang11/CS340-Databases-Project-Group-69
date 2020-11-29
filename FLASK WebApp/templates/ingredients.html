@@ -76,7 +76,7 @@
         <tbody>
             {% for r in rows %}
             <tr>
-                <td> {{ r[0] }}</td>
+                <td> {{ r.0 }}</td>
                 <td> {{ r[1] }}</td>
                 <td> {{ r[2] }}</td>
                 <td> {{ r[3] }}</td>           
@@ -91,7 +91,7 @@
     <div class="container">
         <div class="row">
             <div class="col text-center">
-                <button type="button" class="btn btn-primary btn-lg" align = "center">Add Ingredient</button>
+                <button type="button" class="btn btn-primary btn-lg" align = "center" onClick="window.location='/add_new_ingredient'">Add Ingredient</button>
             </div>
         </div>
     </div>
@@ -133,6 +133,41 @@
     <div class="col-md-4"></div>
 </div>       
 </footer>
+
+<!---- Modal (Not Currently in Use) ---->
+<div id="myModal" class="modal fade" role="dialog">
+   <div class="modal-dialog">
+      <div class="modal-content">
+         <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+         </div>
+         <div class="modal-body">
+            <form action="/add_new_ingredient" method="POST">
+               <div class="form-group">
+                  <label>Ingredient Name:</label>
+                  <input type="text" class="form-control" name="ingredientName" required="1">
+               </div>
+                <div class="form-group">
+                  <label>Vegan?</label>
+                    <div>
+                        <input type="checkbox" name="isVegan">
+                    </div>
+               </div>
+                <div class="form-group">
+                  <label>Inventory</label>
+                  <input type="inventory" class="form-control" name="number" required="1">
+               </div>
+               <div class="form-group">
+                  <button class="btn btn-primary" type="submit" value="Submit">Insert Data</button>
+               </div>
+            </form>
+         </div>
+         <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+         </div>
+      </div>
+   </div>
+</div>
 
 </body>
 </html>

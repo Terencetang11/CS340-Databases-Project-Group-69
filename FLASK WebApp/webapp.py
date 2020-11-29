@@ -10,32 +10,6 @@ webapp = Flask(__name__)
 def hello():
     return "Hello World!"
 
-@webapp.route('/db_test')
-def test_database_connection():
-    print("Executing a sample query on the database using the credentials from db_credentials.py")
-    db_connection = connect_to_database()
-    query = "SELECT * from bsg_people;"
-    result = execute_query(db_connection, query)
-    return render_template('db_test.html', rows=result)
-
-@webapp.route('/home')
-def home():
-    db_connection = connect_to_database()
-    query = "DROP TABLE IF EXISTS diagnostic;"
-    execute_query(db_connection, query)
-    query = "CREATE TABLE diagnostic(id INT PRIMARY KEY, text VARCHAR(255) NOT NULL);"
-    execute_query(db_connection, query)
-    query = "INSERT INTO diagnostic (text) VALUES ('MySQL is working');"
-    execute_query(db_connection, query)
-    query = "SELECT * from diagnostic;"
-    result = execute_query(db_connection, query)
-    for r in result:
-        print(f"{r[0]}, {r[1]}")
-    return render_template('home.html', result = result)
-
-@webapp.route('/')
-def index():
-    return render_template('index.html')
 
 @webapp.route('/ingredients')
 #the name of this function is just a cosmetic thing
@@ -96,5 +70,152 @@ def browse_chefSchedule():
     result = execute_query(db_connection, query).fetchall()
     print(result)
     return render_template('chefSchedule.html', rows=result)
+
+
+@webapp.route('/add_new_ingredient', methods=['POST','GET'])
+def add_new_ingredient():
+    db_connection = connect_to_database()
+    if request.method == 'GET':
+        query = 'SELECT ingredientID, ingredientName, isVegan, inventory from ingredients'
+        result = execute_query(db_connection, query).fetchall()
+        print(result)
+
+        return render_template('ingredient_add_new.html', ingredients = result)
+    elif request.method == 'POST':
+        print("Add new ingredient!")
+        ingredientName = request.form['ingredientName']
+        isVegan = request.form['isVegan']
+        inventory = request.form['inventory']
+
+        query = 'INSERT INTO ingredients (ingredientName, isVegan, inventory) VALUES (%s,%s,%s)'
+        data = (ingredientName, isVegan, inventory)
+        execute_query(db_connection, query, data)
+        return ('Ingredient added!')
+
+@webapp.route('/add_new_menuItem', methods=['POST','GET'])
+def add_new_menuItem():
+    db_connection = connect_to_database()
+    if request.method == 'GET':
+        query = 'SELECT menuItemName, cuisineID, price from menuItems'
+        result = execute_query(db_connection, query).fetchall()
+        print(result)
+
+        return render_template('menuItem_add_new.html', menuItems = result)
+    elif request.method == 'POST':
+        print("Add new Menu Item!")
+        menuItemName = request.form['menuItemName']
+        cuisineID = request.form['cuisineID']
+        price = request.form['price']
+
+        query = 'INSERT INTO menuItems (menuItemName, cuisineID, price) VALUES (%s,%s,%s)'
+        data = (menuItemName, cuisineID, price)
+        execute_query(db_connection, query, data)
+        return ('Menu Item added!')
+
+
+@webapp.route('/add_new_cuisine', methods=['POST','GET'])
+def add_new_cuisine():
+    db_connection = connect_to_database()
+    if request.method == 'GET':
+        query = 'SELECT cuisineName from cuisines'
+        result = execute_query(db_connection, query).fetchall()
+        print(result)
+
+        return render_template('cuisine_add_new.html', cuisines = result)
+    elif request.method == 'POST':
+        print("Add new Cuisine!")
+        cuisineName = request.form['cuisineName']
+
+        query = 'INSERT INTO cuisines (cuisineName) VALUES (%s)'
+        data = (cuisineName,)
+        execute_query(db_connection, query, data)
+        return ('Cuisine added!')
+
+@webapp.route('/add_new_restaurantSchedule', methods=['POST','GET'])
+def add_new_restaurantSchedule():
+    db_connection = connect_to_database()
+    if request.method == 'GET':
+        query = 'SELECT dayofWeek, cuisineID from restaurantSchedule'
+        result = execute_query(db_connection, query).fetchall()
+        print(result)
+
+        return render_template('restaurantSchedule_add_new.html', restaurantSchedule = result)
+    elif request.method == 'POST':
+        print("Add new entry to Restaurant Schedule!")
+        dayofWeek = request.form['dayofWeek']
+        cuisineID = request.form['cuisineID']
+
+        query = 'INSERT INTO restaurantSchedule (dayofWeek, cuisineID) VALUES (%s,%s)'
+        data = (dayofWeek, cuisineID)
+        execute_query(db_connection, query, data)
+        return ('Entry added!')
+
+@webapp.route('/add_new_chef', methods=['POST','GET'])
+def add_new_chef():
+    db_connection = connect_to_database()
+    if request.method == 'GET':
+        query = 'SELECT firstName, lastName, cuisineID from chefs'
+        result = execute_query(db_connection, query).fetchall()
+        print(result)
+
+        return render_template('chef_add_new.html', chefs = result)
+    elif request.method == 'POST':
+        print("Add new Chef!")
+        firstName = request.form['firstName']
+        lastName = request.form['lastName']
+        cuisineID = request.form['cuisineID']
+
+        query = 'INSERT INTO chefs (firstName, lastName, cuisineID) VALUES (%s,%s,%s)'
+        data = (firstName, lastName, cuisineID)
+        execute_query(db_connection, query, data)
+        return ('Entry added!')
+
+
+@webapp.route('/add_new_chefSchedule', methods=['POST','GET'])
+def add_new_chefSchedule():
+    db_connection = connect_to_database()
+    if request.method == 'GET':
+        query = 'SELECT * from restaurantSchedule'
+        result = execute_query(db_connection, query).fetchall()
+        print(result)
+
+        return render_template('chefSchedule_add_new.html', chefSchedule = result)
+    elif request.method == 'POST':
+        print("Add new entry to Chef Schedule!")
+        dayofWeek = request.form['dayofWeek']
+        chefID = request.form['chefID']
+
+        query = 'INSERT INTO chefSchedule (dayofWeek, chefID) VALUES (%s,%s)'
+        data = (dayofWeek, chefID)
+        execute_query(db_connection, query, data)
+        return ('Entry added!')
+
+@webapp.route('/')
+def index():
+    return render_template('index.html')
+
+@webapp.route('/home')
+def home():
+    db_connection = connect_to_database()
+    query = "DROP TABLE IF EXISTS diagnostic;"
+    execute_query(db_connection, query)
+    query = "CREATE TABLE diagnostic(id INT PRIMARY KEY, text VARCHAR(255) NOT NULL);"
+    execute_query(db_connection, query)
+    query = "INSERT INTO diagnostic (text) VALUES ('MySQL is working');"
+    execute_query(db_connection, query)
+    query = "SELECT * from diagnostic;"
+    result = execute_query(db_connection, query)
+    for r in result:
+        print(f"{r[0]}, {r[1]}")
+    return render_template('home.html', result = result)
+
+@webapp.route('/db_test')
+def test_database_connection():
+    print("Executing a sample query on the database using the credentials from db_credentials.py")
+    db_connection = connect_to_database()
+    query = "SELECT * from bsg_people;"
+    result = execute_query(db_connection, query)
+    return render_template('db_test.html', rows=result)
+
 
 

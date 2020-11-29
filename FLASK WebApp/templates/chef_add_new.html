@@ -1,0 +1,10 @@
+<h3>Add new Chef:</h3>
+<form id="addChef" action="/add_new_chef" method="post">
+    First Name: <input type="text" name="firstName" required="1"><br>
+    Last Name: <input type="text" name="lastName" required="1"><br>
+    Cuisine ID: (Type 1 for 'Italian', 2 for 'South Asian', or 3 for 'Southern') <input type="number" min="1" name="cuisineID" required="1"><br>
+    NOTE:<br>
+    Can not add a chef if Cuisine ID does not exist. Please add desired cuisine to Cuisines table prior to entering its ID here.<br>
+    <input type="submit" value="Submit">
+ </form>
+<br/>
