@@ -11,7 +11,7 @@ def hello():
     return "Hello World!"
 
 
-@webapp.route('/ingredients')
+@webapp.route('/ingredients', methods=['POST','GET'])
 #the name of this function is just a cosmetic thing
 def browse_ingredients():
     db_connection = connect_to_database()
