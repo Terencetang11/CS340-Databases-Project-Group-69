@@ -51,7 +51,7 @@ CREATE TABLE `chefs` (
 	`chefID` INT(11) AUTO_INCREMENT PRIMARY KEY,
 	`firstName` VARCHAR(255) NOT NULL,
 	`lastName` VARCHAR(255) NOT NULL,
-	`cuisineID` INT(11) NOT NULL,
+	`cuisineID` INT(11),
 	FOREIGN KEY(`cuisineID`)
 	REFERENCES cuisines(`cuisineID`)
 		ON UPDATE CASCADE
