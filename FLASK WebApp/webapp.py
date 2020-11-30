@@ -26,13 +26,11 @@ def browse_ingredients():
         query = 'INSERT INTO ingredients (ingredientName, isVegan, inventory) VALUES (%s,%s,%s)'
         data = (ingredientName, isVegan, inventory)
         execute_query(db_connection, query, data)
-
         print('Ingredient added!')
 
     # checks URL params for type = DELETE for deleting an existing ingredient and then executes query to DB
     elif request.args.get('type') == "delete":
         print("Deletes an ingredient!")
-
         query = 'DELETE FROM ingredients WHERE ingredientID = ' + request.args.get('id')
         execute_query(db_connection, query)
         print('Ingredient deleted')
