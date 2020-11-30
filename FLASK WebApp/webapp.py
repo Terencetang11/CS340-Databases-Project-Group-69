@@ -32,10 +32,12 @@ def browse_ingredients():
     # checks URL params for type = DELETE for deleting an existing ingredient and then executes query to DB
     elif request.args.get('type') == "delete":
         print("Deletes an ingredient!")
+        print("id = " + request.args.get('id'))
         query = 'DELETE FROM ingredients WHERE ingredientID = ' + request.args.get('id')
         execute_query(db_connection, query)
         print('Ingredient deleted')
 
+    # checks URL params for type = EDIT for updating an existing ingredient and then executes query to DB
     elif request.args.get('type') == "edit":
         print("Edit an ingredient!")
         print(request.form)
@@ -45,12 +47,9 @@ def browse_ingredients():
         inventory = request.form['inventory']
 
         query = "UPDATE ingredients SET ingredientName = %s, isVegan = %s, inventory = %s WHERE ingredientID = %s"
-
-
         data = (ingredientName, isVegan, inventory, ingredientID)
         execute_query(db_connection, query, data)
         print('Ingredient Updated!')
-
 
     # renders ingredients form with latest results from query
     print("Fetching and rendering ingredients web page")
@@ -59,26 +58,6 @@ def browse_ingredients():
     print(result)
     return render_template('ingredients.html', rows=result)
 
-
-@webapp.route('/add_new_ingredient', methods=['POST','GET'])
-def add_new_ingredient():
-    db_connection = connect_to_database()
-    if request.method == 'GET':
-        query = 'SELECT ingredientID, ingredientName, isVegan, inventory from ingredients'
-        result = execute_query(db_connection, query).fetchall()
-        print(result)
-
-        return render_template('ingredient_add_new.html', ingredients = result)
-    elif request.method == 'POST':
-        print("Add new ingredient!")
-        ingredientName = request.form['ingredientName']
-        isVegan = request.form['isVegan']
-        inventory = request.form['inventory']
-
-        query = 'INSERT INTO ingredients (ingredientName, isVegan, inventory) VALUES (%s,%s,%s)'
-        data = (ingredientName, isVegan, inventory)
-        execute_query(db_connection, query, data)
-        return ('Ingredient added!')
 
 @webapp.route('/menuItems')
 #the name of this function is just a cosmetic thing
