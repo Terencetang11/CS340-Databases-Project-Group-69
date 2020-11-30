@@ -83,7 +83,7 @@
                     <td> {{ r[2] }} </td>
                     <td> {{ r[3] }} </td>
                     <td>
-                    <button type="button" class="btn btn-success" title = "Update" onClick="window.location='/ingredients?type=edit&id={{ r.0 }}'"><i class="fas fa-edit"></i></button>
+                    <button type="button" class="btn btn-success" title = "Update" onClick="showEditInputForm( {{ r.0 }}, {{ r.1 }}, {{ r.2 }}, {{ r.3 }} )"><i class="fas fa-edit"></i></button>
                     <button type="button" class="btn btn-danger" title = "Delete"  onClick="window.location='/ingredients?type=delete&id={{ r.0 }}'"><i class="far fa-trash-alt"></i></button>
                     </td>
                 </tr>
@@ -106,60 +106,39 @@
                         <label>
                             Ingredient Name: <input type="text" name="ingredientName" required="1">
                         </label>
-<!--                        <label>-->
-<!--                            Vegan? (Type 1 for 'Yes', 0 for 'No') <input type="number" name="isVegan" required="1">-->
-<!--                        </label>-->
-
-                        <fieldset>
-
-                            <p>Is the ingredient vegan?
-                                <label>
-                                    <input type="radio" name="isVegan" value="1" />Yes</label>
-                                <label>
-                                    <input type="radio" name="isVegan" value="0" />No</label>
-                            </p>
-                        </fieldset>
                         <label>
                             Inventory: <input type="number" name="inventory" required="1">
                         </label>
-                        <br>
-                        <br>
+                        <fieldset>
+                            <p>Is the ingredient vegan?
+                                <label><input type="radio" name="isVegan" value="1" />Yes</label>
+                                <label><input type="radio" name="isVegan" value="0" />No</label>
+                            </p>
+                        </fieldset>
                         <input type="submit" value="Submit">
                     </fieldset>
                 </form>
             </div>
 
             <!---- Edit Ingredient Form Placeholder  ----->
-            <div id="ingredients_form" style="display:none">
+            <div id="edit_ingredients_form" style="display:none">
                 <form id="editingredient" action="/ingredients?type=edit" method="post">
                     <fieldset>
                         <legend>Edit Ingredient below:</legend>
                         <p><strong>Instructions:</strong> Please update the ingredient name, vegan Y/N, and quantity below!</p>
-                        <input type="text"
+                        <input id = "editIngredientID" type="text" name="ingredientID" required="1" style="display:none">
                         <label>
-                            Ingredient Name: <input type="text" name="ingredientName" required="1">
+                            Ingredient Name: <input id = "editIngredientName" type="text" name="ingredientName" required="1">
                         </label>
-<!--                        <label>-->
-<!--                            Vegan? (Type 1 for 'Yes', 0 for 'No') <input type="number" name="isVegan" required="1">-->
-<!--                        </label>-->
-
+                        <label>
+                            Inventory: <input id = "editIngredientQuantity" type="number" name="inventory" required="1">
+                        </label>
                         <fieldset>
-                            <p>Is vegan?
-                                <br />
-                                <label>
-                                    <input type="radio" name="isVegan" value="1" />Starburst</label>
-                                <br />
-                                <label>
-                                    <input type="radio" name="isVegan" value="0" />Jolly Rancher</label>
+                            <p>Is the ingredient vegan?
+                                <label><input id = "isVeganBool" type="radio" name="isVegan" value="1" />Yes</label>
+                                <label><input id = "isNotVeganBool" type="radio" name="isVegan" value="0" />No</label>
                             </p>
                         </fieldset>
-
-
-                        <label>
-                            Inventory: <input type="number" name="inventory" required="1">
-                        </label>
-                        <br>
-                        <br>
                         <input type="submit" value="Submit">
                     </fieldset>
                 </form>
@@ -266,20 +245,29 @@
 
 <!--   Script for edit ingredients button   -->
 <script>
-    function showInputForm() {
-          var x = document.getElementById("new_ingredients_button");
+    function showEditInputForm(id, vegan, quantity) {
+          var x = document.getElementById("edit_ingredients_button");
           if (x.style.display === "none") {
                 x.style.display = "block";
           } else {
                 x.style.display = "none";
           }
 
-          var x = document.getElementById("new_ingredients_form");
+          var x = document.getElementById("edit_ingredients_form");
           if (x.style.display === "none") {
                 x.style.display = "block";
           } else {
                 x.style.display = "none";
           }
+
+          document.getElementById("editIngredientID").value = id;
+          document.getElementById("editIngredientName").value = name;
+          document.getElementById("editIngredientQuantity").value = quantity;
+
+          if (vegan === "1") {
+                document.getElementById("isVeganBool").checked = true;
+          } else {
+                document.getElementById("isNotVeganBool").checked = true;
     }
 </script>
 
