@@ -36,6 +36,22 @@ def browse_ingredients():
         execute_query(db_connection, query)
         print('Ingredient deleted')
 
+    elif request.args.get('type') == "edit":
+        print("Edit an ingredient!")
+        print(request.form)
+        ingredientID = request.form['ingredientID']
+        ingredientName = request.form['ingredientName']
+        isVegan = request.form['isVegan']
+        inventory = request.form['inventory']
+
+        query = "UPDATE ingredients SET ingredientName = %s, isVegan = %s, inventory = %s WHERE ingredientID = %s"
+
+
+        data = (ingredientName, isVegan, inventory, ingredientID)
+        execute_query(db_connection, query, data)
+        print('Ingredient Updated!')
+
+
     # renders ingredients form with latest results from query
     print("Fetching and rendering ingredients web page")
     query = "SELECT ingredientID, ingredientName, isVegan, inventory FROM ingredients"
