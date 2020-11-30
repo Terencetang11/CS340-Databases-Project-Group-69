@@ -19,6 +19,7 @@ def browse_ingredients():
     # checks URL params for type = INSERT for adding a new ingredient and then executes query for adding new ingredient
     if request.args.get('type') == "insert":
         print("Add new ingredient!")
+        print(request.form)
         ingredientName = request.form['ingredientName']
         isVegan = request.form['isVegan']
         inventory = request.form['inventory']
