@@ -250,13 +250,14 @@
 <!--   Script for edit ingredients button   -->
 <script>
     function showEditInputForm(id, name, vegan, quantity) {
+          document.getElementById("new_ingredients_button").style.display = "none";
+
           var x = document.getElementById("edit_ingredients_form");
           if (x.style.display === "none") {
                 x.style.display = "block";
           } else {
                 x.style.display = "none";
           }
-
 
           document.getElementById("editIngredientID").value = id;
           console.log(id)
