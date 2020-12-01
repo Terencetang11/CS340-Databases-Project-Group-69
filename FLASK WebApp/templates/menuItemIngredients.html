@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Cuisines - The Marence Bistro</title>
+    <title>Menu Items - The Marence Bistro</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
@@ -33,13 +33,13 @@
     <a class="nav-link" href="/menuItems">Menu Items</a> 
     </li>
     <li class="nav-item">
-    <a class="nav-link" href="/menuItemIngredients">Menu Item Ingredients</a> 
+    <a class="nav-link active" href="/menuItemIngredients">Menu Item Ingredients</a> 
     </li>
     <li class="nav-item">
     <a class="nav-link" href="/cuisines">Cuisines</a> 
     </li>
     <li class="nav-item">
-    <a class="nav-link active" href="/restaurantSchedule">Restaurant Schedule</a>
+    <a class="nav-link" href="/restaurantSchedule">Restaurant Schedule</a>
     </li>
     <li class="nav-item">
     <a class="nav-link" href="/chefs">Chefs</a>
@@ -63,14 +63,16 @@
         </div>
         <hr>
         <div class="col-12">
-        <p class="lead">A table that aligns Cuisine to Days it will be featured on will be added here.</p>
+        <p class="lead">Menu Item Ingredients</p>
         </div>
-    <table class="table">
+<table class="table">
       <thead>
         <tr>
-          <th scope="col">Day of Week</th>
-          <th scope="col">Cuisine ID</th>
-          <th scope="col">Cuisine Name</th>
+          <th scope="col">Menu Item ID</th>
+          <th scope="col">Menu Item Name</th>
+          <th scope="col">Ingredient ID</th>
+          <th scope="col">Ingredient Name</th>
+          <th scope="col">Ingredient Inventory</th>
           <th scope="col">Actions</th>
         </tr>
       </thead>
@@ -79,7 +81,9 @@
             <tr>
                 <td> {{ r.0 }}</td>
                 <td> {{ r[1] }}</td>
-                <td> {{ r[2] }}</td>          
+                <td> {{ r[2] }}</td>
+                <td> {{ r[3] }}</td>
+                <td> {{ r[4] }}</td>        
                 <td>
                 <button type="button" class="btn btn-success" title = "Update"><i class="fas fa-edit"></i></button>
                 <button type="button" class="btn btn-danger" title = "Delete"><i class="far fa-trash-alt"></i></button>
@@ -91,7 +95,7 @@
     <div class="container">
         <div class="row">
             <div class="col text-center">
-                <button type="button" class="btn btn-primary btn-lg" align = "center" onClick="window.location='/add_new_restaurantSchedule'">Add Day & Cuisine</button>
+                <button type="button" class="btn btn-primary btn-lg" align = "center" onClick="window.location='/add_new_menuItemIngredient'">Add Menu Item</button>
             </div>
         </div>
     </div>
@@ -99,15 +103,15 @@
         <ul>
             <li><p align = "left">Database:</h6></p>
                 <ul>
-                    <li><p align = "left">Add:  Adds a new record of a new restaurant day schedule to the RestaurantSchedule table.  Asks for what cuisine is related to what day</p></li>
-                    <li><p align = "left">Delete: Deletes an existing record of a restaurant day schedule from the Restaurant Schedule table</p></li>
-                    <li><p align = "left">Update: Updates an existing record of a restaurant day schedule from the Restaurant Schedule table</p></li>
+                    <li><p align = "left">Add:  Creates a new record of a menu item ingredient to MenuItemIngredients table.  Asks for Menu Item ID and Ingredient ID</p></li>
+                    <li><p align = "left">Delete:  Deletes an existing record of a menu item ingredient from MenuItemIngredients table</p></li>
+                    <li><p align = "left">Update:  Updates an existing record of a menu item ingredient in the MenuItemIngredients table.  Asks for updated related menu item and ingredient</p></li>
                 </ul>
             <li><p align = "left">Cascade Effects:</p></li>
                 <ul>
                     <li><p align = "left">On Add: N/A</p></li>
-                    <li><p align = "left">On Delete: Deletes associated records in the ChefSchedule table based on FK dayOfWeek</p></li>
-                    <li><p align = "left">On Update: Cascades dayOfWeek update to ChefScheduleTable</p></li>
+                    <li><p align = "left">On Delete: N/A</p></li>
+                    <li><p align = "left">On Update: N/A</p></li>
                 </ul>
         </ul>    
     </div>

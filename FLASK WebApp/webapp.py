@@ -110,6 +110,37 @@ def browse_chefSchedule():
     return render_template('chefSchedule.html', rows=result)
 
 
+@webapp.route('/menuItemIngredients')
+#the name of this function is just a cosmetic thing
+def browse_menuItemIngredients():
+    print("Fetching and rendering Menu Item Ingredients web page")
+    db_connection = connect_to_database()
+    query = "SELECT menuItemIngredients.menuItemID, menuItems.menuItemName, menuItemIngredients.ingredientID, ingredients.ingredientName, ingredients.inventory FROM menuItemIngredients INNER JOIN menuItems ON menuItemIngredients.menuItemID = menuItems.menuItemID INNER JOIN ingredients ON menuItemIngredients.ingredientID = ingredients.ingredientID"
+    result = execute_query(db_connection, query).fetchall()
+    print(result)
+    return render_template('menuItemIngredients.html', rows=result)
+
+
+@webapp.route('/add_new_menuItemIngredient', methods=['POST','GET'])
+def add_new_menuItemIngredient():
+    db_connection = connect_to_database()
+    if request.method == 'GET':
+        query = 'SELECT menuItemID, ingredientID from menuItemIngredients'
+        result = execute_query(db_connection, query).fetchall()
+        print(result)
+
+        return render_template('menuItemIngredient_add_new.html', menuItemIngredients = result)
+    elif request.method == 'POST':
+        print("Add new Menu Item Ingredient!")
+        menuItemID = request.form['menuItemID']
+        ingredientID = request.form['ingredientID']
+
+        query = 'INSERT INTO menuItemIngredients (menuItemID, ingredientID) VALUES (%s,%s)'
+        data = (menuItemID, ingredientID)
+        execute_query(db_connection, query, data)
+        return ('Menu Item Ingredient added!')
+
+
 @webapp.route('/add_new_menuItem', methods=['POST','GET'])
 def add_new_menuItem():
     db_connection = connect_to_database()
@@ -231,7 +262,7 @@ def home():
 def test_database_connection():
     print("Executing a sample query on the database using the credentials from db_credentials.py")
     db_connection = connect_to_database()
-    query = "SELECT * from bsg_people;"
+    query = "SELECT * from chefs"
     result = execute_query(db_connection, query)
     return render_template('db_test.html', rows=result)
 
