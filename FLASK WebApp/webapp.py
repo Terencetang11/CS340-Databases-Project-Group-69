@@ -127,7 +127,7 @@ def browse_chefs():
     db_connection = connect_to_database()
 
     if request.method == "POST":
-        query = 'SELECT cuisineID FROM cuisines WHERE cuisineName = ' + str(request.form['cuisineName'])
+        query = 'SELECT cuisineID FROM cuisines WHERE cuisineName = "' + str(request.form['cuisineName']) + '"'
         cuisineID = execute_query(db_connection, query).fetchall()[0]
 
         if cuisineID != "":
