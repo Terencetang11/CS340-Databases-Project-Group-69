@@ -130,8 +130,9 @@ def browse_chefs():
         query = 'SELECT cuisineID FROM cuisines WHERE cuisineName = %s'
         cuisineName = request.form['cuisineName']
         data = (cuisineName,)
-        cuisineID = execute_query(db_connection, query, data)[0]
-
+        results = execute_query(db_connection, query, data)
+        cuisineID = results[0]
+        
         if cuisineID != "":
             print('Cuisine exists!')
         else:
