@@ -70,7 +70,7 @@ def browse_menuItems():
     print(result)
     return render_template('menuItems.html', rows=result)
 
-@webapp.route('/cuisines')
+@webapp.route('/cuisines', methods=['POST','GET'])
 #the name of this function is just a cosmetic thing
 def browse_cuisines():
     print("Fetching and rendering Cuisines web page")
