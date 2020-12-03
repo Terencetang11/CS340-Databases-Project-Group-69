@@ -13,9 +13,10 @@
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-    <h3> There was an input error.  The cuisine name entered does not exist.  Please try again! </h3>
+    <p> There was an input error.  The cuisine name entered does not exist.  Please try again! </p>
     {% for r in rows %}
-        <button type="button" id="go_back_button" class="btn btn-primary btn-lg" align = "center" onClick="window.location='{{ r.0 }}'">Return to previous page</button>
+        <p>{{r}}</p>
+        <button type="button" id="go_back_button" class="btn btn-primary btn-lg" align = "center" onClick="window.location='{{ r }}'">Return to previous page</button>
     {% endfor %}
 <body>
 
