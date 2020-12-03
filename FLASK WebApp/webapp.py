@@ -152,26 +152,24 @@ def browse_chefs():
 
     # checks URL params for type = DELETE for deleting an existing chef and then executes query to DB
     elif request.args.get('type') == "delete":
-        print("Deletes an ingredient!")
+        print("Deletes a Chef!")
         print("id = " + request.args.get('id'))
-        query = 'DELETE FROM ingredients WHERE ingredientID = ' + request.args.get('id')
+        query = 'DELETE FROM chefs WHERE chefID = ' + request.args.get('id')
         execute_query(db_connection, query)
-        print('Ingredient deleted')
+        print('Chef deleted')
 
     # checks URL params for type = EDIT for updating an existing chef and then executes query to DB
     elif request.args.get('type') == "edit":
-        print("Edit an ingredient!")
+        print("Edit a Chef!")
         print(request.form)
-        ingredientID = request.form['ingredientID']
-        ingredientName = request.form['ingredientName']
-        isVegan = request.form['isVegan']
-        inventory = request.form['inventory']
+        chefID = request.form['chefID']
+        chefFName = request.form['chefFirstName']
+        chefLName = request.form['chefLastName']
 
-        query = "UPDATE ingredients SET ingredientName = %s, isVegan = %s, inventory = %s WHERE ingredientID = %s"
-        data = (ingredientName, isVegan, inventory, ingredientID)
+        query = "UPDATE chefs SET firstName = %s, lastName = %s, cuisineID = %s WHERE chefID = %s"
+        data = (chefFName, chefLName, cuisineID, chefID)
         execute_query(db_connection, query, data)
-        print('Ingredient Updated!')
-
+        print('Chef Updated!')
 
     print("Fetching and rendering Chefs web page")
     query = "SELECT chefID, firstName, lastName, chefs.cuisineID, cuisines.cuisineName FROM chefs LEFT JOIN cuisines ON cuisines.cuisineID = chefs.cuisineID"
