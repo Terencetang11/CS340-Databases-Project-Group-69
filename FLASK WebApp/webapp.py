@@ -131,11 +131,12 @@ def browse_chefs():
             query = 'SELECT cuisineID FROM cuisines WHERE cuisineName = %s'
             cuisineName = request.form['cuisineName']
             data = (cuisineName,)
-            cuisineID = execute_query(db_connection, query, data)
+            testResults = execute_query(db_connection, query, data)
 
             print('Cuisine exists!')
-            print(cuisineID)
-            print(type(cuisineID))
+            print(testResults)
+            print(testResults[0])
+            print(type(testResults[0]))
         except:
             print('Cuisine does not exists!')
             result = ('/chefs',)
