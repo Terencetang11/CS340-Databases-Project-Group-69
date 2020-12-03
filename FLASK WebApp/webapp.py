@@ -14,6 +14,7 @@ def hello():
 @webapp.route('/ingredients', methods=['POST','GET'])
 #the name of this function is just a cosmetic thing
 def browse_ingredients():
+    print("Fetching and rendering Ingredients web page")
     db_connection = connect_to_database()
 
     # checks URL params for type = INSERT for adding a new ingredient and then executes query for adding new ingredient
@@ -74,6 +75,38 @@ def browse_menuItems():
 def browse_cuisines():
     print("Fetching and rendering Cuisines web page")
     db_connection = connect_to_database()
+
+    # checks URL params for type = INSERT for adding a new ingredient and then executes query for adding new ingredient
+    if request.args.get('type') == "insert":
+        print("Add new Cuisine!")
+        print(request.form)
+        cuisineName = request.form['cuisineName']
+
+        query = 'INSERT INTO cuisines (cuisineName) VALUES (%s)'
+        data = (cuisineName)
+        execute_query(db_connection, query, data)
+        print('Cuisine added!')
+
+    # checks URL params for type = DELETE for deleting an existing ingredient and then executes query to DB
+    elif request.args.get('type') == "delete":
+        print("Deletes a cuisine!")
+        print("id = " + request.args.get('id'))
+        query = 'DELETE FROM cuisines WHERE cuisineID = ' + request.args.get('id')
+        execute_query(db_connection, query)
+        print('Cuisine deleted')
+
+    # checks URL params for type = EDIT for updating an existing ingredient and then executes query to DB
+    elif request.args.get('type') == "edit":
+        print("Edit a cuisine!")
+        print(request.form)
+        cuisineID = request.form['cuisineID']
+        cuisineName = request.form['cuisineName']
+
+        query = "UPDATE cuisines SET cuisineName = %s WHERE cuisineID = %s"
+        data = (cuisineName, cuisineID)
+        execute_query(db_connection, query, data)
+        print('Cuisine Updated!')
+
     query = "SELECT cuisineID, cuisineName FROM cuisines"
     result = execute_query(db_connection, query).fetchall()
     print(result)

@@ -58,65 +58,78 @@
 <!---- Table Placeholder ----->
 <div class="container-fluid padding">
     <div class="row welcome text-center">
-    <div class="col-12">
-        <h4 class="display-5">The Marence Bistro</h4>
+        <div class="col-12">
+            <h4 class="display-5">The Marence Bistro</h4>
         </div>
         <hr>
         <div class="col-12">
-        <p class="lead">Cuisines</p>
+            <p class="lead">Cuisines</p>
         </div>
-<table class="table">
-      <thead>
-        <tr>
-          <th scope="col">Cuisine ID</th>
-          <th scope="col">Cuisine Name</th>
-          <th scope="col">Actions</th>
-        </tr>
-      </thead>
-        <tbody>
-            {% for r in rows %}
-            <tr>
-                <td> {{ r.0 }}</td>
-                <td> {{ r[1] }}</td>        
-                <td>
-                <button type="button" class="btn btn-success" title = "Update"><i class="fas fa-edit"></i></button>
-                <button type="button" class="btn btn-danger" title = "Delete"><i class="far fa-trash-alt"></i></button>
-                </td>            
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-    <div class="container">
-        <div class="row">
-            <div class="col text-center">
-                <button type="button" class="btn btn-primary btn-lg" align = "center" onClick="window.location='/add_new_cuisine'">Add Cuisine</button>
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Cuisine ID</th>
+                    <th scope="col">Cuisine Name</th>
+                    <th scope="col">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for r in rows %}
+                <tr>
+                    <td> {{ r.0 }}</td>
+                    <td> {{ r[1] }}</td>
+                    <td>
+                    <button type="button" class="btn btn-success" title="Update" onClick="showEditInputForm('{{ r.0 }}', '{{ r.1 }}')"><i class="fas fa-edit"></i></button>
+                    <button type="button" class="btn btn-danger" title="Delete" onClick="window.location='/cuisines?type=delete&id={{ r.0 }}'"><i class="far fa-trash-alt"></i></button>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <div class="container">
+            <div class="row">
+                <div class="col text-center">
+                    <button type="button" id="new_cuisines_button" class="btn btn-primary btn-lg" align = "center" onClick="showNewInputForm()">Add Cuisine</button>
+                </div>
+            </div>
+
+            <!---- New Ingredient Input Form Placeholder  ----->
+            <div id="new_cuisines_form" style="display:none">
+                <form id="addingcuisine" action="/cuisines?type=insert" method="post">
+                    <fieldset>
+                        <legend>Add a new Cuisine below:</legend>
+                        <p><strong>Instructions:</strong> Please input the new cuisine name below!</p>
+                        <label>
+                            Cuisine Name: <input type="text" name="cuisineName" required="1">
+                        </label>
+                        <input type="submit" value="Submit">
+                    </fieldset>
+                    <br>
+                    <br>
+                </form>
+            </div>
+
+            <!---- Edit Ingredient Form Placeholder  ----->
+            <div id="edit_cuisines_form" style="display:none">
+                <form id="editingcuisine" action="/cuisines?type=edit" method="post">
+                    <fieldset>
+                        <legend>Edit a Cuisine below:</legend>
+                        <p><strong>Instructions:</strong> Please update an cuisine's name below!</p>
+                        <input id = "editCuisineID" type="text" name="cuisineID" required="1" style="display:none">
+                        <label>
+                            Cuisine Name: <input type="text" name="cuisineName" required="1">
+                        </label>
+                        <input type="submit" value="Submit">
+                    </fieldset>
+                    <br>
+                    <br>
+                </form>
             </div>
         </div>
     </div>
-    <div class="container-fluid padding">
-        <ul>
-            <li><p align = "left">Database:</h6></p>
-                <ul>
-                    <li><p align = "left">Add: Adds new record of a new cuisine to the Cuisines table</p></li>
-                    <li><p align = "left">Delete: Deletes an existing record of a cuisine from the Cuisines table</p></li>
-                    <li><p align = "left">Update: Updates an existing record of a cuisine from the Cuisines table</p></li>
-                </ul>
-            <li><p align = "left">Cascade Effects:</p></li>
-                <ul>
-                    <li><p align = "left">On Add: N/A</p></li>
-                    <li><p align = "left">On Delete: 
-                        <ul>
-                            <li><p align = "left">Deletes associated records in the MenuItems table based on FK cuisineID</p></li>
-                            <li><p align = "left">Nulls cuisineID data in associated records in the RestaurantSchedule table based on FK cuisineID</p></li>
-                            <li><p align = "left">Nulls cuisineID data in associated records in the Chefs table based on FK cuisineID</p></li>
-                        </ul>
-                        </p></li>
-                    <li><p align = "left">On Update: N/A</p></li>
-                </ul>
-        </ul>    
-    </div>
-    </div>
-    </div>
+</div>
 
 <!---- Contact Footer ----->
 <footer>
@@ -138,5 +151,42 @@
 </div>       
 </footer>
 
+
+<!---- Javascript Sources Placeholder ---->
+<!--   Script for new ingredients button   -->
+<script>
+    function showNewInputForm() {
+          var x = document.getElementById("new_cuisines_button");
+          if (x.style.display === "none") {
+                x.style.display = "block";
+          } else {
+                x.style.display = "none";
+          }
+
+          var x = document.getElementById("new_cuisines_form");
+          if (x.style.display === "none") {
+                x.style.display = "block";
+          } else {
+                x.style.display = "none";
+          }
+    }
+</script>
+
+<!--   Script for edit ingredients button   -->
+<script>
+    function showEditInputForm(id, name) {
+          document.getElementById("new_cuisines_button").style.display = "none";
+
+          var x = document.getElementById("edit_cuisines_form");
+          if (x.style.display === "none") {
+                x.style.display = "block";
+          } else {
+                x.style.display = "none";
+          }
+
+          document.getElementById("editCuisineID").value = id;
+          document.getElementById("editCuisineName").value = name;
+    }
+</script>
 </body>
 </html>
