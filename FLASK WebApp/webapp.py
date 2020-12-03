@@ -14,7 +14,6 @@ def hello():
 @webapp.route('/ingredients', methods=['POST','GET'])
 #the name of this function is just a cosmetic thing
 def browse_ingredients():
-    print("Fetching and rendering Ingredients web page")
     db_connection = connect_to_database()
 
     # checks URL params for type = INSERT for adding a new ingredient and then executes query for adding new ingredient
@@ -73,7 +72,6 @@ def browse_menuItems():
 @webapp.route('/cuisines', methods=['POST','GET'])
 #the name of this function is just a cosmetic thing
 def browse_cuisines():
-    print("Fetching and rendering Cuisines web page")
     db_connection = connect_to_database()
 
     # checks URL params for type = INSERT for adding a new ingredient and then executes query for adding new ingredient
@@ -82,9 +80,8 @@ def browse_cuisines():
         print(request.form)
         cuisineName = request.form['cuisineName']
 
-        query = 'INSERT INTO cuisines (cuisineName) VALUES (%s)'
-        data = (cuisineName)
-        execute_query(db_connection, query, data)
+        query = 'INSERT INTO cuisines (cuisineName) VALUES ' + cuisineName
+        execute_query(db_connection, query)
         print('Cuisine added!')
 
     # checks URL params for type = DELETE for deleting an existing ingredient and then executes query to DB
@@ -107,6 +104,7 @@ def browse_cuisines():
         execute_query(db_connection, query, data)
         print('Cuisine Updated!')
 
+    print("Fetching and rendering Cuisines web page")
     query = "SELECT cuisineID, cuisineName FROM cuisines"
     result = execute_query(db_connection, query).fetchall()
     print(result)
