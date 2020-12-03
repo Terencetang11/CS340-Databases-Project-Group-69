@@ -138,6 +138,7 @@ def browse_chefs():
             for r in testResults:
                 print(r)
                 print(type(r))
+                cuisineID = r
         except:
             print('Cuisine does not exists!')
             result = ('/chefs',)
