@@ -127,19 +127,14 @@ def browse_chefs():
     db_connection = connect_to_database()
 
     if request.method == "POST":
-        try:
-            query = 'SELECT cuisineID FROM cuisines WHERE cuisineName = %s'
-            cuisineName = request.form['cuisineName']
-            data = (cuisineName,)
-            testResults = execute_query(db_connection, query, data)
+        query = 'SELECT cuisineID FROM cuisines WHERE cuisineName = %s'
+        cuisineName = request.form['cuisineName']
+        data = (cuisineName,)
+        cuisineID = execute_query(db_connection, query, data)[0]
 
+        if cuisineID:
             print('Cuisine exists!')
-            print(testResults)
-            for r in testResults:
-                print(r)
-                print(type(r))
-            cuisineID = testResults[0]
-        except:
+        else:
             print('Cuisine does not exists!')
             result = ('/chefs',)
             return render_template('cuisine_error.html', rows=result)
