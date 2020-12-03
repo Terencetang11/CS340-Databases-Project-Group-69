@@ -58,65 +58,95 @@
 <!---- Table Placeholder ----->
 <div class="container-fluid padding">
     <div class="row welcome text-center">
-    <div class="col-12">
-        <h4 class="display-5">The Marence Bistro</h4>
-        </div>
-        <hr>
         <div class="col-12">
-        <p class="lead">Chefs</p>
+            <h4 class="display-5">The Marence Bistro</h4>
         </div>
-    <table class="table">
-      <thead>
-        <tr>
-          <th scope="col">Chef ID</th>
-          <th scope="col">First Name</th>
-          <th scope="col">Last Name</th>
-          <th scope="col">Cuisine ID</th>
-          <th scope="col">Cuisine Name</th>
-          <th scope="col">Actions</th>
-        </tr>
-      </thead>
-        <tbody>
-            {% for r in rows %}
+            <hr>
+        <div class="col-12">
+            <p class="lead">Chefs</p>
+        </div>
+        <table class="table">
+          <thead>
             <tr>
-                <td> {{ r.0 }}</td>
-                <td> {{ r[1] }}</td>
-                <td> {{ r[2] }}</td>
-                <td> {{ r[3] }}</td>
-                <td> {{ r[4] }}</td>          
-                <td>
-                <button type="button" class="btn btn-success" title = "Update"><i class="fas fa-edit"></i></button>
-                <button type="button" class="btn btn-danger" title = "Delete"><i class="far fa-trash-alt"></i></button>
-                </td>            
+              <th scope="col">Chef ID</th>
+              <th scope="col">First Name</th>
+              <th scope="col">Last Name</th>
+              <th scope="col">Cuisine ID</th>
+              <th scope="col">Cuisine Name</th>
+              <th scope="col">Actions</th>
             </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-    <div class="container">
-        <div class="row">
-            <div class="col text-center">
-                <button type="button" class="btn btn-primary btn-lg" align = "center" onClick="window.location='/add_new_chef'">Add Chef</button>
+          </thead>
+            <tbody>
+                {% for r in rows %}
+                <tr>
+                    <td> {{ r.0 }}</td>
+                    <td> {{ r[1] }}</td>
+                    <td> {{ r[2] }}</td>
+                    <td> {{ r[3] }}</td>
+                    <td> {{ r[4] }}</td>
+                    <td>
+                    <button type="button" class="btn btn-success" title = "Update" onClick="showEditInputForm('{{ r.0 }}', '{{ r.1 }}', '{{ r.2 }}', '{{ r.3 }}', '{{ r.4 }}')"><i class="fas fa-edit"></i></button>
+                    <button type="button" class="btn btn-danger" title = "Delete" onClick="window.location='/chefs?type=delete&id={{ r.0 }}'"><i class="far fa-trash-alt"></i></button>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <div class="container">
+            <div class="row">
+                <div class="col text-center">
+                    <button type="button" id="new_chefs_button" class="btn btn-primary btn-lg" align = "center" onClick="showNewInputForm()">Add Chef</button>
+                </div>
+            </div>
+
+            <!---- New Chef Input Form Placeholder  ----->
+            <div id="new_chefs_form" style="display:none">
+                <form id="addingchefs" action="/chefs?type=insert" method="post">
+                    <fieldset>
+                        <legend>Add a new Cuisine below:</legend>
+                        <p><strong>Instructions:</strong> Please input the new cuisine name below!</p>
+                        <label>
+                            First Name: <input type="text" name="chefFirstName" required="1">
+                        </label>
+                        <label>
+                            Last Name: <input type="text" name="chefLastName" required="1">
+                        </label>
+                        <label>
+                            Cuisine: <input type="text" name="cuisineName" required="1">
+                        </label>
+                        <input type="submit" value="Submit">
+                    </fieldset>
+                    <br>
+                    <br>
+                </form>
+            </div>
+
+            <!---- Edit Chef Form Placeholder  ----->
+            <div id="edit_chefs_form" style="display:none">
+                <form id="editingchefs" action="/chefs?type=edit" method="post">
+                    <fieldset>
+                        <legend>Edit a Chef below:</legend>
+                        <p><strong>Instructions:</strong> Please update an Chef's name and cuisine expertise below!</p>
+                        <input id = "editChefID" type="text" name="chefID" required="1" style="display:none">
+                        <label>
+                            First Name: <input id="editChefFirstName"  type="text" name="cuisineName" required="1">
+                        </label>
+                        <label>
+                            Last Name: <input type="text" name="editChefLastName" required="1">
+                        </label>
+                        <input id = "editCuisineID" type="text" name="editCuisineID" required="1" style="display:none">
+                        <label>
+                            Cuisine: <input type="text" name="editCuisineName" required="1">
+                        </label>
+                        <input type="submit" value="Submit">
+                    </fieldset>
+                    <br>
+                    <br>
+                </form>
             </div>
         </div>
     </div>
-    <div class="container-fluid padding">
-        <ul>
-            <li><p align = "left">Database:</h6></p>
-                <ul>
-                    <li><p align = "left">Add: Adds a new record of a new chef to the Chefs table.  Asks for associated cuisineID</p></li>
-                    <li><p align = "left">Delete: Deletes an existing record of a chef from the Chefs table</p></li>
-                    <li><p align = "left">Update:  Updates an existing record of a chef from the Chefs table</p></li>
-                </ul>
-            <li><p align = "left">Cascade Effects:</p></li>
-                <ul>
-                    <li><p align = "left">On Add: N/A</p></li>
-                    <li><p align = "left">On Delete: Nulls chefID data in associated records in the ChefSchedule table based on FK chefID</p></li>
-                    <li><p align = "left">On Update: N/A</p></li>
-                </ul>
-        </ul>    
-    </div>
-    </div>
-    </div>
+</div>
 
 <!---- Contact Footer ----->
 <footer>
@@ -137,6 +167,46 @@
     <div class="col-md-4"></div>
 </div>       
 </footer>
+
+<!---- Javascript Sources Placeholder ---->
+<!--   Script for new Cuisine button   -->
+<script>
+    function showNewInputForm() {
+          var x = document.getElementById("new_chefs_button");
+          if (x.style.display === "none") {
+                x.style.display = "block";
+          } else {
+                x.style.display = "none";
+          }
+
+          var x = document.getElementById("new_chefs_form");
+          if (x.style.display === "none") {
+                x.style.display = "block";
+          } else {
+                x.style.display = "none";
+          }
+    }
+</script>
+
+<!--   Script for edit Cuisine button   -->
+<script>
+    function showEditInputForm(id, fName, lName, cuisineID, cuisineName) {
+          document.getElementById("new_chefs_button").style.display = "none";
+
+          var x = document.getElementById("edit_chefs_form");
+          if (x.style.display === "none") {
+                x.style.display = "block";
+          } else {
+                x.style.display = "none";
+          }
+
+          document.getElementById("editChefID").value = id;
+          document.getElementById("editChefFirstName").value = fName;
+          document.getElementById("editChefLastName").value = lName;
+          document.getElementById("editCuisineID").value = cuisineID;
+          document.getElementById("editCuisineName").value = cuisineName;
+    }
+</script>
 
 </body>
 </html>

@@ -74,7 +74,7 @@ def browse_menuItems():
 def browse_cuisines():
     db_connection = connect_to_database()
 
-    # checks URL params for type = INSERT for adding a new ingredient and then executes query for adding new ingredient
+    # checks URL params for type = INSERT for adding a new item and then executes query for adding new item
     if request.args.get('type') == "insert":
         print("Add new Cuisine!")
         print(request.form)
@@ -85,7 +85,7 @@ def browse_cuisines():
         execute_query(db_connection, query, data)
         print('Cuisine added!')
 
-    # checks URL params for type = DELETE for deleting an existing ingredient and then executes query to DB
+    # checks URL params for type = DELETE for deleting an existing item and then executes query to DB
     elif request.args.get('type') == "delete":
         print("Deletes a cuisine!")
         print("id = " + request.args.get('id'))
@@ -93,7 +93,7 @@ def browse_cuisines():
         execute_query(db_connection, query)
         print('Cuisine deleted')
 
-    # checks URL params for type = EDIT for updating an existing ingredient and then executes query to DB
+    # checks URL params for type = EDIT for updating an existing item and then executes query to DB
     elif request.args.get('type') == "edit":
         print("Edit a cuisine!")
         print(request.form)
@@ -121,11 +121,59 @@ def browse_restuarantSchedule():
     print(result)
     return render_template('restaurantSchedule.html', rows=result)
 
-@webapp.route('/chefs')
+@webapp.route('/chefs', methods=['POST','GET'])
 #the name of this function is just a cosmetic thing
 def browse_chefs():
-    print("Fetching and rendering Chefs web page")
     db_connection = connect_to_database()
+
+    if request.method == "POST":
+        try:
+            query = 'SELECT cuisineID FROM cuisines WHERE cuisineName = %s'
+            cuisineName = request.form['cuisineName']
+            data = (cuisineName,)
+            cuisineID = execute_query(db_connection, query, data)
+            print('Cuisine exists!')
+        except:
+            print('Cuisine does not exists!')
+            result = ('/chefs',)
+            return render_template('cuisine_error.html', rows=result)
+
+    # checks URL params for type = INSERT for adding a new chef and then executes query to DB
+    if request.args.get('type') == "insert":
+        print("Add new Chef!")
+        print(request.form)
+        chefFName = request.form['chefFirstName']
+        chefLName = request.form['chefLastName']
+
+        query = 'INSERT INTO chefs (firstName, lastName, cuisineID) VALUES (%s,%s,%s)'
+        data = (chefFName, chefLName, cuisineID)
+        execute_query(db_connection, query, data)
+        print('Chef added!')
+
+    # checks URL params for type = DELETE for deleting an existing chef and then executes query to DB
+    elif request.args.get('type') == "delete":
+        print("Deletes an ingredient!")
+        print("id = " + request.args.get('id'))
+        query = 'DELETE FROM ingredients WHERE ingredientID = ' + request.args.get('id')
+        execute_query(db_connection, query)
+        print('Ingredient deleted')
+
+    # checks URL params for type = EDIT for updating an existing chef and then executes query to DB
+    elif request.args.get('type') == "edit":
+        print("Edit an ingredient!")
+        print(request.form)
+        ingredientID = request.form['ingredientID']
+        ingredientName = request.form['ingredientName']
+        isVegan = request.form['isVegan']
+        inventory = request.form['inventory']
+
+        query = "UPDATE ingredients SET ingredientName = %s, isVegan = %s, inventory = %s WHERE ingredientID = %s"
+        data = (ingredientName, isVegan, inventory, ingredientID)
+        execute_query(db_connection, query, data)
+        print('Ingredient Updated!')
+
+
+    print("Fetching and rendering Chefs web page")
     query = "SELECT chefID, firstName, lastName, chefs.cuisineID, cuisines.cuisineName FROM chefs LEFT JOIN cuisines ON cuisines.cuisineID = chefs.cuisineID"
     result = execute_query(db_connection, query).fetchall()
     print(result)
@@ -251,7 +299,6 @@ def add_new_chef():
         execute_query(db_connection, query, data)
         return ('Entry added!')
 
-
 @webapp.route('/add_new_chefSchedule', methods=['POST','GET'])
 def add_new_chefSchedule():
     db_connection = connect_to_database()
@@ -289,6 +336,7 @@ def home():
     for r in result:
         print(f"{r[0]}, {r[1]}")
     return render_template('home.html', result = result)
+
 
 @webapp.route('/db_test')
 def test_database_connection():
