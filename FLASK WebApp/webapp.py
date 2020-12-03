@@ -132,7 +132,7 @@ def browse_chefs():
         data = (cuisineName,)
         cuisineID = execute_query(db_connection, query, data)[0]
 
-        if cuisineID:
+        if cuisineID != "":
             print('Cuisine exists!')
         else:
             print('Cuisine does not exists!')
