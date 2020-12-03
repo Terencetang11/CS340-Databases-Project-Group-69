@@ -132,7 +132,10 @@ def browse_chefs():
             cuisineName = request.form['cuisineName']
             data = (cuisineName,)
             cuisineID = execute_query(db_connection, query, data)
+
             print('Cuisine exists!')
+            print(cuisineID)
+            print(type(cuisineID))
         except:
             print('Cuisine does not exists!')
             result = ('/chefs',)
