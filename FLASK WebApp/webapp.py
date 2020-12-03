@@ -128,10 +128,11 @@ def browse_chefs():
 
     if request.method == "POST":
         query = 'SELECT cuisineID FROM cuisines WHERE cuisineName = "' + str(request.form['cuisineName']) + '"'
-        cuisineID = execute_query(db_connection, query).fetchall()[0]
+        results = execute_query(db_connection, query).fetchall()
 
-        if cuisineID != "":
+        if len(results) != 0:
             print('Cuisine exists!')
+            cuisineID = results[0]
         else:
             print('Cuisine does not exists!')
             result = ('/chefs',)
