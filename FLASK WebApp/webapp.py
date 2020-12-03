@@ -81,7 +81,7 @@ def browse_cuisines():
         cuisineName = request.form['cuisineName']
 
         query = 'INSERT INTO cuisines (cuisineName) VALUES (%s)'
-        data = cuisineName
+        data = (cuisineName,)
         execute_query(db_connection, query, data)
         print('Cuisine added!')
 
