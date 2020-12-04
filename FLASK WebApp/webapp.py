@@ -130,7 +130,7 @@ def browse_chefs():
     # # Old data validation to ensure that a valid foreign key is input (cuisineID in this case)
     # if request.method == "POST":
     #     query = 'SELECT cuisineID FROM cuisines WHERE cuisineName = "' + str(request.form['cuisineName']) + '"'
-    #     results = execute_query(db_connection, query).fetchall()
+    #     cuisineID = execute_query(db_connection, query).fetchall()[0]
     #
     #     if len(results) != 0:
     #         print('Cuisine exists!')
@@ -139,11 +139,18 @@ def browse_chefs():
     #         print('Cuisine does not exists!')
     #         result = ('/chefs',)
     #         return render_template('cuisine_error.html', rows=result)
+
+    # try and except structure used for capturing errors and rendering an error page
     try:
         # data validation: queries for existing list of cuisines for use in foreign key selection
         query = 'SELECT cuisineName FROM cuisines'
         cuisines = execute_query(db_connection, query).fetchall()
         print(cuisines)
+
+        # grabs cuisine ID for given cuisine name input
+        if request.method == "POST":
+            query = 'SELECT cuisineID FROM cuisines WHERE cuisineName = "' + str(request.form['cuisineName']) + '"'
+            cuisineID = execute_query(db_connection, query).fetchall()[0]
 
         # checks URL params for type = INSERT for adding a new chef and then executes query to DB
         if request.args.get('type') == "insert":
@@ -186,7 +193,6 @@ def browse_chefs():
 
     except:
         print('Error has occurred!')
-        result = ('/chefs',)
         return render_template('error.html', prev='/chefs')
 
 @webapp.route('/chefSchedule')
