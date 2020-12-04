@@ -140,6 +140,11 @@ def browse_chefs():
             result = ('/chefs',)
             return render_template('cuisine_error.html', rows=result)
 
+    # data validation: queries for existing list of cuisines for use in foreign key selection
+    query = 'SELECT cuisineName FROM cuisines'
+    cuisines = execute_query(db_connection, query).fetchall()
+    print("FK Cuisines: " + cuisines)
+
     # checks URL params for type = INSERT for adding a new chef and then executes query to DB
     if request.args.get('type') == "insert":
         print("Add new Chef!")
@@ -176,9 +181,8 @@ def browse_chefs():
     print("Fetching and rendering Chefs web page")
     query = "SELECT chefID, firstName, lastName, chefs.cuisineID, cuisines.cuisineName FROM chefs LEFT JOIN cuisines ON cuisines.cuisineID = chefs.cuisineID"
     result = execute_query(db_connection, query).fetchall()
-    print(result)
-    testList = ("hello", "howdy", "bonjour", "konichiwa", "nihao")
-    return render_template('chefs.html', rows=result, cuisines=testList)
+    print("Query results: " + result)
+    return render_template('chefs.html', rows=result, cuisines=cuisines)
 
 
 @webapp.route('/chefSchedule')

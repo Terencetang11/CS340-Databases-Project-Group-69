@@ -136,7 +136,12 @@
                         </label>
                         <input id = "editCuisineID" type="text" id="editCuisineID" name="cuisineID" required="1" style="display:none">
                         <label>
-                            Cuisine: <input type="text" id="editCuisineName" name="cuisineName" required="1">
+                            Cuisine: <!--<input type="text" id="editCuisineName" name="cuisineName" required="1">-->
+                            <select name="cuisines" id="editCuisineName" name="cuisineName" required="1">
+                                {% for c in cuisines %}
+                                <option value='{{ c }}'>{{ c }}</option>
+                                {% endfor %}
+                            </select>
                         </label>
                         <input type="submit" value="Submit">
                     </fieldset>
@@ -145,15 +150,6 @@
                 </form>
             </div>
         </div>
-
-        <ul>
-            {% for r in cuisines %}
-            <li>{{ r }}</li>
-            {% endfor %}
-        </ul>
-
-
-
     </div>
 </div>
 
