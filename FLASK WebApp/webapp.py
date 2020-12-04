@@ -143,7 +143,7 @@ def browse_chefs():
     # data validation: queries for existing list of cuisines for use in foreign key selection
     query = 'SELECT cuisineName FROM cuisines'
     cuisines = execute_query(db_connection, query).fetchall()
-    print("FK Cuisines: " + cuisines)
+    print(cuisines)
 
     # checks URL params for type = INSERT for adding a new chef and then executes query to DB
     if request.args.get('type') == "insert":
@@ -181,7 +181,7 @@ def browse_chefs():
     print("Fetching and rendering Chefs web page")
     query = "SELECT chefID, firstName, lastName, chefs.cuisineID, cuisines.cuisineName FROM chefs LEFT JOIN cuisines ON cuisines.cuisineID = chefs.cuisineID"
     result = execute_query(db_connection, query).fetchall()
-    print("Query results: " + result)
+    print(result)
     return render_template('chefs.html', rows=result, cuisines=cuisines)
 
 
