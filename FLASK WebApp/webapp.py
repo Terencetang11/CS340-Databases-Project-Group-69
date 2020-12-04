@@ -139,51 +139,55 @@ def browse_chefs():
             print('Cuisine does not exists!')
             result = ('/chefs',)
             return render_template('cuisine_error.html', rows=result)
+    try:
+        # data validation: queries for existing list of cuisines for use in foreign key selection
+        query = 'SELECT cuisineName FROM cuisines'
+        cuisines = execute_query(db_connection, query).fetchall()
+        print(cuisines)
 
-    # data validation: queries for existing list of cuisines for use in foreign key selection
-    query = 'SELECT cuisineName FROM cuisines'
-    cuisines = execute_query(db_connection, query).fetchall()
-    print(cuisines)
+        # checks URL params for type = INSERT for adding a new chef and then executes query to DB
+        if request.args.get('type') == "insert":
+            print("Add new Chef!")
+            print(request.form)
+            chefFName = request.form['chefFirstName']
+            chefLName = request.form['chefLastName']
 
-    # checks URL params for type = INSERT for adding a new chef and then executes query to DB
-    if request.args.get('type') == "insert":
-        print("Add new Chef!")
-        print(request.form)
-        chefFName = request.form['chefFirstName']
-        chefLName = request.form['chefLastName']
+            query = 'INSERT INTO chefs (firstName, lastName, cuisineID) VALUES (%s,%s,%s)'
+            data = (chefFName, chefLName, cuisineID)
+            execute_query(db_connection, query, data)
+            print('Chef added!')
 
-        query = 'INSERT INTO chefs (firstName, lastName, cuisineID) VALUES (%s,%s,%s)'
-        data = (chefFName, chefLName, cuisineID)
-        execute_query(db_connection, query, data)
-        print('Chef added!')
+        # checks URL params for type = DELETE for deleting an existing chef and then executes query to DB
+        elif request.args.get('type') == "delete":
+            print("Deletes a Chef!")
+            print("id = " + request.args.get('id'))
+            query = 'DELETE FROM chefs WHERE chefID = ' + request.args.get('id')
+            execute_query(db_connection, query)
+            print('Chef deleted')
 
-    # checks URL params for type = DELETE for deleting an existing chef and then executes query to DB
-    elif request.args.get('type') == "delete":
-        print("Deletes a Chef!")
-        print("id = " + request.args.get('id'))
-        query = 'DELETE FROM chefs WHERE chefID = ' + request.args.get('id')
-        execute_query(db_connection, query)
-        print('Chef deleted')
+        # checks URL params for type = EDIT for updating an existing chef and then executes query to DB
+        elif request.args.get('type') == "edit":
+            print("Edit a Chef!")
+            print(request.form)
+            chefID = request.form['chefID']
+            chefFName = request.form['chefFirstName']
+            chefLName = request.form['chefLastName']
 
-    # checks URL params for type = EDIT for updating an existing chef and then executes query to DB
-    elif request.args.get('type') == "edit":
-        print("Edit a Chef!")
-        print(request.form)
-        chefID = request.form['chefID']
-        chefFName = request.form['chefFirstName']
-        chefLName = request.form['chefLastName']
+            query = "UPDATE chefs SET firstName = %s, lastName = %s, cuisineID = %s WHERE chefID = %s"
+            data = (chefFName, chefLName, cuisineID, chefID)
+            execute_query(db_connection, query, data)
+            print('Chef Updated!')
 
-        query = "UPDATE chefs SET firstName = %s, lastName = %s, cuisineID = %s WHERE chefID = %s"
-        data = (chefFName, chefLName, cuisineID, chefID)
-        execute_query(db_connection, query, data)
-        print('Chef Updated!')
-
-    print("Fetching and rendering Chefs web page")
-    query = "SELECT chefID, firstName, lastName, chefs.cuisineID, cuisines.cuisineName FROM chefs LEFT JOIN cuisines ON cuisines.cuisineID = chefs.cuisineID"
-    result = execute_query(db_connection, query).fetchall()
-    print(result)
-    return render_template('chefs.html', rows=result, cuisines=cuisines)
-
+        print("Fetching and rendering Chefs web page")
+        query = "SELECT chefID, firstName, lastName, chefs.cuisineID, cuisines.cuisineName FROM chefs LEFT JOIN cuisines ON cuisines.cuisineID = chefs.cuisineID"
+        result = execute_query(db_connection, query).fetchall()
+        print(result)
+        return render_template('chefs.html', rows=result, cuisines=cuisines)
+    
+    except:
+        print('Cuisine does not exists!')
+        result = ('/chefs',)
+        return render_template('cuisine_error.html', rows=result)
 
 @webapp.route('/chefSchedule')
 def browse_chefSchedule():
