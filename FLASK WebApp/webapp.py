@@ -127,18 +127,18 @@ def browse_restuarantSchedule():
 def browse_chefs():
     db_connection = connect_to_database()
 
-    # data validation to ensure that a valid foreign key is input (cuisineID in this case)
-    if request.method == "POST":
-        query = 'SELECT cuisineID FROM cuisines WHERE cuisineName = "' + str(request.form['cuisineName']) + '"'
-        results = execute_query(db_connection, query).fetchall()
-
-        if len(results) != 0:
-            print('Cuisine exists!')
-            cuisineID = results[0]
-        else:
-            print('Cuisine does not exists!')
-            result = ('/chefs',)
-            return render_template('cuisine_error.html', rows=result)
+    # # Old data validation to ensure that a valid foreign key is input (cuisineID in this case)
+    # if request.method == "POST":
+    #     query = 'SELECT cuisineID FROM cuisines WHERE cuisineName = "' + str(request.form['cuisineName']) + '"'
+    #     results = execute_query(db_connection, query).fetchall()
+    #
+    #     if len(results) != 0:
+    #         print('Cuisine exists!')
+    #         cuisineID = results[0]
+    #     else:
+    #         print('Cuisine does not exists!')
+    #         result = ('/chefs',)
+    #         return render_template('cuisine_error.html', rows=result)
     try:
         # data validation: queries for existing list of cuisines for use in foreign key selection
         query = 'SELECT cuisineName FROM cuisines'
@@ -183,11 +183,11 @@ def browse_chefs():
         result = execute_query(db_connection, query).fetchall()
         print(result)
         return render_template('chefs.html', rows=result, cuisines=cuisines)
-    
+
     except:
-        print('Cuisine does not exists!')
+        print('Error has occurred!')
         result = ('/chefs',)
-        return render_template('cuisine_error.html', rows=result)
+        return render_template('error.html', prev='/chefs')
 
 @webapp.route('/chefSchedule')
 def browse_chefSchedule():
