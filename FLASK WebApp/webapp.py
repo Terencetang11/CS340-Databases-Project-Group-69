@@ -12,7 +12,7 @@ def hello():
 
 
 @webapp.route('/ingredients', methods=['POST','GET'])
-#the name of this function is just a cosmetic thing
+# completed
 def browse_ingredients():
     db_connection = connect_to_database()
 
@@ -60,7 +60,6 @@ def browse_ingredients():
 
 
 @webapp.route('/menuItems')
-#the name of this function is just a cosmetic thing
 def browse_menuItems():
     print("Fetching and rendering Menu Items web page")
     db_connection = connect_to_database()
@@ -69,8 +68,9 @@ def browse_menuItems():
     print(result)
     return render_template('menuItems.html', rows=result)
 
+
 @webapp.route('/cuisines', methods=['POST','GET'])
-#the name of this function is just a cosmetic thing
+# completed
 def browse_cuisines():
     db_connection = connect_to_database()
 
@@ -111,8 +111,8 @@ def browse_cuisines():
     print(result)
     return render_template('cuisines.html', rows=result)
 
+
 @webapp.route('/restaurantSchedule')
-#the name of this function is just a cosmetic thing
 def browse_restuarantSchedule():
     print("Fetching and rendering Restaurant Schedule web page")
     db_connection = connect_to_database()
@@ -121,11 +121,13 @@ def browse_restuarantSchedule():
     print(result)
     return render_template('restaurantSchedule.html', rows=result)
 
+
 @webapp.route('/chefs', methods=['POST','GET'])
-#the name of this function is just a cosmetic thing
+# completed
 def browse_chefs():
     db_connection = connect_to_database()
 
+    # data validation to ensure that a valid foreign key is input (cuisineID in this case)
     if request.method == "POST":
         query = 'SELECT cuisineID FROM cuisines WHERE cuisineName = "' + str(request.form['cuisineName']) + '"'
         results = execute_query(db_connection, query).fetchall()
@@ -175,10 +177,11 @@ def browse_chefs():
     query = "SELECT chefID, firstName, lastName, chefs.cuisineID, cuisines.cuisineName FROM chefs LEFT JOIN cuisines ON cuisines.cuisineID = chefs.cuisineID"
     result = execute_query(db_connection, query).fetchall()
     print(result)
-    return render_template('chefs.html', rows=result)
+    testList = ("hello", "howdy", "bonjour", "konichiwa", "nihao")
+    return render_template('chefs.html', rows=result, cuisines=testList)
+
 
 @webapp.route('/chefSchedule')
-#the name of this function is just a cosmetic thing
 def browse_chefSchedule():
     print("Fetching and rendering Chef Schedule web page")
     db_connection = connect_to_database()
@@ -189,7 +192,6 @@ def browse_chefSchedule():
 
 
 @webapp.route('/menuItemIngredients')
-#the name of this function is just a cosmetic thing
 def browse_menuItemIngredients():
     print("Fetching and rendering Menu Item Ingredients web page")
     db_connection = connect_to_database()
@@ -258,6 +260,7 @@ def add_new_cuisine():
         execute_query(db_connection, query, data)
         return ('Cuisine added!')
 
+
 @webapp.route('/add_new_restaurantSchedule', methods=['POST','GET'])
 def add_new_restaurantSchedule():
     db_connection = connect_to_database()
@@ -277,25 +280,6 @@ def add_new_restaurantSchedule():
         execute_query(db_connection, query, data)
         return ('Entry added!')
 
-@webapp.route('/add_new_chef', methods=['POST','GET'])
-def add_new_chef():
-    db_connection = connect_to_database()
-    if request.method == 'GET':
-        query = 'SELECT firstName, lastName, cuisineID from chefs'
-        result = execute_query(db_connection, query).fetchall()
-        print(result)
-
-        return render_template('chef_add_new.html', chefs = result)
-    elif request.method == 'POST':
-        print("Add new Chef!")
-        firstName = request.form['firstName']
-        lastName = request.form['lastName']
-        cuisineID = request.form['cuisineID']
-
-        query = 'INSERT INTO chefs (firstName, lastName, cuisineID) VALUES (%s,%s,%s)'
-        data = (firstName, lastName, cuisineID)
-        execute_query(db_connection, query, data)
-        return ('Entry added!')
 
 @webapp.route('/add_new_chefSchedule', methods=['POST','GET'])
 def add_new_chefSchedule():
@@ -316,9 +300,11 @@ def add_new_chefSchedule():
         execute_query(db_connection, query, data)
         return ('Entry added!')
 
+
 @webapp.route('/')
 def index():
     return render_template('index.html')
+
 
 @webapp.route('/home')
 def home():
