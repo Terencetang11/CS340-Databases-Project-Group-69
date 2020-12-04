@@ -111,8 +111,16 @@
                         <label>
                             Last Name: <input type="text" name="chefLastName" required="1">
                         </label>
+<!--                        <label>-->
+<!--                            Cuisine: <input type="text" name="cuisineName" required="1">-->
+<!--                        </label>-->
                         <label>
-                            Cuisine: <input type="text" name="cuisineName" required="1">
+                            Cuisine: <!--<input type="text" id="editCuisineName" name="cuisineName" required="1">-->
+                            <select name="cuisineName" required="1">
+                                {% for c in cuisines %}
+                                <option value='{{ c.0 }}'>{{ c.0 }}</option>
+                                {% endfor %}
+                            </select>
                         </label>
                         <input type="submit" value="Submit">
                     </fieldset>
@@ -137,9 +145,9 @@
                         <input id = "editCuisineID" type="text" id="editCuisineID" name="cuisineID" required="1" style="display:none">
                         <label>
                             Cuisine: <!--<input type="text" id="editCuisineName" name="cuisineName" required="1">-->
-                            <select name="cuisines" id="editCuisineName" name="cuisineName" required="1">
+                            <select id="editCuisineName" name="cuisineName" required="1">
                                 {% for c in cuisines %}
-                                <option value='{{ c }}'>{{ c }}</option>
+                                <option value='{{ c.0 }}'>{{ c.0 }}</option>
                                 {% endfor %}
                             </select>
                         </label>
