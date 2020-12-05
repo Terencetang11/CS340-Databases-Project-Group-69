@@ -70,62 +70,19 @@
 	    <tr>
 	      <th scope="col">Day</th>
 	      <th scope="col">Cuisine</th>
-	      <th scope="col">First Shift</th>
-	      <th scope="col">Second Shift</th>
-	      <th scope="col">Third Shift</th>
+	      <th scope="col">Shifts</th>
 	    </tr>
 	  </thead>
-	  <tbody>
-	    <tr>
-	      <th scope="row">Monday</th>
-	      <td>Italian</td>
-	      <td>Chef 1</td>
-	      <td>Chef 2</td>
-	      <td>Chef 3</td>
-	    </tr>
-	    <tr>
-	      <th scope="row">Tueday</th>
-	      <td>Italian</td>
-	      <td>Chef 1</td>
-	      <td>Chef 2</td>
-	      <td>Chef 3</td>
-	    </tr>
-	    <tr>
-	      <th scope="row">Wednesday</th>
-	      <td>South Asian</td>
-	      <td>Chef 4</td>
-	      <td>Chef 5</td>
-	      <td>Chef 6</td>
-	    </tr>
-	    <tr>
-	      <th scope="row">Thursday</th>
-	      <td>South Asian</td>
-	      <td>Chef 4</td>
-	      <td>Chef 5</td>
-	      <td>Chef 6</td>
-	    </tr>
-	    <tr>
-	      <th scope="row">Friday</th>
-	      <td>Southern</td>
-	      <td>Chef 7</td>
-	      <td>Chef 8</td>
-	      <td>Chef 9</td>
-	    </tr>
-	    <tr>
-	      <th scope="row">Saturday</th>
-	      <td>Southern</td>
-	      <td>Chef 7</td>
-	      <td>Chef 8</td>
-	      <td>Chef 9</td>
-	    </tr>
-	    <tr>
-	      <th scope="row">Sunday</th>
-	      <td>Southern</td>
-	      <td>Chef 7</td>
-	      <td>Chef 8</td>
-	      <td>Chef 9</td>
-	    </tr>	    
-	  </tbody>
+            <tbody>
+                <!---- Jinja html templating for Flask Python framework ----->
+                {% for r in rows %}
+                <tr>
+                    <td> {{ r[0] }} </td>
+                    <td> {{ r[1] }} </td>
+                    <td> {{ r[2] }} </td>
+                </tr>
+                {% endfor %}
+            </tbody>
 	</table>
 	</div>
     </div>
