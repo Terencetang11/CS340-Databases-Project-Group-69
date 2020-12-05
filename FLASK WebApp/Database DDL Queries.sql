@@ -106,11 +106,11 @@ INSERT INTO `chefs` (firstName, lastName, cuisineID) VALUES ('Jane', 'Doe', '3')
 INSERT INTO `chefs` (firstName, lastName, cuisineID) VALUES ('Mary', 'Smith', '1');
 INSERT INTO `restaurantSchedule` (dayofWeek, cuisineID) VALUES ('Monday', '1');
 INSERT INTO `restaurantSchedule` (dayofWeek, cuisineID) VALUES ('Tuesday', '1');
-INSERT INTO `restaurantSchedule` (dayofWeek, cuisineID) VALUES ('Wednesday', '1');
-INSERT INTO `restaurantSchedule` (dayofWeek, cuisineID) VALUES ('Thursday', '1');
-INSERT INTO `restaurantSchedule` (dayofWeek, cuisineID) VALUES ('Friday', '1');
-INSERT INTO `restaurantSchedule` (dayofWeek, cuisineID) VALUES ('Saturday', '1');
-INSERT INTO `restaurantSchedule` (dayofWeek, cuisineID) VALUES ('Sunday', '1');
+INSERT INTO `restaurantSchedule` (dayofWeek, cuisineID) VALUES ('Wednesday', '2');
+INSERT INTO `restaurantSchedule` (dayofWeek, cuisineID) VALUES ('Thursday', '2');
+INSERT INTO `restaurantSchedule` (dayofWeek, cuisineID) VALUES ('Friday', '3');
+INSERT INTO `restaurantSchedule` (dayofWeek, cuisineID) VALUES ('Saturday', '3');
+INSERT INTO `restaurantSchedule` (dayofWeek, cuisineID) VALUES ('Sunday', '3');
 INSERT INTO `chefSchedule` (dayofWeek, chefID) VALUES ('Monday', '1');
 INSERT INTO `chefSchedule` (dayofWeek, chefID) VALUES ('Tuesday', '1');
 INSERT INTO `chefSchedule` (dayofWeek, chefID) VALUES ('Wednesday', '2');
