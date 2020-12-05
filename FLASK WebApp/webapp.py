@@ -116,7 +116,7 @@ def browse_cuisines():
 def browse_restuarantSchedule():
     print("Fetching and rendering Restaurant Schedule web page")
     db_connection = connect_to_database()
-    query = "SELECT dayofWeek, restaurantSchedule.cuisineID, cuisines.cuisineName FROM restaurantSchedule LEFT JOIN cuisines ON cuisines.cuisineID = restaurantSchedule.cuisineID"
+    query = "SELECT dayofWeek, restaurantSchedule.cuisineID, cuisines.cuisineName FROM restaurantSchedule LEFT JOIN cuisines ON cuisines.cuisineID = restaurantSchedule.cuisineID ORDER BY FIELD(dayofWeek, 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday')"
     result = execute_query(db_connection, query).fetchall()
     print(result)
     return render_template('restaurantSchedule.html', rows=result)
@@ -199,7 +199,7 @@ def browse_chefs():
 def browse_chefSchedule():
     print("Fetching and rendering Chef Schedule web page")
     db_connection = connect_to_database()
-    query = "SELECT dayofWeek, chefSchedule.chefID, chefs.firstName, chefs.lastName FROM chefSchedule LEFT JOIN chefs ON chefs.chefID = chefSchedule.chefID ORDER BY chefSchedule.chefID ASC"
+    query = "SELECT dayofWeek, chefSchedule.chefID, chefs.firstName, chefs.lastName FROM chefSchedule LEFT JOIN chefs ON chefs.chefID = chefSchedule.chefID ORDER BY FIELD(dayofWeek, 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday')"
     result = execute_query(db_connection, query).fetchall()
     print(result)
     return render_template('chefSchedule.html', rows=result)
@@ -317,7 +317,12 @@ def add_new_chefSchedule():
 
 @webapp.route('/')
 def index():
-    return render_template('index.html')
+    print("Fetching and rendering Index web page")
+    db_connection = connect_to_database()
+    query = "SELECT restaurantSchedule.dayofWeek, cuisines.cuisineName, (GROUP_CONCAT(CONCAT_WS(' ', chefs.firstName, chefs.lastName) SEPARATOR ', ')) FROM restaurantSchedule INNER JOIN cuisines on restaurantSchedule.cuisineID = cuisines.cuisineID INNER JOIN chefs on cuisines.cuisineID = chefs.cuisineID GROUP BY restaurantSchedule.dayofWeek ORDER BY FIELD(dayofWeek, 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday')"
+    result = execute_query(db_connection, query).fetchall()
+    print(result)
+    return render_template('index.html', rows=result)
 
 
 @webapp.route('/home')
