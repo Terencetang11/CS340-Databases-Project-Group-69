@@ -276,7 +276,7 @@ def browse_chefSchedule():
     query = "SELECT dayofWeek, chefSchedule.chefID, chefs.firstName, chefs.lastName FROM chefSchedule LEFT JOIN chefs ON chefs.chefID = chefSchedule.chefID ORDER BY FIELD(dayofWeek, 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday')"
     result = execute_query(db_connection, query).fetchall()
     print(result)
-    return render_template('chefSchedule.html', rows=result, restaurantSchedule=restaurantSchedule, chefs=chefs )
+    return render_template('chefSchedule.html', rows=result, restaurantSchedule=restaurantSchedule, chefs=chefs)
 
 
 @webapp.route('/menuItemIngredients')

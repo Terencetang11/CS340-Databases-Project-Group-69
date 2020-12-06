@@ -161,6 +161,7 @@
                             <option value='{{ c.0 }}'>{{ c.0 }}</option>
                             {% endfor %}
                         </select>
+                    </label>
                     <label>
                         Chef Name:
                         <select name="chefName" required="1">
@@ -228,23 +229,23 @@
 <!--    // First we initialize a variable with the fruits and their prices per kg-->
 <!--    fruitPrices = {'apple':[3, 5, 6], 'banana':[4, 7, 10]}-->
 
-<!--    var chefs = '{{ chefs }}';-->
-<!--    console.log(chefs);-->
-<!--    var schedule = '{{ restaurantSchedule }}';-->
-<!--    console.log(schedule);-->
+    var chefs = '{{ chefs }}';
+    console.log(chefs);
+    var schedule = '{{ restaurantSchedule }}';
+    console.log(schedule);
 
-<!--    scheduleChefOptions = {}-->
-<!--    for (day of schedule){-->
-<!--        day[0] = dayofWeek;-->
-<!--        chefOptions = [];-->
-<!--        for (chef of chefs){-->
-<!--            if (day[1] == chef[3]) {-->
-<!--                chefOptions.push(chef);-->
-<!--            }-->
-<!--        }-->
-<!--        scheduleChefOptions[dayofWeek] = chefOptions;-->
-<!--    }-->
-<!--    console.log(scheduleChefOptions;-->
+    scheduleChefOptions = {}
+    for (day of schedule){
+        day[0] = dayofWeek;
+        chefOptions = [];
+        for (chef of chefs){
+            if (day[1] == chef[3]) {
+                chefOptions.push(chef);
+            }
+        }
+        scheduleChefOptions[dayofWeek] = chefOptions;
+    }
+    console.log(scheduleChefOptions;
 
 <!--    // Listen to changes in selected fruit-->
 <!--    document.getElementById('#fruit-selector').on('change', function(element) {-->
