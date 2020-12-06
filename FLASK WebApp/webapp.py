@@ -255,14 +255,14 @@ def browse_chefSchedule():
 
 
     # data validation: queries for existing list of cuisines for use in foreign key selection
-    query = 'SELECT cuisineName FROM cuisines'
-    cuisines = execute_query(db_connection, query).fetchall()
-    print(cuisines)
+    query = 'SELECT * FROM restaurantSchedule'
+    restaurantSchedule = execute_query(db_connection, query).fetchall()
+    print(restaurantSchedule)
 
     # data validation: queries for existing list of chefs for use in foreign key selection
     query = 'SELECT * FROM chefs'
     chefs = execute_query(db_connection, query).fetchall()
-    print(cuisines)
+    print(chefs)
 
     # grabs cuisine ID for given cuisine name input
     if request.method == "POST":
@@ -276,7 +276,7 @@ def browse_chefSchedule():
     query = "SELECT dayofWeek, chefSchedule.chefID, chefs.firstName, chefs.lastName FROM chefSchedule LEFT JOIN chefs ON chefs.chefID = chefSchedule.chefID ORDER BY FIELD(dayofWeek, 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday')"
     result = execute_query(db_connection, query).fetchall()
     print(result)
-    return render_template('chefSchedule.html', rows=result, cuisines=cuisines, chefs=chefs )
+    return render_template('chefSchedule.html', rows=result, restaurantSchedule=restaurantSchedule, chefs=chefs )
 
 
 @webapp.route('/menuItemIngredients')
