@@ -108,12 +108,11 @@
                     </label>
                     <label>
                         Chef Name:
-                        <select name="chefName" required="1" onClick="fillLastName()">
+                        <select name="chefName" required="1">
                             {% for c in chefs %}
                             <option value='{{ c.0 }}'>{{ c.0 }}</option>
                             {% endfor %}
                         </select>
-                        <input type="text" id="chefLName" name="chefLName" required="1" readonly>
                     </label>
                     <input type="submit" value="Submit">
                 </fieldset>
@@ -138,7 +137,6 @@
                             <option value='{{ c.0 }}'>{{ c.0 }}</option>
                             {% endfor %}
                         </select>
-                        <input id="editChefLName" type="text" name="chefLName" required="1" readonly>
                     </label>
                     <input type="submit" value="Submit">
                 </fieldset>
@@ -147,10 +145,7 @@
             </form>
         </div>
 
-
-
     </div>
-
     </div>
     </div>
 
@@ -178,6 +173,8 @@
 <!---- Javascript Sources Placeholder ---->
 <script>
 <!--   Script for new chefSchedule button   -->
+    console.log({{ rows }})
+
     function showNewInputForm() {
           var x = document.getElementById("new_entry_container");
           if (x.style.display === "none") {
@@ -217,12 +214,6 @@
           document.getElementById("dayOfWeek").value = dayOfWeek;
           document.getElementById("editChefFName").value = chefFName;
           document.getElementById("editChefLName").value = chefLName;
-    }
-
-
-<!--   Script for filling in chefLastNames   -->
-    function fillLastName() {
-        document.getElementById("chefLName").value = dayOfWeek;
     }
 
 </script>
