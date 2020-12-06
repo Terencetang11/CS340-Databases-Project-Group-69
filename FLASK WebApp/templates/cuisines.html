@@ -9,8 +9,52 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
     <script src="https://use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
-    <script src="script.js"></script>
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+
+    <!---- Javascript Sources Placeholder ---->
+    <script>
+    <!--   Script for new Cuisine button   -->
+    function showNewInputForm() {
+          var x = document.getElementById("new_entry_container");
+          if (x.style.display === "none") {
+                x.style.display = "block";
+          } else {
+                x.style.display = "none";
+          }
+
+          var x = document.getElementById("new_entry_form");
+          if (x.style.display === "none") {
+                x.style.display = "block";
+          } else {
+                x.style.display = "none";
+          }
+    }
+
+    <!--   Script for edit Cuisine button   -->
+    function showEditInputForm(id, name) {
+          var x = document.getElementById("edit_entry_form");
+          if (x.style.display === "none") {
+                x.style.display = "block";
+          } else {
+                x.style.display = "none";
+          }
+
+          showNewInputForm();
+
+          if (document.getElementById("new_entry_form").style.display === "block") {
+            document.getElementById("new_entry_form").style.display = "none";
+          }
+
+          if (document.getElementById("new_entry_container").style.display === "block" &&
+                x.style.display === "block") {
+             document.getElementById("new_entry_container").style.display = "none";
+          }
+
+          document.getElementById("editCuisineID").value = id;
+          document.getElementById("editCuisineName").value = name;
+    }
+    </script>
+
 </head>
 <body>
 
@@ -152,50 +196,5 @@
 </footer>
 
 
-<!---- Javascript Sources Placeholder ---->
-<!--   Script for new Cuisine button   -->
-<script>
-    function showNewInputForm() {
-          var x = document.getElementById("new_entry_container");
-          if (x.style.display === "none") {
-                x.style.display = "block";
-          } else {
-                x.style.display = "none";
-          }
-
-          var x = document.getElementById("new_entry_form");
-          if (x.style.display === "none") {
-                x.style.display = "block";
-          } else {
-                x.style.display = "none";
-          }
-    }
-</script>
-
-<!--   Script for edit Cuisine button   -->
-<script>
-    function showEditInputForm(id, name) {
-          var x = document.getElementById("edit_entry_form");
-          if (x.style.display === "none") {
-                x.style.display = "block";
-          } else {
-                x.style.display = "none";
-          }
-
-          showNewInputForm();
-
-          if (document.getElementById("new_entry_form").style.display === "block") {
-            document.getElementById("new_entry_form").style.display = "none";
-          }
-
-          if (document.getElementById("new_entry_container").style.display === "block" &&
-                x.style.display === "block") {
-             document.getElementById("new_entry_container").style.display = "none";
-          }
-
-          document.getElementById("editCuisineID").value = id;
-          document.getElementById("editCuisineName").value = name;
-    }
-</script>
 </body>
 </html>
