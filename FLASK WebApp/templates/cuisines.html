@@ -89,14 +89,14 @@
         </table>
 
         <div class="container">
-            <div class="row">
+            <div class="row" id="new_entry_container">
                 <div class="col text-center">
-                    <button type="button" id="new_cuisines_button" class="btn btn-primary btn-lg" align = "center" onClick="showNewInputForm()">Add Cuisine</button>
+                    <button type="button"  class="btn btn-primary btn-lg" align = "center" onClick="showNewInputForm()">Add Cuisine</button>
                 </div>
             </div>
 
             <!---- New Cuisine Input Form Placeholder  ----->
-            <div id="new_cuisines_form" style="display:none">
+            <div id="new_entry_form" style="display:none">
                 <form id="addingcuisine" action="/cuisines?type=insert" method="post">
                     <fieldset>
                         <legend>Add a new Cuisine below:</legend>
@@ -112,7 +112,7 @@
             </div>
 
             <!---- Edit Cuisine Form Placeholder  ----->
-            <div id="edit_cuisines_form" style="display:none">
+            <div id="edit_entry_form" style="display:none">
                 <form id="editingcuisine" action="/cuisines?type=edit" method="post">
                     <fieldset>
                         <legend>Edit a Cuisine below:</legend>
@@ -156,14 +156,14 @@
 <!--   Script for new Cuisine button   -->
 <script>
     function showNewInputForm() {
-          var x = document.getElementById("new_cuisines_button");
+          var x = document.getElementById("new_entry_container");
           if (x.style.display === "none") {
                 x.style.display = "block";
           } else {
                 x.style.display = "none";
           }
 
-          var x = document.getElementById("new_cuisines_form");
+          var x = document.getElementById("new_entry_form");
           if (x.style.display === "none") {
                 x.style.display = "block";
           } else {
@@ -175,13 +175,22 @@
 <!--   Script for edit Cuisine button   -->
 <script>
     function showEditInputForm(id, name) {
-          document.getElementById("new_cuisines_button").style.display = "none";
-
-          var x = document.getElementById("edit_cuisines_form");
+          var x = document.getElementById("edit_entry_form");
           if (x.style.display === "none") {
                 x.style.display = "block";
           } else {
                 x.style.display = "none";
+          }
+
+          showNewInputForm();
+
+          if (document.getElementById("new_entry_form").style.display === "block") {
+            document.getElementById("new_entry_form").style.display = "none";
+          }
+
+          if (document.getElementById("new_entry_container").style.display === "block" &&
+                x.style.display === "block") {
+             document.getElementById("new_entry_container").style.display = "none";
           }
 
           document.getElementById("editCuisineID").value = id;

@@ -94,14 +94,14 @@
         </table>
 
         <div class="container">
-            <div class="row">
+            <div class="row" id="new_entry_container">
                 <div class="col text-center">
-                    <button type="button" id="new_ingredients_button" class="btn btn-primary btn-lg" align = "center" onClick="showNewInputForm()">Add Ingredient</button>
+                    <button type="button" class="btn btn-primary btn-lg" align = "center" onClick="showNewInputForm()">Add Ingredient</button>
                 </div>
             </div>
 
             <!---- New Ingredient Input Form Placeholder  ----->
-            <div id="new_ingredients_form" style="display:none">
+            <div id="new_entry_form" style="display:none">
                 <form id="addingingredient" action="/ingredients?type=insert" method="post">
                     <fieldset>
                         <legend>Add a new Ingredient below:</legend>
@@ -126,7 +126,7 @@
             </div>
 
             <!---- Edit Ingredient Form Placeholder  ----->
-            <div id="edit_ingredients_form" style="display:none">
+            <div id="edit_entry_form" style="display:none">
                 <form id="editingredient" action="/ingredients?type=edit" method="post">
                     <fieldset>
                         <legend>Edit Ingredient below:</legend>
@@ -151,24 +151,6 @@
                 </form>
             </div>
         </div>
-
-<!---- Old Table and DB Query Definition Placeholder  ----->
-<!--        <div class="container-fluid padding">-->
-<!--            <ul>-->
-<!--                <li><p align = "left">Database:</h6></p>-->
-<!--                    <ul>-->
-<!--                        <li><p align = "left">Add: Adds new record of a new ingredient to Ingredients table.</p></li>-->
-<!--                        <li><p align = "left">Delete:  Deletes an existing record of an ingredient in Ingredients table.</p></li>-->
-<!--                        <li><p align = "left">Update:  Updates an existing record of an ingredient in Ingredients table.</p></li>-->
-<!--                    </ul>-->
-<!--                <li><p align = "left">Cascade Effects:</p></li>-->
-<!--                    <ul>-->
-<!--                        <li><p align = "left">On Add: N/A </p></li>-->
-<!--                        <li><p align = "left">On Delete: Removal of all related menuItems and menuItemsIngredients records. </p></li>-->
-<!--                        <li><p align = "left">On Update:  Cascades updates to the menuItemIngredients table. </p></li>-->
-<!--                    </ul>-->
-<!--            </ul>-->
-<!--        </div>-->
     </div>
 </div>
 
@@ -233,14 +215,14 @@
 <!--   Script for new ingredients button   -->
 <script>
     function showNewInputForm() {
-          var x = document.getElementById("new_ingredients_button");
+          var x = document.getElementById("new_entry_container");
           if (x.style.display === "none") {
                 x.style.display = "block";
           } else {
                 x.style.display = "none";
           }
 
-          var x = document.getElementById("new_ingredients_form");
+          var x = document.getElementById("new_entry_form");
           if (x.style.display === "none") {
                 x.style.display = "block";
           } else {
@@ -252,13 +234,22 @@
 <!--   Script for edit ingredients button   -->
 <script>
     function showEditInputForm(id, name, vegan, quantity) {
-          document.getElementById("new_ingredients_button").style.display = "none";
-
-          var x = document.getElementById("edit_ingredients_form");
+          var x = document.getElementById("edit_entry_form");
           if (x.style.display === "none") {
                 x.style.display = "block";
           } else {
                 x.style.display = "none";
+          }
+
+          showNewInputForm();
+
+          if (document.getElementById("new_entry_form").style.display === "block") {
+            document.getElementById("new_entry_form").style.display = "none";
+          }
+
+          if (document.getElementById("new_entry_container").style.display === "block" &&
+                x.style.display === "block") {
+             document.getElementById("new_entry_container").style.display = "none";
           }
 
           document.getElementById("editIngredientID").value = id;
