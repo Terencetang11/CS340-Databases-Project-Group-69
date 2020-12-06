@@ -93,14 +93,14 @@
             </tbody>
         </table>
         <div class="container">
-            <div class="row">
+            <div class="row" id="new_entry_container">
                 <div class="col text-center">
-                    <button type="button" id="new_chefs_button" class="btn btn-primary btn-lg" align = "center" onClick="showNewInputForm()">Add Chef</button>
+                    <button type="button"  class="btn btn-primary btn-lg" align = "center" onClick="showNewInputForm()">Add Chef</button>
                 </div>
             </div>
 
             <!---- New Chef Input Form Placeholder  ----->
-            <div id="new_chefs_form" style="display:none">
+            <div id="new_entry_form" style="display:none">
                 <form id="addingchefs" action="/chefs?type=insert" method="post">
                     <fieldset>
                         <legend>Add a new Cuisine below:</legend>
@@ -130,7 +130,7 @@
             </div>
 
             <!---- Edit Chef Form Placeholder  ----->
-            <div id="edit_chefs_form" style="display:none">
+            <div id="edit_entry_form" style="display:none">
                 <form id="editingchefs" action="/chefs?type=edit" method="post">
                     <fieldset>
                         <legend>Edit a Chef below:</legend>
@@ -185,14 +185,14 @@
 <!--   Script for new Cuisine button   -->
 <script>
     function showNewInputForm() {
-          var x = document.getElementById("new_chefs_button");
+          var x = document.getElementById("new_entry_container");
           if (x.style.display === "none") {
                 x.style.display = "block";
           } else {
                 x.style.display = "none";
           }
 
-          var x = document.getElementById("new_chefs_form");
+          var x = document.getElementById("new_entry_form");
           if (x.style.display === "none") {
                 x.style.display = "block";
           } else {
@@ -204,13 +204,22 @@
 <!--   Script for edit Cuisine button   -->
 <script>
     function showEditInputForm(id, fName, lName, cuisineID, cuisineName) {
-          document.getElementById("new_chefs_button").style.display = "none";
-
-          var x = document.getElementById("edit_chefs_form");
+          var x = document.getElementById("edit_entry_form");
           if (x.style.display === "none") {
                 x.style.display = "block";
           } else {
                 x.style.display = "none";
+          }
+
+          showNewInputForm();
+
+          if (document.getElementById("new_entry_form").style.display === "block") {
+            document.getElementById("new_entry_form").style.display = "none";
+          }
+
+          if (document.getElementById("new_entry_container").style.display === "block" &&
+                x.style.display === "block") {
+             document.getElementById("new_entry_container").style.display = "none";
           }
 
           document.getElementById("editChefID").value = id;
