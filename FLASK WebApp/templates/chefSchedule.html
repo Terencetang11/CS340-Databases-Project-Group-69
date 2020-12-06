@@ -161,7 +161,7 @@
                         Chef Name:
                         <select name="chefName" required="1">
                             {% for c in chefs %}
-                            <option value='{{ c.0 }}'>{{ c.0 }}</option>
+                            <option value='{{ c.0 }}'>{{ c.1 }} {{ c.2 }}</option>
                             {% endfor %}
                         </select>
                     </label>
@@ -185,7 +185,7 @@
                         Chef Name:
                         <select id="editChefFName" name="chefFName" required="1">
                             {% for c in chefs %}
-                            <option value='{{ c.0 }}'>{{ c.0 }}</option>
+                            <option value='{{ c.0 }}'>{{ c.1 }} {{ c.2 }}</option>
                             {% endfor %}
                         </select>
                     </label>

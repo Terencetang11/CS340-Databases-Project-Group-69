@@ -251,12 +251,32 @@ def browse_chefs():
 
 @webapp.route('/chefSchedule')
 def browse_chefSchedule():
-    print("Fetching and rendering Chef Schedule web page")
     db_connection = connect_to_database()
+
+
+    # data validation: queries for existing list of cuisines for use in foreign key selection
+    query = 'SELECT cuisineName FROM cuisines'
+    cuisines = execute_query(db_connection, query).fetchall()
+    print(cuisines)
+
+    # data validation: queries for existing list of chefs for use in foreign key selection
+    query = 'SELECT * FROM chefs'
+    chefs = execute_query(db_connection, query).fetchall()
+    print(cuisines)
+
+    # grabs cuisine ID for given cuisine name input
+    if request.method == "POST":
+        query = 'SELECT cuisineID FROM cuisines WHERE cuisineName = "' + str(request.form['cuisineName']) + '"'
+        cuisineID = execute_query(db_connection, query).fetchall()[0]
+
+
+
+
+    print("Fetching and rendering Chef Schedule web page")
     query = "SELECT dayofWeek, chefSchedule.chefID, chefs.firstName, chefs.lastName FROM chefSchedule LEFT JOIN chefs ON chefs.chefID = chefSchedule.chefID ORDER BY FIELD(dayofWeek, 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday')"
     result = execute_query(db_connection, query).fetchall()
     print(result)
-    return render_template('chefSchedule.html', rows=result)
+    return render_template('chefSchedule.html', rows=result, cuisines=cuisines, chefs=chefs )
 
 
 @webapp.route('/menuItemIngredients')
