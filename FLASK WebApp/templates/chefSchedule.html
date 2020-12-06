@@ -11,6 +11,58 @@
     <script src="https://use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
     <script src="script.js"></script>
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+
+    <!---- Javascript Sources Placeholder ---->
+    <script>
+        var testFlaskObject = '{{ rows.0 }}'
+        console.log(testFlaskObject)
+
+    <!--   Script for new chefSchedule button   -->
+        function showNewInputForm() {
+              var x = document.getElementById("new_entry_container");
+              if (x.style.display === "none") {
+                    x.style.display = "block";
+              } else {
+                    x.style.display = "none";
+              }
+
+              var x = document.getElementById("new_entry_form");
+              if (x.style.display === "none") {
+                    x.style.display = "block";
+              } else {
+                    x.style.display = "none";
+              }
+        }
+
+    <!--   Script for edit chefSchedule button   -->
+        function showEditInputForm(dayOfWeek, chefID, chefFName, chefLName) {
+              var x = document.getElementById("edit_entry_form");
+              if (x.style.display === "none") {
+                    x.style.display = "block";
+              } else {
+                    x.style.display = "none";
+              }
+
+              showNewInputForm();
+
+              if (document.getElementById("new_entry_form").style.display === "block") {
+                document.getElementById("new_entry_form").style.display = "none";
+              }
+
+              if (document.getElementById("new_entry_container").style.display === "block" &&
+                    x.style.display === "block") {
+                 document.getElementById("new_entry_container").style.display = "none";
+              }
+
+              document.getElementById("dayOfWeek").value = dayOfWeek;
+              document.getElementById("editChefFName").value = chefFName;
+              document.getElementById("editChefLName").value = chefLName;
+        }
+
+    </script>
+
+
+
 </head>
 <body>
 
@@ -169,52 +221,6 @@
 </div>       
 </footer>
 
-
-<!---- Javascript Sources Placeholder ---->
-<script>
-<!--   Script for new chefSchedule button   -->
-    function showNewInputForm() {
-          var x = document.getElementById("new_entry_container");
-          if (x.style.display === "none") {
-                x.style.display = "block";
-          } else {
-                x.style.display = "none";
-          }
-
-          var x = document.getElementById("new_entry_form");
-          if (x.style.display === "none") {
-                x.style.display = "block";
-          } else {
-                x.style.display = "none";
-          }
-    }
-
-<!--   Script for edit chefSchedule button   -->
-    function showEditInputForm(dayOfWeek, chefID, chefFName, chefLName) {
-          var x = document.getElementById("edit_entry_form");
-          if (x.style.display === "none") {
-                x.style.display = "block";
-          } else {
-                x.style.display = "none";
-          }
-
-          showNewInputForm();
-
-          if (document.getElementById("new_entry_form").style.display === "block") {
-            document.getElementById("new_entry_form").style.display = "none";
-          }
-
-          if (document.getElementById("new_entry_container").style.display === "block" &&
-                x.style.display === "block") {
-             document.getElementById("new_entry_container").style.display = "none";
-          }
-
-          document.getElementById("dayOfWeek").value = dayOfWeek;
-          document.getElementById("editChefFName").value = chefFName;
-          document.getElementById("editChefLName").value = chefLName;
-    }
-
-</script>
 
 </body>
 </html>
