@@ -124,6 +124,7 @@ def browse_cuisines():
         return render_template('error.html', prev='/cuisines')
 
 
+# need to add functionality for removing chefs if a cuisine for the schedule is updated and chef does not have specialty
 @webapp.route('/restaurantSchedule', methods=['POST','GET'])
 def browse_restuarantSchedule():
     db_connection = connect_to_database()
