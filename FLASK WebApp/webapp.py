@@ -309,45 +309,6 @@ def add_new_menuItem():
         return ('Menu Item added!')
 
 
-@webapp.route('/add_new_cuisine', methods=['POST','GET'])
-def add_new_cuisine():
-    db_connection = connect_to_database()
-    if request.method == 'GET':
-        query = 'SELECT cuisineName from cuisines'
-        result = execute_query(db_connection, query).fetchall()
-        print(result)
-
-        return render_template('cuisine_add_new.html', cuisines = result)
-    elif request.method == 'POST':
-        print("Add new Cuisine!")
-        cuisineName = request.form['cuisineName']
-
-        query = 'INSERT INTO cuisines (cuisineName) VALUES (%s)'
-        data = (cuisineName,)
-        execute_query(db_connection, query, data)
-        return ('Cuisine added!')
-
-
-@webapp.route('/add_new_restaurantSchedule', methods=['POST','GET'])
-def add_new_restaurantSchedule():
-    db_connection = connect_to_database()
-    if request.method == 'GET':
-        query = 'SELECT dayofWeek, cuisineID from restaurantSchedule'
-        result = execute_query(db_connection, query).fetchall()
-        print(result)
-
-        return render_template('restaurantSchedule_add_new.html', restaurantSchedule = result)
-    elif request.method == 'POST':
-        print("Add new entry to Restaurant Schedule!")
-        dayofWeek = request.form['dayofWeek']
-        cuisineID = request.form['cuisineID']
-
-        query = 'INSERT INTO restaurantSchedule (dayofWeek, cuisineID) VALUES (%s,%s)'
-        data = (dayofWeek, cuisineID)
-        execute_query(db_connection, query, data)
-        return ('Entry added!')
-
-
 @webapp.route('/add_new_chefSchedule', methods=['POST','GET'])
 def add_new_chefSchedule():
     db_connection = connect_to_database()
