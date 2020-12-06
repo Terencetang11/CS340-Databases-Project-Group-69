@@ -324,6 +324,21 @@ def index():
     print(result)
     return render_template('index.html', rows=result)
 
+@webapp.route('/index_search', methods=['GET', 'POST'])
+def index_search():
+    print("Searching user query")
+    db_connection = connect_to_database()
+    if request.method =='GET':
+        return render_template('index_search.html')
+    if request.method == 'POST':
+        firstName = request.form['firstName']
+        lastName = request.form['lastName']
+        print(firstName, lastName)
+        query="SELECT restaurantSchedule.dayofWeek, CONCAT_WS(' ', chefs.firstName, chefs.lastName) FROM restaurantSchedule INNER JOIN cuisines on restaurantSchedule.cuisineID = cuisines.cuisineID INNER JOIN chefs ON cuisines.cuisineID = chefs.cuisineID WHERE chefs.firstName = (%s) AND chefs.lastName = (%s)"
+        data = (firstName, lastName)
+        result = execute_query(db_connection, query, data).fetchall()
+        return render_template('index_search.html', rows=result)
+
 
 @webapp.route('/home')
 def home():
