@@ -153,7 +153,7 @@ def browse_restuarantSchedule():
     elif request.args.get('type') == "delete":
         print("Deletes a RestaurantSchedule entry!")
         print("id = " + request.args.get('id'))
-        query = 'DELETE FROM restaurantSchedule WHERE dayofWeek = ' + request.args.get('id')
+        query = 'DELETE FROM restaurantSchedule WHERE dayofWeek = "' + request.args.get('id') + '"'
         execute_query(db_connection, query)
         print('RestaurantSchedule deleted')
 
