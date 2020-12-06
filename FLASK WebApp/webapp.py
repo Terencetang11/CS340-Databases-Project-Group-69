@@ -16,47 +16,53 @@ def hello():
 def browse_ingredients():
     db_connection = connect_to_database()
 
-    # checks URL params for type = INSERT for adding a new ingredient and then executes query for adding new ingredient
-    if request.args.get('type') == "insert":
-        print("Add new ingredient!")
-        print(request.form)
-        ingredientName = request.form['ingredientName']
-        isVegan = request.form['isVegan']
-        inventory = request.form['inventory']
+    # try and except structure used for capturing errors and rendering an error page
+    try:
+        # checks URL params for type = INSERT for adding a new ingredient and then executes query for adding new ingredient
+        if request.args.get('type') == "insert":
+            print("Add new ingredient!")
+            print(request.form)
+            ingredientName = request.form['ingredientName']
+            isVegan = request.form['isVegan']
+            inventory = request.form['inventory']
 
-        query = 'INSERT INTO ingredients (ingredientName, isVegan, inventory) VALUES (%s,%s,%s)'
-        data = (ingredientName, isVegan, inventory)
-        execute_query(db_connection, query, data)
-        print('Ingredient added!')
+            query = 'INSERT INTO ingredients (ingredientName, isVegan, inventory) VALUES (%s,%s,%s)'
+            data = (ingredientName, isVegan, inventory)
+            execute_query(db_connection, query, data)
+            print('Ingredient added!')
 
-    # checks URL params for type = DELETE for deleting an existing ingredient and then executes query to DB
-    elif request.args.get('type') == "delete":
-        print("Deletes an ingredient!")
-        print("id = " + request.args.get('id'))
-        query = 'DELETE FROM ingredients WHERE ingredientID = ' + request.args.get('id')
-        execute_query(db_connection, query)
-        print('Ingredient deleted')
+        # checks URL params for type = DELETE for deleting an existing ingredient and then executes query to DB
+        elif request.args.get('type') == "delete":
+            print("Deletes an ingredient!")
+            print("id = " + request.args.get('id'))
+            query = 'DELETE FROM ingredients WHERE ingredientID = ' + request.args.get('id')
+            execute_query(db_connection, query)
+            print('Ingredient deleted')
 
-    # checks URL params for type = EDIT for updating an existing ingredient and then executes query to DB
-    elif request.args.get('type') == "edit":
-        print("Edit an ingredient!")
-        print(request.form)
-        ingredientID = request.form['ingredientID']
-        ingredientName = request.form['ingredientName']
-        isVegan = request.form['isVegan']
-        inventory = request.form['inventory']
+        # checks URL params for type = EDIT for updating an existing ingredient and then executes query to DB
+        elif request.args.get('type') == "edit":
+            print("Edit an ingredient!")
+            print(request.form)
+            ingredientID = request.form['ingredientID']
+            ingredientName = request.form['ingredientName']
+            isVegan = request.form['isVegan']
+            inventory = request.form['inventory']
 
-        query = "UPDATE ingredients SET ingredientName = %s, isVegan = %s, inventory = %s WHERE ingredientID = %s"
-        data = (ingredientName, isVegan, inventory, ingredientID)
-        execute_query(db_connection, query, data)
-        print('Ingredient Updated!')
+            query = "UPDATE ingredients SET ingredientName = %s, isVegan = %s, inventory = %s WHERE ingredientID = %s"
+            data = (ingredientName, isVegan, inventory, ingredientID)
+            execute_query(db_connection, query, data)
+            print('Ingredient Updated!')
 
-    # renders ingredients form with latest results from query
-    print("Fetching and rendering ingredients web page")
-    query = "SELECT ingredientID, ingredientName, isVegan, inventory FROM ingredients"
-    result = execute_query(db_connection, query).fetchall()
-    print(result)
-    return render_template('ingredients.html', rows=result)
+        # renders ingredients form with latest results from query
+        print("Fetching and rendering ingredients web page")
+        query = "SELECT ingredientID, ingredientName, isVegan, inventory FROM ingredients"
+        result = execute_query(db_connection, query).fetchall()
+        print(result)
+        return render_template('ingredients.html', rows=result)
+
+    except:
+        print('Error has occurred!')
+        return render_template('error.html', prev='/ingredients')
 
 
 @webapp.route('/menuItems')
@@ -74,52 +80,99 @@ def browse_menuItems():
 def browse_cuisines():
     db_connection = connect_to_database()
 
-    # checks URL params for type = INSERT for adding a new item and then executes query for adding new item
-    if request.args.get('type') == "insert":
-        print("Add new Cuisine!")
-        print(request.form)
-        cuisineName = request.form['cuisineName']
+    # try and except structure used for capturing errors and rendering an error page
+    try:
+        # checks URL params for type = INSERT for adding a new item and then executes query for adding new item
+        if request.args.get('type') == "insert":
+            print("Add new Cuisine!")
+            print(request.form)
+            cuisineName = request.form['cuisineName']
 
-        query = 'INSERT INTO cuisines (cuisineName) VALUES (%s)'
-        data = (cuisineName,)
-        execute_query(db_connection, query, data)
-        print('Cuisine added!')
+            query = 'INSERT INTO cuisines (cuisineName) VALUES (%s)'
+            data = (cuisineName,)
+            execute_query(db_connection, query, data)
+            print('Cuisine added!')
 
-    # checks URL params for type = DELETE for deleting an existing item and then executes query to DB
-    elif request.args.get('type') == "delete":
-        print("Deletes a cuisine!")
-        print("id = " + request.args.get('id'))
-        query = 'DELETE FROM cuisines WHERE cuisineID = ' + request.args.get('id')
-        execute_query(db_connection, query)
-        print('Cuisine deleted')
+        # checks URL params for type = DELETE for deleting an existing item and then executes query to DB
+        elif request.args.get('type') == "delete":
+            print("Deletes a cuisine!")
+            print("id = " + request.args.get('id'))
+            query = 'DELETE FROM cuisines WHERE cuisineID = ' + request.args.get('id')
+            execute_query(db_connection, query)
+            print('Cuisine deleted')
 
-    # checks URL params for type = EDIT for updating an existing item and then executes query to DB
-    elif request.args.get('type') == "edit":
-        print("Edit a cuisine!")
-        print(request.form)
-        cuisineID = request.form['cuisineID']
-        cuisineName = request.form['cuisineName']
+        # checks URL params for type = EDIT for updating an existing item and then executes query to DB
+        elif request.args.get('type') == "edit":
+            print("Edit a cuisine!")
+            print(request.form)
+            cuisineID = request.form['cuisineID']
+            cuisineName = request.form['cuisineName']
 
-        query = "UPDATE cuisines SET cuisineName = %s WHERE cuisineID = %s"
-        data = (cuisineName, cuisineID)
-        execute_query(db_connection, query, data)
-        print('Cuisine Updated!')
+            query = "UPDATE cuisines SET cuisineName = %s WHERE cuisineID = %s"
+            data = (cuisineName, cuisineID)
+            execute_query(db_connection, query, data)
+            print('Cuisine Updated!')
 
-    print("Fetching and rendering Cuisines web page")
-    query = "SELECT cuisineID, cuisineName FROM cuisines"
-    result = execute_query(db_connection, query).fetchall()
-    print(result)
-    return render_template('cuisines.html', rows=result)
+        print("Fetching and rendering Cuisines web page")
+        query = "SELECT cuisineID, cuisineName FROM cuisines"
+        result = execute_query(db_connection, query).fetchall()
+        print(result)
+        return render_template('cuisines.html', rows=result)
+
+    except:
+        print('Error has occurred!')
+        return render_template('error.html', prev='/cuisines')
 
 
 @webapp.route('/restaurantSchedule')
 def browse_restuarantSchedule():
-    print("Fetching and rendering Restaurant Schedule web page")
     db_connection = connect_to_database()
+
+    # data validation: queries for existing list of cuisines for use in foreign key selection
+    query = 'SELECT cuisineName FROM cuisines'
+    cuisines = execute_query(db_connection, query).fetchall()
+    print(cuisines)
+
+    # grabs cuisine ID for given cuisine name input
+    if request.method == "POST":
+        query = 'SELECT cuisineID FROM cuisines WHERE cuisineName = "' + str(request.form['cuisineName']) + '"'
+        cuisineID = execute_query(db_connection, query).fetchall()[0]
+
+    # checks URL params for type = INSERT for adding a new restaurantschedule and then executes query to DB
+    if request.args.get('type') == "insert":
+        print("Add new RestaurantSchedule!")
+        print(request.form)
+        dayOfWeek = request.form['dayOfWeek']
+
+        query = 'INSERT INTO restaurantSchedule (dayofWeek, cuisineID) VALUES (%s,%s)'
+        data = (dayOfWeek, cuisineID)
+        execute_query(db_connection, query, data)
+        print('RestaurantSchedule added!')
+
+    # checks URL params for type = DELETE for deleting an existing restaurantschedule and then executes query to DB
+    elif request.args.get('type') == "delete":
+        print("Deletes a RestaurantSchedule entry!")
+        print("id = " + request.args.get('id'))
+        query = 'DELETE FROM restaurantSchedule WHERE chefID = ' + request.args.get('id')
+        execute_query(db_connection, query)
+        print('RestaurantSchedule deleted')
+
+    # checks URL params for type = EDIT for updating an existing RestaurantSchedule and then executes query to DB
+    elif request.args.get('type') == "edit":
+        print("Edit a RestaurantSchedule!")
+        print(request.form)
+        dayOfWeek = request.form['dayOfWeek']
+
+        query = "UPDATE restaurantSchedule SET cuisineID = %s  WHERE dayofWeek = %s"
+        data = (cuisineID, dayOfWeek)
+        execute_query(db_connection, query, data)
+        print('RestaurantSchedule Updated!')
+
+    print("Fetching and rendering Restaurant Schedule web page")
     query = "SELECT dayofWeek, restaurantSchedule.cuisineID, cuisines.cuisineName FROM restaurantSchedule LEFT JOIN cuisines ON cuisines.cuisineID = restaurantSchedule.cuisineID ORDER BY FIELD(dayofWeek, 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday')"
     result = execute_query(db_connection, query).fetchall()
     print(result)
-    return render_template('restaurantSchedule.html', rows=result)
+    return render_template('restaurantSchedule.html', rows=result, cuisines=cuisines)
 
 
 @webapp.route('/chefs', methods=['POST','GET'])

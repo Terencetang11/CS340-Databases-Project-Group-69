@@ -58,61 +58,94 @@
 <!---- Table Placeholder ----->
 <div class="container-fluid padding">
     <div class="row welcome text-center">
-    <div class="col-12">
-        <h4 class="display-5">The Marence Bistro</h4>
-        </div>
-        <hr>
         <div class="col-12">
-        <p class="lead">A table that aligns Cuisine to Days it will be featured on will be added here.</p>
-        </div>
-    <table class="table">
-      <thead>
-        <tr>
-          <th scope="col">Day of Week</th>
-          <th scope="col">Cuisine ID</th>
-          <th scope="col">Cuisine Name</th>
-          <th scope="col">Actions</th>
-        </tr>
-      </thead>
-        <tbody>
-            {% for r in rows %}
-            <tr>
-                <td> {{ r.0 }}</td>
-                <td> {{ r[1] }}</td>
-                <td> {{ r[2] }}</td>          
-                <td>
-                <button type="button" class="btn btn-success" title = "Update"><i class="fas fa-edit"></i></button>
-                <button type="button" class="btn btn-danger" title = "Delete"><i class="far fa-trash-alt"></i></button>
-                </td>            
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-    <div class="container">
-        <div class="row">
-            <div class="col text-center">
-                <button type="button" class="btn btn-primary btn-lg" align = "center" onClick="window.location='/add_new_restaurantSchedule'">Add Day & Cuisine</button>
+            <h4 class="display-5">The Marence Bistro</h4>
             </div>
+            <hr>
+            <div class="col-12">
+            <p class="lead">A table that aligns Cuisine to Days it will be featured on will be added here.</p>
+        </div>
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">Day of Week</th>
+              <th scope="col">Cuisine ID</th>
+              <th scope="col">Cuisine Name</th>
+              <th scope="col">Actions</th>
+            </tr>
+          </thead>
+            <tbody>
+                {% for r in rows %}
+                <tr>
+                    <td> {{ r.0 }}</td>
+                    <td> {{ r[1] }}</td>
+                    <td> {{ r[2] }}</td>
+                    <td>
+                    <button type="button" class="btn btn-success" title = "Update" onClick="showEditInputForm('{{ r.0 }}', '{{ r.1 }}')"><i class="fas fa-edit"></i></button>
+                    <button type="button" class="btn btn-danger" title = "Delete" onClick="window.location='/restaurantschedule?type=delete&id={{ r.0 }}'"><i class="far fa-trash-alt"></i></button>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <div class="container">
+            <div class="row" id="new_entry_container">
+                <div class="col text-center">
+                    <button type="button" class="btn btn-primary btn-lg" align = "center" onClick="showNewInputForm()">Add Day & Cuisine</button>
+                </div>
+            </div>
+
+            <!---- New RestaurantSchedule Input Form Placeholder  ----->
+            <div id="new_entry_form" style="display:none">
+                <form id="addingrestaurantschedule" action="/restaurantschedule?type=insert" method="post">
+                    <fieldset>
+                        <legend>Add a new Restaurant Schedule below:</legend>
+                        <p><strong>Instructions:</strong> Please input a new day of week and 'cuisine of the day' below!</p>
+                        <label>
+                            Day of Week: <input type="text" name="dayOfWeek" required="1">
+                        </label>
+                        <label>
+                            Cuisine:
+                            <select name="cuisineName" required="1">
+                                {% for c in cuisines %}
+                                <option value='{{ c.0 }}'>{{ c.0 }}</option>
+                                {% endfor %}
+                            </select>
+                        </label>
+                        <input type="submit" value="Submit">
+                    </fieldset>
+                    <br>
+                    <br>
+                </form>
+            </div>
+
+            <!---- Edit RestaurantSchedule Form Placeholder  ----->
+            <div id="edit_entry_form" style="display:none">
+                <form id="editrestaurantschedule" action="/restaurantschedule?type=edit" method="post">
+                    <fieldset>
+                        <legend>Edit Restaurant Schedule below:</legend>
+                        <p><strong>Instructions:</strong> Please update a day of the week and cuisine below!</p>
+                        <label>
+                            Day of Week: <input id="dayOfWeek" type="text" name="dayOfWeek" required="1" readonly>
+                        </label>
+                        <label>
+                            Cuisine:
+                            <select id="editCuisineName" name="cuisineName" required="1">
+                                {% for c in cuisines %}
+                                <option value='{{ c.0 }}'>{{ c.0 }}</option>
+                                {% endfor %}
+                            </select>
+                        </label>
+                        <input type="submit" value="Submit">
+                    </fieldset>
+                    <br>
+                    <br>
+                </form>
+            </div>
+
         </div>
     </div>
-    <div class="container-fluid padding">
-        <ul>
-            <li><p align = "left">Database:</h6></p>
-                <ul>
-                    <li><p align = "left">Add:  Adds a new record of a new restaurant day schedule to the RestaurantSchedule table.  Asks for what cuisine is related to what day</p></li>
-                    <li><p align = "left">Delete: Deletes an existing record of a restaurant day schedule from the Restaurant Schedule table</p></li>
-                    <li><p align = "left">Update: Updates an existing record of a restaurant day schedule from the Restaurant Schedule table</p></li>
-                </ul>
-            <li><p align = "left">Cascade Effects:</p></li>
-                <ul>
-                    <li><p align = "left">On Add: N/A</p></li>
-                    <li><p align = "left">On Delete: Deletes associated records in the ChefSchedule table based on FK dayOfWeek</p></li>
-                    <li><p align = "left">On Update: Cascades dayOfWeek update to ChefScheduleTable</p></li>
-                </ul>
-        </ul>    
-    </div>
-    </div>
-    </div>
+</div>
 
 <!---- Contact Footer ----->
 <footer>
@@ -133,6 +166,52 @@
     <div class="col-md-4"></div>
 </div>       
 </footer>
+
+<!---- Javascript Sources Placeholder ---->
+<!--   Script for new restaurantschedule button   -->
+<script>
+    function showNewInputForm() {
+          var x = document.getElementById("new_entry_container");
+          if (x.style.display === "none") {
+                x.style.display = "block";
+          } else {
+                x.style.display = "none";
+          }
+
+          var x = document.getElementById("new_entry_form");
+          if (x.style.display === "none") {
+                x.style.display = "block";
+          } else {
+                x.style.display = "none";
+          }
+    }
+</script>
+
+<!--   Script for edit restaurantschedule button   -->
+<script>
+    function showEditInputForm(dayOfWeek, cuisineName) {
+          var x = document.getElementById("edit_entry_form");
+          if (x.style.display === "none") {
+                x.style.display = "block";
+          } else {
+                x.style.display = "none";
+          }
+
+          showNewInputForm();
+
+          if (document.getElementById("new_entry_form").style.display === "block") {
+            document.getElementById("new_entry_form").style.display = "none";
+          }
+
+          if (document.getElementById("new_entry_container").style.display === "block" &&
+                x.style.display === "block") {
+             document.getElementById("new_entry_container").style.display = "none";
+          }
+
+          document.getElementById("dayOfWeek").value = dayOfWeek;
+          document.getElementById("editCuisineName").value = cuisineName;
+    }
+</script>
 
 </body>
 </html>
