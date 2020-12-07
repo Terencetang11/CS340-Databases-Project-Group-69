@@ -252,7 +252,9 @@
         dayofWeek = '{{ d.0 }}';
         chefOptions = [];
         {% for c in chefs %}
-            if ( {{ d.1 }} == {{ c.3 }} ) {
+            chefCuisine = {{ c.3 }};
+            dayCuisine = {{ d.1 }};
+            if ( chefCuisine == dayCuisine ) {
                 chefOptions.push( {{ c }} );
             }
         {% endfor %}
