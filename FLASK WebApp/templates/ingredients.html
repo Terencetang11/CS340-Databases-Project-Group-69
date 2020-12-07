@@ -30,6 +30,23 @@
           }
     }
 
+    <!--   Script for searching ingredients button   -->
+    function showSearchInputForm() {
+          var x = document.getElementById("search_entry_container");
+          if (x.style.display === "none") {
+                x.style.display = "block";
+          } else {
+                x.style.display = "none";
+          }
+
+          var x = document.getElementById("search_entry_form");
+          if (x.style.display === "none") {
+                x.style.display = "block";
+          } else {
+                x.style.display = "none";
+          }
+    }
+
     <!--   Script for edit ingredients button   -->
     function showEditInputForm(id, name, vegan, quantity) {
           var x = document.getElementById("edit_entry_form");
@@ -149,6 +166,11 @@
                     <button type="button" class="btn btn-primary btn-lg" onClick="showNewInputForm()">Add Ingredient</button>
                 </div>
             </div>
+            <div class="row" id="search_entry_container" style="padding-top: 20px">
+                <div class="col text-center">
+                    <button type="button" class="btn btn-primary btn-lg" onClick="showSearchInputForm()">Search Ingredient(s)</button>
+                </div>
+            </div>
 
             <!---- New Ingredient Input Form Placeholder  ----->
             <div id="new_entry_form" style="display:none">
@@ -200,6 +222,27 @@
                     <br>
                 </form>
             </div>
+
+            <!---- Searching Ingredient Form Placeholder  ----->
+            <div id="search_entry_form" style="display:none">
+                <form id="searchingingredient" action="/ingredients_search" method="post">
+                    <fieldset>
+                        <legend>Search for Ingredient(s) below:</legend>
+                        <p><strong>Instructions:</strong> Please input any of the information below!</p>
+                        <label>
+                            Ingredient Name: <input type="text" name="ingredientName">
+                        </label>
+                        <label>
+                            Inventory: <input type="number" name="inventory">
+                        </label>
+                        <input type="submit" value="Submit">
+                    </fieldset>
+                    <br>
+                    <br>
+                </form>
+            </div>
+
+
         </div>
     </div>
 </div>
@@ -225,41 +268,6 @@
     <div class="col-md-4"></div>
 </div>       
 </footer>
-
-<!---- Modal (Not Currently in Use) ---->
-<div id="myModal" class="modal fade" role="dialog">
-   <div class="modal-dialog">
-      <div class="modal-content">
-         <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal">&times;</button>
-         </div>
-         <div class="modal-body">
-            <form action="/add_new_ingredient" method="POST">
-               <div class="form-group">
-                  <label>Ingredient Name:</label>
-                  <input type="text" class="form-control" name="ingredientName" required="1">
-               </div>
-                <div class="form-group">
-                  <label>Vegan?</label>
-                    <div>
-                        <input type="checkbox" name="isVegan">
-                    </div>
-               </div>
-                <div class="form-group">
-                  <label>Inventory</label>
-                  <input type="inventory" class="form-control" name="number" required="1">
-               </div>
-               <div class="form-group">
-                  <button class="btn btn-primary" type="submit" value="Submit">Insert Data</button>
-               </div>
-            </form>
-         </div>
-         <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-         </div>
-      </div>
-   </div>
-</div>
 
 </body>
 </html>
