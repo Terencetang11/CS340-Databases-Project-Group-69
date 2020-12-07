@@ -209,7 +209,7 @@ def browse_cuisines():
             days = execute_query(db_connection, query).fetchall()
             print(days)
             for day in days:
-                query = 'DELETE FROM chefSchedule WHERE dayofWeek = "' + day + '"'
+                query = 'DELETE FROM chefSchedule WHERE dayofWeek = "' + day[0] + '"'
                 execute_query(db_connection, query)
             print('Chef Schedule updated')
 
