@@ -65,7 +65,7 @@ def browse_ingredients():
         return render_template('error.html', prev='/ingredients')
 
 
-@webapp.route('/menuItems')
+@webapp.route('/menuItems', methods=['POST','GET'])
 def browse_menuItems():
     db_connection = connect_to_database()
 
@@ -86,7 +86,7 @@ def browse_menuItems():
     query = "SELECT menuItemID, menuItemName, menuItems.cuisineID, cuisines.cuisineName, price FROM menuItems LEFT JOIN cuisines ON cuisines.cuisineID = menuItems.cuisineID"
     result = execute_query(db_connection, query).fetchall()
     print(result)
-    return render_template('menuItems.html', rows=result)
+    return render_template('menuItems.html', rows=result, cuisines=cuisines, ingredients=ingredients)
 
 
 @webapp.route('/menuItemIngredients')
