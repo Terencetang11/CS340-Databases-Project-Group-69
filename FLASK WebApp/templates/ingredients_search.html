@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Home - The Marence Bistro</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <script src="https://use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
+    <script src="script.js"></script>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<!---- Navigation Menu ----->
+<nav class="navbar navbar-expand-md navbar-light bg-light">
+<div class="container-fluid">
+    <button class="navbar-toggler" type="button" data-toggler="collapse" data-target=
+"navbarResponsive">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+  <div class="collapse navbar-collapse" id="navbarResponsive">
+    <ul class="navbar-nav ml-auto">
+    <li class="nav-item">
+    <a class="nav-link active" href="/">Index</a> 
+    </li>  
+    <li class="nav-item">
+    <a class="nav-link" href="/ingredients">Ingredients</a> 
+    </li>
+    <li class="nav-item">
+    <a class="nav-link" href="/menuItems">Menu Items</a> 
+    </li>
+    <li class="nav-item">
+    <a class="nav-link" href="/menuItemIngredients">Menu Item Ingredients</a> 
+    </li>
+    <li class="nav-item">
+    <a class="nav-link" href="/cuisines">Cuisines</a> 
+    </li>
+    <li class="nav-item">
+    <a class="nav-link" href="/restaurantSchedule">Restaurant Schedule</a>
+    </li>
+    <li class="nav-item">
+    <a class="nav-link" href="/chefs">Chefs</a>
+    </li>
+    <li class="nav-item">
+    <a class="nav-link" href="/chefSchedule">Chef Schedule</a>
+    </li>
+    </ul>
+  </div>
+    
+    </div>
+
+</nav>
+
+<!---- Schedule ----->
+
+<div class="container-fluid padding">
+    <div class="row welcome text-center">
+    <div class="col-12">
+        <h4 class="display-5">The Marence Bistro</h4>
+        </div>
+        <hr>
+        <div class="col-12">
+        <p class="lead">Ingredients Search Result</p>
+        </div>
+	<table class="table">
+	  <thead>
+	    <tr>
+            <th scope="col">Ingredient ID</th>
+            <th scope="col">Ingredient Name</th>
+            <th scope="col">Vegan</th>
+            <th scope="col">Inventory</th>
+	    </tr>
+	  </thead>
+            <tbody>
+                <!---- Jinja html templating for Flask Python framework ----->
+                {% for r in rows %}
+                <tr>
+                    <td> {{ r[0] }} </td>
+                    <td> {{ r[1] }} </td>
+                    <td> {{ r[2] }} </td>
+                    <td> {{ r[3] }} </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+	</table>
+    </div>
+</div>
+        
+<div class="container-fluid padding">
+    <div class="row welcome text-center">
+    <div class="col-12">
+        <div class="col-12">
+        <p class="lead">This website was built for the CS340 Project at Oregon State University. The website was built using the tools shown below.</p>
+        </div>
+    </div>
+    </div>
+</div>
+
+
+<div class="container-fluid padding">
+    <div class="row text-center padding">
+    <div class="col-xs-12 col-sm-6 col-md-4">
+        <img src="{{ url_for('static', filename='HTML.png') }}" width="100" height="100"></img>
+        <h4>HTML</h4>
+    </div>
+    <div class="col-xs-12 col-sm-6 col-md-4">
+        <img src="{{ url_for('static', filename='BOOTSTRAP.png') }}" width="100" height="100"></img>
+        <h3>BOOTSTRAP</h3>
+    </div>
+        <div class="col-sm-12 col-md-4">
+        <img src="{{ url_for('static', filename='CSS.png') }}" width="100" height="100"></img>
+        <h3>CSS</h3>
+    </div>
+    </div>
+    <hr class="my-4">
+    
+    </div>
+
+
+<!---- Social Links ----->
+<div class="container-fluid padding">
+<div class="row text-center padding">
+    
+    <div class="col-12">
+    <h3>Social Links</h3>
+    </div>
+    <div class="col-12 social padding">
+        <a href="https://www.facebook.com/"><i class="fab fa-facebook"></i></a>
+        <a href="https://www.twitter.com/"><i class="fab fa-twitter"></i></a>
+        <a href="https://www.instagram.com/"><i class="fab fa-instagram"></i></a>
+        <a href="https://www.youtube.com/"><i class="fab fa-youtube"></i></a>
+    </div>
+    </div>    
+    </div>
+
+<!---- Contact Footer ----->
+<footer>
+    
+<div class="container-fluid padding">
+    
+<div class="row text-center">
+    <div class="col-md-4"></div>
+    <div class="col-md-4">
+        <hr class="light">
+        <h5>Contact Us</h5>
+        <hr class="light">
+        <p>Phone: (555) 555-5555</p>
+        <p>Email: email@oregonstate.edu</p>
+        <p>Oregon State University</p>
+        <p>Corvallis, Oregon</p>
+    </div>
+    <div class="col-md-4"></div>
+</div>       
+</footer>
+</body>
+</html>
+
