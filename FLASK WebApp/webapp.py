@@ -417,7 +417,7 @@ def index():
 
     if request.args.get('type') == 'reset':
         with open('DDL_Queries.txt', 'r') as file:
-            query = '"' + file.read().replace('\n', '') + '"'
+            query = '"' + file.read() + '"'
         execute_query(db_connection, query)
         print('Database has been reset')
 
