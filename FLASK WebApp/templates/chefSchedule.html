@@ -152,9 +152,6 @@
                     <legend>Add a new Chef Schedule below:</legend>
                     <p><strong>Instructions:</strong> Please input a new day of week and assign a chef below!</p>
                     <label>
-                        Day of Week: <input type="text" name="dayOfWeek" required="1">
-                    </label>
-                    <label>
                         Day of Week:
                         <select id="newDayOfWeek" name="dayOfWeek" required="1">
                             {% for d in restaurantSchedule %}
@@ -165,9 +162,9 @@
                     <label>
                         Chef Name:
                         <select id="newChefName" name="chefName" required="1">
-                            {% for c in chefs %}
-                            <option value='{{ c.0 }}'>{{ c.1 }} {{ c.2 }}</option>
-                            {% endfor %}
+<!--                            {% for c in chefs %}-->
+<!--                            <option value='{{ c.0 }}'>{{ c.1 }} {{ c.2 }}</option>-->
+<!--                            {% endfor %}-->
                         </select>
                     </label>
                     <input type="submit" value="Submit">
@@ -243,12 +240,6 @@
     {% endfor %}
     console.log(scheduleChefOptions);
 
-<!--    // Listen to changes in selected fruit-->
-<!--    document.getElementById('#fruit-selector').on('change', function(element) {-->
-<!--        // Clearing the price selector and getting the selected fruit-->
-<!--        $('#price-selector').empty()-->
-<!--        chosenFruit = this.value;-->
-
     // Listen to changes in selected day of Week
     document.getElementById('newDayOfWeek').on('change', function(element) {
 
@@ -265,17 +256,6 @@
 
             // Add the option to the price selector
             document.getElementById('newChefName').append(chef_option);
-
-
-<!--        // For each price in the fruitPrices for this fruit-->
-<!--        for (fruitIndex in fruitPrices[chosenFruit]) {-->
-
-<!--          // Get the price and create an option element for it-->
-<!--          price = fruitPrices[chosenFruit][fruitIndex];-->
-<!--          price_option = '<option>{0} {1}kg {2}$<option>'.replace('{0}', chosenFruit).replace('{1}', fruitIndex + 1).replace('{2}', price);-->
-
-<!--          // Add the option to the price selector-->
-<!--          $('#price-selector').append(price_option)-->
         }
     })
 
