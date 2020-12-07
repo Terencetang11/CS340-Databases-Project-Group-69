@@ -252,6 +252,7 @@
         dayofWeek = '{{ d.0 }}';
         chefOptions = [];
         {% for c in chefs %}
+            None = -1;
             if ( {{ d.1 }} == {{ c.3 }} ) {
                 chefOptions.push( ['{{ c.0 }}', '{{ c.1 }}', '{{ c.2 }}', '{{ c.3 }}'] );
             }
