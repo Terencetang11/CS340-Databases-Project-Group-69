@@ -50,7 +50,7 @@
                  document.getElementById("new_entry_container").style.display = "none";
               }
 
-              document.getElementById("dayOfWeek").value = dayOfWeek;
+              document.getElementById("editDayOfWeek").value = dayOfWeek;
               document.getElementById("editChefFName").value = chefFName;
               document.getElementById("editChefLName").value = chefLName;
         }
@@ -188,7 +188,11 @@
                     </label>
                     <label>
                         Chef Name:
-                        <select id="editChefFName" name="chefFName" required="1"></select>
+                        <select id="editChefName" name="chefName" required="1">
+                            {% for c in chefs %}
+                            <option value='{{ c.0 }}'>{{ c.1 }} {{ c.2 }}</option>
+                            {% endfor %}
+                        </select>
                     </label>
                     <input type="submit" value="Submit">
                 </fieldset>
