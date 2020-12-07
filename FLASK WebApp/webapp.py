@@ -67,12 +67,36 @@ def browse_ingredients():
 
 @webapp.route('/menuItems')
 def browse_menuItems():
-    print("Fetching and rendering Menu Items web page")
     db_connection = connect_to_database()
+
+    # data validation: queries for existing list of ingredients for use in foreign key selection
+    query = 'SELECT ingredientID, ingredientName FROM ingredients'
+    ingredients = execute_query(db_connection, query).fetchall()
+    print(ingredients)
+
+    # data validation: queries for existing list of cuisines for use in foreign key selection
+    query = 'SELECT cuisineID, cuisineName FROM cuisines'
+    cuisines = execute_query(db_connection, query).fetchall()
+    print(cuisines)
+
+
+
+
+    print("Fetching and rendering Menu Items web page")
     query = "SELECT menuItemID, menuItemName, menuItems.cuisineID, cuisines.cuisineName, price FROM menuItems LEFT JOIN cuisines ON cuisines.cuisineID = menuItems.cuisineID"
     result = execute_query(db_connection, query).fetchall()
     print(result)
     return render_template('menuItems.html', rows=result)
+
+
+@webapp.route('/menuItemIngredients')
+def browse_menuItemIngredients():
+    print("Fetching and rendering Menu Item Ingredients web page")
+    db_connection = connect_to_database()
+    query = "SELECT menuItemIngredients.menuItemID, menuItems.menuItemName, menuItemIngredients.ingredientID, ingredients.ingredientName, ingredients.inventory FROM menuItemIngredients INNER JOIN menuItems ON menuItemIngredients.menuItemID = menuItems.menuItemID INNER JOIN ingredients ON menuItemIngredients.ingredientID = ingredients.ingredientID"
+    result = execute_query(db_connection, query).fetchall()
+    print(result)
+    return render_template('menuItemIngredients.html', rows=result)
 
 
 @webapp.route('/cuisines', methods=['POST','GET'])
@@ -191,19 +215,6 @@ def browse_restuarantSchedule():
 def browse_chefs():
     db_connection = connect_to_database()
 
-    # # Old data validation to ensure that a valid foreign key is input (cuisineID in this case)
-    # if request.method == "POST":
-    #     query = 'SELECT cuisineID FROM cuisines WHERE cuisineName = "' + str(request.form['cuisineName']) + '"'
-    #     cuisineID = execute_query(db_connection, query).fetchall()[0]
-    #
-    #     if len(results) != 0:
-    #         print('Cuisine exists!')
-    #         cuisineID = results[0]
-    #     else:
-    #         print('Cuisine does not exists!')
-    #         result = ('/chefs',)
-    #         return render_template('cuisine_error.html', rows=result)
-
     # try and except structure used for capturing errors and rendering an error page
     try:
         # data validation: queries for existing list of cuisines for use in foreign key selection
@@ -263,6 +274,7 @@ def browse_chefs():
         print('Error has occurred!')
         return render_template('error.html', prev='/chefs')
 
+
 @webapp.route('/chefSchedule', methods=['POST','GET'])
 def browse_chefSchedule():
     db_connection = connect_to_database()
@@ -311,14 +323,7 @@ def browse_chefSchedule():
         print('Error has occurred!')
         return render_template('error.html', prev='/chefSchedule')
 
-@webapp.route('/menuItemIngredients')
-def browse_menuItemIngredients():
-    print("Fetching and rendering Menu Item Ingredients web page")
-    db_connection = connect_to_database()
-    query = "SELECT menuItemIngredients.menuItemID, menuItems.menuItemName, menuItemIngredients.ingredientID, ingredients.ingredientName, ingredients.inventory FROM menuItemIngredients INNER JOIN menuItems ON menuItemIngredients.menuItemID = menuItems.menuItemID INNER JOIN ingredients ON menuItemIngredients.ingredientID = ingredients.ingredientID"
-    result = execute_query(db_connection, query).fetchall()
-    print(result)
-    return render_template('menuItemIngredients.html', rows=result)
+
 
 
 @webapp.route('/add_new_menuItemIngredient', methods=['POST','GET'])

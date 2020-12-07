@@ -57,8 +57,6 @@
           document.getElementById("editCuisineName").value = cuisineName;
     }
     </script>
-
-
 </head>
 <body>
 
@@ -159,11 +157,8 @@
                         <label>
                             Last Name: <input type="text" name="chefLastName" required="1">
                         </label>
-<!--                        <label>-->
-<!--                            Cuisine: <input type="text" name="cuisineName" required="1">-->
-<!--                        </label>-->
                         <label>
-                            Cuisine: <!--<input type="text" id="editCuisineName" name="cuisineName" required="1">-->
+                            Cuisine:
                             <select name="cuisineName" required="1">
                                 {% for c in cuisines %}
                                 <option value='{{ c.0 }}'>{{ c.0 }}</option>
