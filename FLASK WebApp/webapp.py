@@ -166,7 +166,7 @@ def browse_menuItemIngredients():
     elif request.args.get('type') == "delete":
         print("Deletes a menu item!")
         print("id = " + request.args.get('id'))
-        query = 'DELETE FROM menuItemIngredients WHERE menuItemID = "' + request.args.get('menuItemID') + '" AND ingredientID = "' + request.args.get('ingredientID') + '"'
+        query = 'DELETE FROM menuItemIngredients WHERE menuItemID = ' + request.args.get('menuItemID') + ' AND ingredientID = ' + request.args.get('ingredientID')
         execute_query(db_connection, query)
         print('Menu item deleted')
 
