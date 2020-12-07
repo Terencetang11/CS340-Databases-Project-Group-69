@@ -31,28 +31,28 @@
         }
 
     <!--   Script for edit chefSchedule button   -->
-        function showEditInputForm(dayOfWeek, chefID, chefFName, chefLName) {
-              var x = document.getElementById("edit_entry_form");
-              if (x.style.display === "none") {
-                    x.style.display = "block";
-              } else {
-                    x.style.display = "none";
-              }
+<!--        function showEditInputForm(dayOfWeek, chefID, chefFName, chefLName) {-->
+<!--              var x = document.getElementById("edit_entry_form");-->
+<!--              if (x.style.display === "none") {-->
+<!--                    x.style.display = "block";-->
+<!--              } else {-->
+<!--                    x.style.display = "none";-->
+<!--              }-->
 
-              showNewInputForm();
+<!--              showNewInputForm();-->
 
-              if (document.getElementById("new_entry_form").style.display === "block") {
-                document.getElementById("new_entry_form").style.display = "none";
-              }
+<!--              if (document.getElementById("new_entry_form").style.display === "block") {-->
+<!--                document.getElementById("new_entry_form").style.display = "none";-->
+<!--              }-->
 
-              if (document.getElementById("new_entry_container").style.display === "block" &&
-                    x.style.display === "block") {
-                 document.getElementById("new_entry_container").style.display = "none";
-              }
+<!--              if (document.getElementById("new_entry_container").style.display === "block" &&-->
+<!--                    x.style.display === "block") {-->
+<!--                 document.getElementById("new_entry_container").style.display = "none";-->
+<!--              }-->
 
-              document.getElementById("editDayOfWeek").value = dayOfWeek;
-              document.getElementById("editChefName").value = chefFName;
-        }
+<!--              document.getElementById("editDayOfWeek").value = dayOfWeek;-->
+<!--              document.getElementById("editChefName").value = chefFName;-->
+<!--        }-->
 
     </script>
 
@@ -161,7 +161,7 @@
                     </label>
                     <label>
                         Chef Name:
-                        <select id="newChefName" name="chefName" required="1"></select>
+                        <select id="newChefName" name="chefID" required="1"></select>
                     </label>
                     <input type="submit" value="Submit">
                 </fieldset>
@@ -171,30 +171,30 @@
         </div>
 
         <!---- Edit RestaurantSchedule Form Placeholder  ----->
-        <div id="edit_entry_form" style="display:none">
-            <form id="editchefschedule" action="/chefSchedule?type=edit" method="post">
-                <fieldset>
-                    <legend>Edit Chef Schedule below:</legend>
-                    <p><strong>Instructions:</strong> Please update a day of the week and an assigned chef below!</p>
-                    <label>
-                        Day of Week:
-                        <select id="editDayOfWeek" name="dayOfWeek" required="1"> Select Day
-                            <option value=''>Select a Day</option>
-                            {% for d in restaurantSchedule %}
-                            <option value='{{ d.0 }}'>{{ d.0 }}</option>
-                            {% endfor %}
-                        </select>
-                    </label>
-                    <label>
-                        Chef Name:
-                        <select id="editChefName" name="chefName" required="1"></select>
-                    </label>
-                    <input type="submit" value="Submit">
-                </fieldset>
-                <br>
-                <br>
-            </form>
-        </div>
+<!--        <div id="edit_entry_form" style="display:none">-->
+<!--            <form id="editchefschedule" action="/chefSchedule?type=edit" method="post">-->
+<!--                <fieldset>-->
+<!--                    <legend>Edit Chef Schedule below:</legend>-->
+<!--                    <p><strong>Instructions:</strong> Please update a day of the week and an assigned chef below!</p>-->
+<!--                    <label>-->
+<!--                        Day of Week:-->
+<!--                        <select id="editDayOfWeek" name="dayOfWeek" required="1"> Select Day-->
+<!--                            <option value=''>Select a Day</option>-->
+<!--                            {% for d in restaurantSchedule %}-->
+<!--                            <option value='{{ d.0 }}'>{{ d.0 }}</option>-->
+<!--                            {% endfor %}-->
+<!--                        </select>-->
+<!--                    </label>-->
+<!--                    <label>-->
+<!--                        Chef Name:-->
+<!--                        <select id="editChefName" name="chefName" required="1"></select>-->
+<!--                    </label>-->
+<!--                    <input type="submit" value="Submit">-->
+<!--                </fieldset>-->
+<!--                <br>-->
+<!--                <br>-->
+<!--            </form>-->
+<!--        </div>-->
 
     </div>
     </div>
@@ -260,28 +260,28 @@
         }
     })
 
-    // Then we listen to changes in selected day of Week
-    document.getElementById('edit-btn').addEventListener('click', function(element) {
+<!--    // Then we listen to changes in selected day of Week-->
+<!--    document.getElementById('edit-btn').addEventListener('click', function(element) {-->
 
-        // Clearing the price selector and getting the selected fruit
-        x = document.getElementById('editChefName')
-        while (x.firstChild) {
-            x.removeChild(x.firstChild);
-        }
-        selectedDay = this.value;
-        console.log(selectedDay);
+<!--        // Clearing the price selector and getting the selected fruit-->
+<!--        x = document.getElementById('editChefName')-->
+<!--        while (x.firstChild) {-->
+<!--            x.removeChild(x.firstChild);-->
+<!--        }-->
+<!--        selectedDay = this.value;-->
+<!--        console.log(selectedDay);-->
 
-        // For each chef in the chefOptions for this day
-        for (index in scheduleChefOptions[selectedDay]) {
+<!--        // For each chef in the chefOptions for this day-->
+<!--        for (index in scheduleChefOptions[selectedDay]) {-->
 
-            // Get the chef ID, fName, and lName and create an option element for it
-            chef = scheduleChefOptions[selectedDay][index];
-            chef_option = '<option value={0}>{1} {2}</option>'.replace('{0}', chef[0]).replace('{1}', chef[1]).replace('{2}', chef[2]);
+<!--            // Get the chef ID, fName, and lName and create an option element for it-->
+<!--            chef = scheduleChefOptions[selectedDay][index];-->
+<!--            chef_option = '<option value={0}>{1} {2}</option>'.replace('{0}', chef[0]).replace('{1}', chef[1]).replace('{2}', chef[2]);-->
 
-            // Add the option to the price selector
-            document.getElementById('editChefName').innerHTML += chef_option;
-        }
-    })
+<!--            // Add the option to the price selector-->
+<!--            document.getElementById('editChefName').innerHTML += chef_option;-->
+<!--        }-->
+<!--    })-->
 </script>
 
 </body>

@@ -269,7 +269,25 @@ def browse_chefSchedule():
         query = 'SELECT cuisineID FROM cuisines WHERE cuisineName = "' + str(request.form['cuisineName']) + '"'
         cuisineID = execute_query(db_connection, query).fetchall()[0]
 
+    # checks URL params for type = INSERT for adding a new chefSchedule and then executes query to DB
+    if request.args.get('type') == "insert":
+        print("Add new ChefSchedule!")
+        print(request.form)
+        dayOfWeek = request.form['dayOfWeek']
+        chefID = request.form['chefID']
 
+        query = 'INSERT INTO chefSchedule (dayofWeek, chefID) VALUES (%s,%s)'
+        data = (dayOfWeek, chefID)
+        execute_query(db_connection, query, data)
+        print('ChefSchedule added!')
+
+    # checks URL params for type = DELETE for deleting an existing chefSchedule and then executes query to DB
+    elif request.args.get('type') == "delete":
+        print("Deletes a ChefSchedule entry!")
+        print("id = " + request.args.get('id'))
+        query = 'DELETE FROM chefSchedule WHERE dayofWeek = "' + request.args.get('id') + '"'
+        execute_query(db_connection, query)
+        print('RestaurantSchedule deleted')
 
 
     print("Fetching and rendering Chef Schedule web page")
