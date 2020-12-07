@@ -255,7 +255,7 @@ def browse_chefSchedule():
 
 
     # data validation: queries for existing list of cuisines for use in foreign key selection
-    query = 'SELECT * FROM restaurantSchedule'
+    query = "SELECT * FROM restaurantSchedule ORDER BY FIELD(dayofWeek, 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday')"
     restaurantSchedule = execute_query(db_connection, query).fetchall()
     print(restaurantSchedule)
 
