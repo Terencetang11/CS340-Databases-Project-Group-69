@@ -55,67 +55,9 @@
               document.getElementById("editChefLName").value = chefLName;
         }
 
-    <!--   Script for dynamically editing dropdown list for chefs based on restaurant schedule and cuisine needs  -->
-        // First we initialize a variable with the days of the week and available corresponding chefs per cuisine
-        scheduleChefOptions = {}
-        {% for d in restaurantSchedule %}
-            dayofWeek = '{{ d.0 }}';
-            chefOptions = [];
-            {% for c in chefs %}
-                None = -1;
-                if ( {{ d.1 }} == {{ c.3 }} ) {
-                    chefOptions.push( ['{{ c.0 }}', '{{ c.1 }}', '{{ c.2 }}', '{{ c.3 }}'] );
-                }
-            {% endfor %}
-            scheduleChefOptions[dayofWeek] = chefOptions;
-        {% endfor %}
-
-        // Then we listen to changes in selected day of Week
-        document.getElementById('newDayOfWeek').addEventListener('change', function(element) {
-
-            // Clearing the price selector and getting the selected fruit
-            x = document.getElementById('newChefName')
-            while (x.firstChild) {
-                x.removeChild(x.firstChild);
-            }
-            selectedDay = this.value;
-            console.log(selectedDay);
-
-            // For each chef in the chefOptions for this day
-            for (index in scheduleChefOptions[selectedDay]) {
-
-                // Get the chef ID, fName, and lName and create an option element for it
-                chef = scheduleChefOptions[selectedDay][index];
-                chef_option = '<option value={0}>{1} {2}</option>'.replace('{0}', chef[0]).replace('{1}', chef[1]).replace('{2}', chef[2]);
-
-                // Add the option to the price selector
-                document.getElementById('newChefName').innerHTML += chef_option;
-            }
-        })
-
-        // Then we listen to changes in selected day of Week
-        document.getElementById('editDayOfWeek').addEventListener('change', function(element) {
-
-            // Clearing the price selector and getting the selected fruit
-            x = document.getElementById('editChefName')
-            while (x.firstChild) {
-                x.removeChild(x.firstChild);
-            }
-            selectedDay = this.value;
-            console.log(selectedDay);
-
-            // For each chef in the chefOptions for this day
-            for (index in scheduleChefOptions[selectedDay]) {
-
-                // Get the chef ID, fName, and lName and create an option element for it
-                chef = scheduleChefOptions[selectedDay][index];
-                chef_option = '<option value={0}>{1} {2}</option>'.replace('{0}', chef[0]).replace('{1}', chef[1]).replace('{2}', chef[2]);
-
-                // Add the option to the price selector
-                document.getElementById('editChefName').innerHTML += chef_option;
-            }
-        })
     </script>
+
+
 
 </head>
 <body>
@@ -212,6 +154,7 @@
                     <label>
                         Day of Week:
                         <select id="newDayOfWeek" name="dayOfWeek" required="1"> Select Day
+                            <option value=''>Select a Day</option>
                             {% for d in restaurantSchedule %}
                             <option value='{{ d.0 }}'>{{ d.0 }}</option>
                             {% endfor %}
@@ -237,6 +180,7 @@
                     <label>
                         Day of Week:
                         <select id="editDayOfWeek" name="dayOfWeek" required="1"> Select Day
+                            <option value=''>Select a Day</option>
                             {% for d in restaurantSchedule %}
                             <option value='{{ d.0 }}'>{{ d.0 }}</option>
                             {% endfor %}
@@ -278,7 +222,65 @@
 </footer>
 
 <script>
+    // First we initialize a variable with the days of the week and available corresponding chefs per cuisine
+    scheduleChefOptions = {}
+    {% for d in restaurantSchedule %}
+        dayofWeek = '{{ d.0 }}';
+        chefOptions = [];
+        {% for c in chefs %}
+            None = -1;
+            if ( {{ d.1 }} == {{ c.3 }} ) {
+                chefOptions.push( ['{{ c.0 }}', '{{ c.1 }}', '{{ c.2 }}', '{{ c.3 }}'] );
+            }
+        {% endfor %}
+        scheduleChefOptions[dayofWeek] = chefOptions;
+    {% endfor %}
 
+    // Then we listen to changes in selected day of Week
+    document.getElementById('newDayOfWeek').addEventListener('change', function(element) {
+
+        // Clearing the price selector and getting the selected fruit
+        x = document.getElementById('newChefName')
+        while (x.firstChild) {
+            x.removeChild(x.firstChild);
+        }
+        selectedDay = this.value;
+        console.log(selectedDay);
+
+        // For each chef in the chefOptions for this day
+        for (index in scheduleChefOptions[selectedDay]) {
+
+            // Get the chef ID, fName, and lName and create an option element for it
+            chef = scheduleChefOptions[selectedDay][index];
+            chef_option = '<option value={0}>{1} {2}</option>'.replace('{0}', chef[0]).replace('{1}', chef[1]).replace('{2}', chef[2]);
+
+            // Add the option to the price selector
+            document.getElementById('newChefName').innerHTML += chef_option;
+        }
+    })
+
+    // Then we listen to changes in selected day of Week
+    document.getElementById('editDayOfWeek').addEventListener('change', function(element) {
+
+        // Clearing the price selector and getting the selected fruit
+        x = document.getElementById('editChefName')
+        while (x.firstChild) {
+            x.removeChild(x.firstChild);
+        }
+        selectedDay = this.value;
+        console.log(selectedDay);
+
+        // For each chef in the chefOptions for this day
+        for (index in scheduleChefOptions[selectedDay]) {
+
+            // Get the chef ID, fName, and lName and create an option element for it
+            chef = scheduleChefOptions[selectedDay][index];
+            chef_option = '<option value={0}>{1} {2}</option>'.replace('{0}', chef[0]).replace('{1}', chef[1]).replace('{2}', chef[2]);
+
+            // Add the option to the price selector
+            document.getElementById('editChefName').innerHTML += chef_option;
+        }
+    })
 
 </script>
 
