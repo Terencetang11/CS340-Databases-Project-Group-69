@@ -253,46 +253,49 @@ def browse_chefs():
 def browse_chefSchedule():
     db_connection = connect_to_database()
 
+    # try and except structure used for capturing errors and rendering an error page
+    try:
+        # data validation: queries for existing list of cuisines for use in foreign key selection
+        query = "SELECT * FROM restaurantSchedule ORDER BY FIELD(dayofWeek, 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday')"
+        restaurantSchedule = execute_query(db_connection, query).fetchall()
+        print(restaurantSchedule)
 
-    # data validation: queries for existing list of cuisines for use in foreign key selection
-    query = "SELECT * FROM restaurantSchedule ORDER BY FIELD(dayofWeek, 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday')"
-    restaurantSchedule = execute_query(db_connection, query).fetchall()
-    print(restaurantSchedule)
+        # data validation: queries for existing list of chefs for use in foreign key selection
+        query = 'SELECT * FROM chefs'
+        chefs = execute_query(db_connection, query).fetchall()
+        print(chefs)
 
-    # data validation: queries for existing list of chefs for use in foreign key selection
-    query = 'SELECT * FROM chefs'
-    chefs = execute_query(db_connection, query).fetchall()
-    print(chefs)
+        # checks URL params for type = INSERT for adding a new chefSchedule and then executes query to DB
+        if request.args.get('type') == "insert":
+            print("Add new ChefSchedule!")
+            print(request.form)
+            dayOfWeek = request.form['dayOfWeek']
+            chefID = request.form['chefID']
+            print(chefID)
 
-    # checks URL params for type = INSERT for adding a new chefSchedule and then executes query to DB
-    if request.args.get('type') == "insert":
-        print("Add new ChefSchedule!")
-        print(request.form)
-        dayOfWeek = request.form['dayOfWeek']
-        chefID = request.form['chefID']
-        print(chefID)
+            query = 'INSERT INTO chefSchedule (dayofWeek, chefID) VALUES (%s,%s)'
+            data = (dayOfWeek, chefID)
+            execute_query(db_connection, query, data)
+            print('ChefSchedule added!')
 
-        query = 'INSERT INTO chefSchedule (dayofWeek, chefID) VALUES (%s,%s)'
-        data = (dayOfWeek, chefID)
-        execute_query(db_connection, query, data)
-        print('ChefSchedule added!')
+        # checks URL params for type = DELETE for deleting an existing chefSchedule and then executes query to DB
+        elif request.args.get('type') == "delete":
+            print("Deletes a ChefSchedule entry!")
+            print("dayofWeek = " + request.args.get('dayofWeek'))
+            print("chefID = " + request.args.get('chefID'))
+            query = 'DELETE FROM chefSchedule WHERE dayofWeek = "' + request.args.get('dayofWeek') + '" AND chefID = "' + request.args.get('chefID') + '"'
+            execute_query(db_connection, query)
+            print('RestaurantSchedule deleted')
 
-    # checks URL params for type = DELETE for deleting an existing chefSchedule and then executes query to DB
-    elif request.args.get('type') == "delete":
-        print("Deletes a ChefSchedule entry!")
-        print("dayofWeek = " + request.args.get('dayofWeek'))
-        print("chefID = " + request.args.get('chefID'))
-        query = 'DELETE FROM chefSchedule WHERE dayofWeek = "' + request.args.get('dayofWeek') + '" AND chefID = "' + request.args.get('chefID') + '"'
-        execute_query(db_connection, query)
-        print('RestaurantSchedule deleted')
+        print("Fetching and rendering Chef Schedule web page")
+        query = "SELECT dayofWeek, chefSchedule.chefID, chefs.firstName, chefs.lastName FROM chefSchedule LEFT JOIN chefs ON chefs.chefID = chefSchedule.chefID ORDER BY FIELD(dayofWeek, 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday')"
+        result = execute_query(db_connection, query).fetchall()
+        print(result)
+        return render_template('chefSchedule.html', rows=result, restaurantSchedule=restaurantSchedule, chefs=chefs)
 
-
-    print("Fetching and rendering Chef Schedule web page")
-    query = "SELECT dayofWeek, chefSchedule.chefID, chefs.firstName, chefs.lastName FROM chefSchedule LEFT JOIN chefs ON chefs.chefID = chefSchedule.chefID ORDER BY FIELD(dayofWeek, 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday')"
-    result = execute_query(db_connection, query).fetchall()
-    print(result)
-    return render_template('chefSchedule.html', rows=result, restaurantSchedule=restaurantSchedule, chefs=chefs)
-
+    except:
+        print('Error has occurred!')
+        return render_template('error.html', prev='/chefSchedule')
 
 @webapp.route('/menuItemIngredients')
 def browse_menuItemIngredients():
