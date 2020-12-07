@@ -156,7 +156,7 @@
                     </label>
                     <label>
                         Day of Week:
-                        <select name="dayOfWeek" required="1">
+                        <select id="newDayOfWeek" name="dayOfWeek" required="1">
                             {% for d in restaurantSchedule %}
                             <option value='{{ d.0 }}'>{{ d.0 }}</option>
                             {% endfor %}
@@ -164,7 +164,7 @@
                     </label>
                     <label>
                         Chef Name:
-                        <select name="chefName" required="1">
+                        <select id="newChefName" name="chefName" required="1">
                             {% for c in chefs %}
                             <option value='{{ c.0 }}'>{{ c.1 }} {{ c.2 }}</option>
                             {% endfor %}
@@ -229,25 +229,7 @@
 <!--    // First we initialize a variable with the fruits and their prices per kg-->
 <!--    fruitPrices = {'apple':[3, 5, 6], 'banana':[4, 7, 10]}-->
 
-    var chefs = '{{ chefs }}';
-    console.log(chefs);
-    var schedule = '{{ restaurantSchedule }}';
-    console.log(schedule);
-
     scheduleChefOptions = {}
-<!--    for (day of schedule){-->
-<!--        dayofWeek = day[0];-->
-<!--        chefOptions = [];-->
-<!--        for (chef of chefs){-->
-<!--            if (day[1] == chef[3]) {-->
-<!--                chefOptions.push(chef);-->
-<!--            }-->
-<!--        }-->
-<!--        console.log(dayofWeek);-->
-<!--        console.log(chefOptions);-->
-<!--        scheduleChefOptions[dayofWeek] = chefOptions;-->
-<!--    }-->
-
     {% for d in restaurantSchedule %}
         dayofWeek = '{{ d.0 }}';
         chefOptions = [];
@@ -259,7 +241,6 @@
         {% endfor %}
         scheduleChefOptions[dayofWeek] = chefOptions;
     {% endfor %}
-
     console.log(scheduleChefOptions);
 
 <!--    // Listen to changes in selected fruit-->
@@ -267,6 +248,24 @@
 <!--        // Clearing the price selector and getting the selected fruit-->
 <!--        $('#price-selector').empty()-->
 <!--        chosenFruit = this.value;-->
+
+    // Listen to changes in selected day of Week
+    document.getElementById('newDayOfWeek').on('change', function(element) {
+
+        // Clearing the price selector and getting the selected fruit
+        document.getElementById('newChefName').empty()
+        selectedDay = this.value;
+
+        // For each chef in the chefOptions for this day
+        for (index in scheduleChefOptions[selectedDay]) {
+
+            // Get the chef ID, fName, and lName and create an option element for it
+            chef = scheduleChefOptions[selectedDay][index];
+            chef_option = <option value={0}>{1} {2}</option>.replace('{0}', chef[0]).replace('{1}, chef[1]).replace('{2}, chef[2]);
+
+            // Add the option to the price selector
+            document.getElementById('newChefName').append(chef_option);
+
 
 <!--        // For each price in the fruitPrices for this fruit-->
 <!--        for (fruitIndex in fruitPrices[chosenFruit]) {-->
@@ -277,8 +276,8 @@
 
 <!--          // Add the option to the price selector-->
 <!--          $('#price-selector').append(price_option)-->
-<!--        }-->
-<!--    })-->
+        }
+    })
 
 </script>
 
