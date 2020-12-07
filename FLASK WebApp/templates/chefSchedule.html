@@ -154,6 +154,7 @@
                     <label>
                         Day of Week:
                         <select id="newDayOfWeek" name="dayOfWeek" required="1"> Select Day
+                            <option value=''>Select a Day</option>
                             {% for d in restaurantSchedule %}
                             <option value='{{ d.0 }}'>{{ d.0 }}</option>
                             {% endfor %}
@@ -161,7 +162,7 @@
                     </label>
                     <label>
                         Chef Name:
-                        <select id="newChefName" name="chefName" required="1"> 
+                        <select id="newChefName" name="chefName" required="1">
 <!--                            {% for c in chefs %}-->
 <!--                            <option value='{{ c.0 }}'>{{ c.1 }} {{ c.2 }}</option>-->
 <!--                            {% endfor %}-->
@@ -223,9 +224,7 @@
 </footer>
 
 <script>
-<!--    // First we initialize a variable with the fruits and their prices per kg-->
-<!--    fruitPrices = {'apple':[3, 5, 6], 'banana':[4, 7, 10]}-->
-
+    // First we initialize a variable with the days of the week and available corresponding chefs per cuisine
     scheduleChefOptions = {}
     {% for d in restaurantSchedule %}
         dayofWeek = '{{ d.0 }}';
@@ -238,9 +237,8 @@
         {% endfor %}
         scheduleChefOptions[dayofWeek] = chefOptions;
     {% endfor %}
-    console.log(scheduleChefOptions);
 
-    // Listen to changes in selected day of Week
+    // Then we listen to changes in selected day of Week
     document.getElementById('newDayOfWeek').addEventListener('change', function(element) {
 
         // Clearing the price selector and getting the selected fruit
