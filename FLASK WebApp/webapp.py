@@ -280,8 +280,9 @@ def browse_chefSchedule():
     # checks URL params for type = DELETE for deleting an existing chefSchedule and then executes query to DB
     elif request.args.get('type') == "delete":
         print("Deletes a ChefSchedule entry!")
-        print("id = " + request.args.get('id'))
-        query = 'DELETE FROM chefSchedule WHERE dayofWeek = "' + request.args.get('id') + '"'
+        print("dayofWeek = " + request.args.get('dayofWeek'))
+        print("chefID = " + request.args.get('chefID'))
+        query = 'DELETE FROM chefSchedule WHERE dayofWeek = "' + request.args.get('dayofWeek') + '" AND chefID = "' + request.args.get('chefID') + '"'
         execute_query(db_connection, query)
         print('RestaurantSchedule deleted')
 
