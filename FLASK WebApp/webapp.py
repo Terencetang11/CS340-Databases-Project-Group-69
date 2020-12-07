@@ -458,6 +458,35 @@ def index_search():
         result = execute_query(db_connection, query, data).fetchall()
         return render_template('index_search.html', rows=result)
 
+@webapp.route('/ingredients_search', methods=['GET', 'POST'])
+def ingredients_search():
+    print("Searching user query")
+    db_connection = connect_to_database()
+    if request.method =='GET':
+        return render_template('ingredients_search.html')
+    if request.method == 'POST':
+        ingredientName = request.form['ingredientName']
+        inventory = request.form['inventory']
+        print(ingredientName, inventory)
+
+        # Checking for what parameters User entered and creating query accordingly
+        if ingredientName != '' and inventory != '':
+            data = (ingredientName, inventory)
+            query = "SELECT * FROM ingredients WHERE ingredients.ingredientName = (%s) AND ingredients.inventory = (%s)"
+            result = execute_query(db_connection, query, data).fetchall()
+        elif ingredientName == '' and inventory != '':
+            data = inventory,
+            query = "SELECT * FROM ingredients WHERE ingredients.inventory = %s"
+            result = execute_query(db_connection, query, data).fetchall()
+        elif ingredientName != '' and inventory == '':
+            data = ingredientName,
+            query = "SELECT * FROM ingredients WHERE ingredients.ingredientName = %s"
+            result = execute_query(db_connection, query, data).fetchall()
+        else:
+            query = "SELECT * FROM ingredients"
+            result = execute_query(db_connection, query).fetchall()
+        return render_template('ingredients_search.html', rows=result)
+
 
 @webapp.route('/home')
 def home():
