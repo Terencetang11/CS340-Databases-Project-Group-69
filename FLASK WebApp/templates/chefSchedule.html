@@ -235,18 +235,29 @@
     console.log(schedule);
 
     scheduleChefOptions = {}
-    for (day of schedule){
-        dayofWeek = day[0];
+<!--    for (day of schedule){-->
+<!--        dayofWeek = day[0];-->
+<!--        chefOptions = [];-->
+<!--        for (chef of chefs){-->
+<!--            if (day[1] == chef[3]) {-->
+<!--                chefOptions.push(chef);-->
+<!--            }-->
+<!--        }-->
+<!--        console.log(dayofWeek);-->
+<!--        console.log(chefOptions);-->
+<!--        scheduleChefOptions[dayofWeek] = chefOptions;-->
+<!--    }-->
+
+    {% for d in restaurantSchedule %}
+        dayofWeek = '{{ d.0 }}';
         chefOptions = [];
-        for (chef of chefs){
-            if (day[1] == chef[3]) {
-                chefOptions.push(chef);
+        {% for c in chefs %}
+            if ( {{ d.1 }} == {{ c.3 }} ) {
+                chefOptions.push( {{ c }} );
             }
-        }
-        console.log(dayofWeek);
-        console.log(chefOptions);
+        {% endfor %}
         scheduleChefOptions[dayofWeek] = chefOptions;
-    }
+    {% endfor %}
 
     console.log(scheduleChefOptions);
 
