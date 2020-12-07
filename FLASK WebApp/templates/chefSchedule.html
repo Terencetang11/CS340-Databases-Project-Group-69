@@ -249,6 +249,7 @@
             x.removeChild(x.firstChild);
         }
         selectedDay = this.value;
+        console.log(selectedDay);
 
         // For each chef in the chefOptions for this day
         for (index in scheduleChefOptions[selectedDay]) {
@@ -258,7 +259,7 @@
             chef_option = '<option value={0}>{1} {2}</option>'.replace('{0}', chef[0]).replace('{1}', chef[1]).replace('{2}', chef[2]);
 
             // Add the option to the price selector
-            document.getElementById('newChefName').append(chef_option);
+            document.getElementById('newChefName').innerHTML += chef_option;
         }
     })
 
