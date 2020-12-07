@@ -415,26 +415,32 @@ def browse_chefSchedule():
 def index():
     db_connection = connect_to_database()
 
-    if request.args.get('type') == 'reset':
-        with open('DDL_Queries.txt', 'r') as file:
-            data = file.read().replace('\n', '')
+    # try and except structure used for capturing errors and rendering an error page
+    try:
+        if request.args.get('type') == 'reset':
+            with open('DDL_Queries.txt', 'r') as file:
+                data = file.read().replace('\n', '')
 
-        query = ''
-        for char in data:
-            if char == ';':
-                data = data[1:]
-                execute_query(db_connection, query)
-                query = ''
-            else:
-                query += char
-                data = data[1:]
-        print('Database has been reset')
+            query = ''
+            for char in data:
+                if char == ';':
+                    data = data[1:]
+                    execute_query(db_connection, query)
+                    query = ''
+                else:
+                    query += char
+                    data = data[1:]
+            print('Database has been reset')
 
-    print("Fetching and rendering Index web page")
-    query = "SELECT restaurantSchedule.dayofWeek, cuisines.cuisineName, (GROUP_CONCAT(CONCAT_WS(' ', chefs.firstName, chefs.lastName) SEPARATOR ', ')) FROM restaurantSchedule INNER JOIN cuisines on restaurantSchedule.cuisineID = cuisines.cuisineID INNER JOIN chefs on cuisines.cuisineID = chefs.cuisineID GROUP BY restaurantSchedule.dayofWeek ORDER BY FIELD(dayofWeek, 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday')"
-    result = execute_query(db_connection, query).fetchall()
-    print(result)
-    return render_template('index.html', rows=result)
+        print("Fetching and rendering Index web page")
+        query = "SELECT restaurantSchedule.dayofWeek, cuisines.cuisineName, (GROUP_CONCAT(CONCAT_WS(' ', chefs.firstName, chefs.lastName) SEPARATOR ', ')) FROM restaurantSchedule INNER JOIN cuisines on restaurantSchedule.cuisineID = cuisines.cuisineID INNER JOIN chefs on cuisines.cuisineID = chefs.cuisineID GROUP BY restaurantSchedule.dayofWeek ORDER BY FIELD(dayofWeek, 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday')"
+        result = execute_query(db_connection, query).fetchall()
+        print(result)
+        return render_template('index.html', rows=result)
+
+    except:
+        print('Error has occurred!')
+        return render_template('error.html', prev='/')
 
 
 @webapp.route('/index_search', methods=['GET', 'POST'])
