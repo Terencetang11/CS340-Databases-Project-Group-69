@@ -103,27 +103,25 @@ def browse_menuItems():
 
     # checks URL params for type = DELETE for deleting an existing ingredient and then executes query to DB
     elif request.args.get('type') == "delete":
-        print("Deletes an ingredient!")
+        print("Deletes a menu item!")
         print("id = " + request.args.get('id'))
-        query = 'DELETE FROM ingredients WHERE ingredientID = ' + request.args.get('id')
+        query = 'DELETE FROM menuItems WHERE menuItemID = ' + request.args.get('id')
         execute_query(db_connection, query)
-        print('Ingredient deleted')
+        print('Menu item deleted')
 
     # checks URL params for type = EDIT for updating an existing ingredient and then executes query to DB
     elif request.args.get('type') == "edit":
-        print("Edit an ingredient!")
+        print("Edit a menu item!")
         print(request.form)
-        ingredientID = request.form['ingredientID']
-        ingredientName = request.form['ingredientName']
-        isVegan = request.form['isVegan']
-        inventory = request.form['inventory']
+        menuItemID = request.form['menuItemID']
+        menuItemName = request.form['menuItemName']
+        cuisineID = request.form['cuisineName']
+        price = request.form['price']
 
-        query = "UPDATE ingredients SET ingredientName = %s, isVegan = %s, inventory = %s WHERE ingredientID = %s"
-        data = (ingredientName, isVegan, inventory, ingredientID)
+        query = "UPDATE menuItems SET menuItemName = %s, cuisineID = %s, price = %s WHERE menuItemID = %s"
+        data = (menuItemName, cuisineID, price, menuItemID)
         execute_query(db_connection, query, data)
-        print('Ingredient Updated!')
-
-
+        print('Menu Item Updated!')
 
     print("Fetching and rendering Menu Items web page")
     query = "SELECT menuItemID, menuItemName, menuItems.cuisineID, cuisines.cuisineName, price FROM menuItems LEFT JOIN cuisines ON cuisines.cuisineID = menuItems.cuisineID"
