@@ -69,75 +69,112 @@ def browse_ingredients():
 def browse_menuItems():
     db_connection = connect_to_database()
 
+    # try and except structure used for capturing errors and rendering an error page
+    try:
+        # data validation: queries for existing list of ingredients for use in foreign key selection
+        query = 'SELECT ingredientID, ingredientName FROM ingredients'
+        ingredients = execute_query(db_connection, query).fetchall()
+        print(ingredients)
+
+        # data validation: queries for existing list of cuisines for use in foreign key selection
+        query = 'SELECT cuisineID, cuisineName FROM cuisines'
+        cuisines = execute_query(db_connection, query).fetchall()
+        print(cuisines)
+
+        # checks URL params for type = INSERT for adding a new ingredient and then executes query for adding new ingredient
+        if request.args.get('type') == "insert":
+            print("Add new menu item!")
+            print(request.form)
+            menuItemName = request.form['menuItemName']
+            cuisineID = request.form['cuisineName']
+            price = request.form['price']
+            mainIngredient = request.form['ingredientName']
+
+            query = 'INSERT INTO menuItems (menuItemName, cuisineID, price) VALUES (%s,%s,%s)'
+            data = (menuItemName, cuisineID, price)
+            execute_query(db_connection, query, data)
+            print('Menu Item added!')
+
+            query = 'SELECT menuItemID FROM menuItems where menuItemName = %s AND cuisineID = %s AND price = %s'
+            menuItemID = execute_query(db_connection, query, data).fetchall()
+
+            query = 'INSERT INTO menuItemIngredients (menuItemID, ingredientID) VALUES (%s,%s)'
+            data = (menuItemID, mainIngredient)
+            execute_query(db_connection, query, data)
+            print('Menu Item Ingredient added!')
+
+        # checks URL params for type = DELETE for deleting an existing ingredient and then executes query to DB
+        elif request.args.get('type') == "delete":
+            print("Deletes a menu item!")
+            print("id = " + request.args.get('id'))
+            query = 'DELETE FROM menuItems WHERE menuItemID = ' + request.args.get('id')
+            execute_query(db_connection, query)
+            print('Menu item deleted')
+
+        # checks URL params for type = EDIT for updating an existing ingredient and then executes query to DB
+        elif request.args.get('type') == "edit":
+            print("Edit a menu item!")
+            print(request.form)
+            menuItemID = request.form['menuItemID']
+            menuItemName = request.form['menuItemName']
+            cuisineID = request.form['cuisineName']
+            price = request.form['price']
+
+            query = "UPDATE menuItems SET menuItemName = %s, cuisineID = %s, price = %s WHERE menuItemID = %s"
+            data = (menuItemName, cuisineID, price, menuItemID)
+            execute_query(db_connection, query, data)
+            print('Menu Item Updated!')
+
+        print("Fetching and rendering Menu Items web page")
+        query = "SELECT menuItemID, menuItemName, menuItems.cuisineID, cuisines.cuisineName, price FROM menuItems LEFT JOIN cuisines ON cuisines.cuisineID = menuItems.cuisineID"
+        result = execute_query(db_connection, query).fetchall()
+        print(result)
+        return render_template('menuItems.html', rows=result, cuisines=cuisines, ingredients=ingredients)
+
+    except:
+        print('Error has occurred!')
+        return render_template('error.html', prev='/menuItems')
+
+
+@webapp.route('/menuItemIngredients', methods=['POST','GET'])
+def browse_menuItemIngredients():
+    db_connection = connect_to_database()
+
     # data validation: queries for existing list of ingredients for use in foreign key selection
     query = 'SELECT ingredientID, ingredientName FROM ingredients'
     ingredients = execute_query(db_connection, query).fetchall()
     print(ingredients)
 
-    # data validation: queries for existing list of cuisines for use in foreign key selection
-    query = 'SELECT cuisineID, cuisineName FROM cuisines'
-    cuisines = execute_query(db_connection, query).fetchall()
-    print(cuisines)
+    # data validation: queries for existing list of menuItems for use in foreign key selection
+    query = 'SELECT menuItemID, menuItemName FROM menuItems'
+    menuItems = execute_query(db_connection, query).fetchall()
+    print(menuItems)
 
     # checks URL params for type = INSERT for adding a new ingredient and then executes query for adding new ingredient
     if request.args.get('type') == "insert":
-        print("Add new menu item!")
+        print("Add new menu item ingredient combination!")
         print(request.form)
-        menuItemName = request.form['menuItemName']
-        cuisineID = request.form['cuisineName']
-        price = request.form['price']
-        mainIngredient = request.form['ingredientName']
+        menuItemID = request.form['menuItemID']
+        ingredientID = request.form['ingredientID']
 
-        query = 'INSERT INTO menuItems (menuItemName, cuisineID, price) VALUES (%s,%s,%s)'
-        data = (menuItemName, cuisineID, price)
+        query = 'INSERT INTO menuItemIngredients (menuItemID, ingredientID) VALUES (%s, %s)'
+        data = (menuItemID, ingredientID)
         execute_query(db_connection, query, data)
-        print('Menu Item added!')
-
-        query = 'SELECT menuItemID FROM menuItems where menuItemName = %s AND cuisineID = %s AND price = %s'
-        menuItemID = execute_query(db_connection, query, data).fetchall()
-
-        query = 'INSERT INTO menuItemIngredients (menuItemID, ingredientID) VALUES (%s,%s)'
-        data = (menuItemID, mainIngredient)
-        execute_query(db_connection, query, data)
-        print('Menu Item Ingredient added!')
+        print('Menu Item Ingredient combo added!')
 
     # checks URL params for type = DELETE for deleting an existing ingredient and then executes query to DB
     elif request.args.get('type') == "delete":
         print("Deletes a menu item!")
         print("id = " + request.args.get('id'))
-        query = 'DELETE FROM menuItems WHERE menuItemID = ' + request.args.get('id')
+        query = 'DELETE FROM menuItemIngredients WHERE menuItemID = "' + request.args.get('menuItemID') + '" AND ingredientID = "' + request.args.get('ingredientID') + '"'
         execute_query(db_connection, query)
         print('Menu item deleted')
 
-    # checks URL params for type = EDIT for updating an existing ingredient and then executes query to DB
-    elif request.args.get('type') == "edit":
-        print("Edit a menu item!")
-        print(request.form)
-        menuItemID = request.form['menuItemID']
-        menuItemName = request.form['menuItemName']
-        cuisineID = request.form['cuisineName']
-        price = request.form['price']
-
-        query = "UPDATE menuItems SET menuItemName = %s, cuisineID = %s, price = %s WHERE menuItemID = %s"
-        data = (menuItemName, cuisineID, price, menuItemID)
-        execute_query(db_connection, query, data)
-        print('Menu Item Updated!')
-
-    print("Fetching and rendering Menu Items web page")
-    query = "SELECT menuItemID, menuItemName, menuItems.cuisineID, cuisines.cuisineName, price FROM menuItems LEFT JOIN cuisines ON cuisines.cuisineID = menuItems.cuisineID"
-    result = execute_query(db_connection, query).fetchall()
-    print(result)
-    return render_template('menuItems.html', rows=result, cuisines=cuisines, ingredients=ingredients)
-
-
-@webapp.route('/menuItemIngredients')
-def browse_menuItemIngredients():
     print("Fetching and rendering Menu Item Ingredients web page")
-    db_connection = connect_to_database()
     query = "SELECT menuItemIngredients.menuItemID, menuItems.menuItemName, menuItemIngredients.ingredientID, ingredients.ingredientName, ingredients.inventory FROM menuItemIngredients INNER JOIN menuItems ON menuItemIngredients.menuItemID = menuItems.menuItemID INNER JOIN ingredients ON menuItemIngredients.ingredientID = ingredients.ingredientID"
     result = execute_query(db_connection, query).fetchall()
     print(result)
-    return render_template('menuItemIngredients.html', rows=result)
+    return render_template('menuItemIngredients.html', rows=result, ingredients=ingredients, menuItems=menuItems)
 
 
 @webapp.route('/cuisines', methods=['POST','GET'])

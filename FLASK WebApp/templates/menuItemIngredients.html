@@ -9,8 +9,53 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
     <script src="https://use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
-    <script src="script.js"></script>
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+
+        <!---- Javascript Sources Placeholder ---->
+    <script>
+    <!--   Script for new Cuisine button   -->
+    function showNewInputForm() {
+          var x = document.getElementById("new_entry_container");
+          if (x.style.display === "none") {
+                x.style.display = "block";
+          } else {
+                x.style.display = "none";
+          }
+
+          var x = document.getElementById("new_entry_form");
+          if (x.style.display === "none") {
+                x.style.display = "block";
+          } else {
+                x.style.display = "none";
+          }
+    }
+
+    <!--   Script for edit Cuisine button   -->
+    function showEditInputForm(id, menuItemName, cuisineName, price) {
+          var x = document.getElementById("edit_entry_form");
+          if (x.style.display === "none") {
+                x.style.display = "block";
+          } else {
+                x.style.display = "none";
+          }
+
+          showNewInputForm();
+
+          if (document.getElementById("new_entry_form").style.display === "block") {
+            document.getElementById("new_entry_form").style.display = "none";
+          }
+
+          if (document.getElementById("new_entry_container").style.display === "block" &&
+                x.style.display === "block") {
+             document.getElementById("new_entry_container").style.display = "none";
+          }
+
+          document.getElementById("editMenuItemID").value = id;
+          document.getElementById("editMenuItemName").value = menuItemName;
+          document.getElementById("editCuisineName").value = cuisineName;
+          document.getElementById("editPrice").value = price;
+    }
+    </script>
 </head>
 <body>
 
@@ -85,35 +130,49 @@
                 <td> {{ r[3] }}</td>
                 <td> {{ r[4] }}</td>        
                 <td>
-                <button type="button" class="btn btn-success" title = "Update"><i class="fas fa-edit"></i></button>
-                <button type="button" class="btn btn-danger" title = "Delete"><i class="far fa-trash-alt"></i></button>
+                <button type="button" class="btn btn-danger" title = "Delete" onClick="window.location='/menuItemIngredients?type=delete&menuItemID={{ r.0 }}&ingredientID={{ r.2 }}'"><i class="far fa-trash-alt"></i></button>
                 </td>            
             </tr>
             {% endfor %}
         </tbody>
     </table>
     <div class="container">
-        <div class="row">
+        <div class="row" id="new_entry_container">
             <div class="col text-center">
-                <button type="button" class="btn btn-primary btn-lg" align = "center" onClick="window.location='/add_new_menuItemIngredient'">Add Menu Item</button>
+                <button type="button" class="btn btn-primary btn-lg" align = "center" onClick="showNewInputForm()">Add Menu Item</button>
             </div>
         </div>
-    </div>
-    <div class="container-fluid padding">
-        <ul>
-            <li><p align = "left">Database:</h6></p>
-                <ul>
-                    <li><p align = "left">Add:  Creates a new record of a menu item ingredient to MenuItemIngredients table.  Asks for Menu Item ID and Ingredient ID</p></li>
-                    <li><p align = "left">Delete:  Deletes an existing record of a menu item ingredient from MenuItemIngredients table</p></li>
-                    <li><p align = "left">Update:  Updates an existing record of a menu item ingredient in the MenuItemIngredients table.  Asks for updated related menu item and ingredient</p></li>
-                </ul>
-            <li><p align = "left">Cascade Effects:</p></li>
-                <ul>
-                    <li><p align = "left">On Add: N/A</p></li>
-                    <li><p align = "left">On Delete: N/A</p></li>
-                    <li><p align = "left">On Update: N/A</p></li>
-                </ul>
-        </ul>    
+
+        <!---- New Menu Item Ingredient Input Form Placeholder  ----->
+        <div id="new_entry_form" style="display:none">
+            <form id="addingmenuitemingredient" action="/menuItemIngredients?type=insert" method="post">
+                <fieldset>
+                    <legend>Add a new Menu Item Ingredient Combination below:</legend>
+                    <p><strong>Instructions:</strong> Please input the menu item name and a new ingredient for the dish below!</p>
+                    <label>
+                        Menu Item Name:
+                        <select name="menuItemID" required="1">
+                            {% for m in menuItems %}
+                            <option value='{{ m.0 }}'>{{ m.1 }}</option>
+                            {% endfor %}
+                        </select>
+                    </label>
+                    <label>
+                        Ingredient Name:
+                        <select name="ingredientID" required="1">
+                            {% for i in ingredients %}
+                            <option value='{{ i.0 }}'>{{ i.1 }}</option>
+                            {% endfor %}
+                        </select>
+                    </label>
+                    <br>
+                    <input type="submit" value="Submit">
+                </fieldset>
+                <br>
+                <br>
+            </form>
+        </div>
+
     </div>
     </div>
     </div>
