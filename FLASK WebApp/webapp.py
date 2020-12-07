@@ -264,11 +264,6 @@ def browse_chefSchedule():
     chefs = execute_query(db_connection, query).fetchall()
     print(chefs)
 
-    # grabs cuisine ID for given cuisine name input
-    if request.method == "POST":
-        query = 'SELECT cuisineID FROM cuisines WHERE cuisineName = "' + str(request.form['cuisineName']) + '"'
-        cuisineID = execute_query(db_connection, query).fetchall()[0]
-
     # checks URL params for type = INSERT for adding a new chefSchedule and then executes query to DB
     if request.args.get('type') == "insert":
         print("Add new ChefSchedule!")
