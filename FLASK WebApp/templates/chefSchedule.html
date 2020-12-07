@@ -51,7 +51,9 @@
               }
 
               document.getElementById("editDayOfWeek").value = dayOfWeek;
-              document.getElementById("editChefName").value = chefFName + " " + chefLName;
+              chefFullName = chefFName + chefLName;
+              console.log(chefFullName);
+              document.getElementById("editChefName").value = chefFullName;
         }
 
     </script>
@@ -187,11 +189,7 @@
                     </label>
                     <label>
                         Chef Name:
-                        <select id="editChefName" name="chefName" required="1">
-                            {% for c in chefs %}
-                            <option value='{{ c.0 }}'>{{ c.1 }} {{ c.2 }}</option>
-                            {% endfor %}
-                        </select>
+                        <select id="editChefName" name="chefName" required="1"></select>
                     </label>
                     <input type="submit" value="Submit">
                 </fieldset>
