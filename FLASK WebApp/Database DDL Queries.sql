@@ -15,7 +15,7 @@ CREATE TABLE `cuisines` (
 
 CREATE TABLE `ingredients` (
 	`ingredientID` INT(11) AUTO_INCREMENT PRIMARY KEY,
-	`ingredientName` VARCHAR(255) NOT NULL,
+	`ingredientName` VARCHAR(255) NOT NULL UNIQUE,
 	`isVegan` BOOLEAN NOT NULL,
 	`inventory` INT(11)
 	) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -23,7 +23,7 @@ CREATE TABLE `ingredients` (
 
 CREATE TABLE `menuItems` (
 	`menuItemID` INT(11) AUTO_INCREMENT PRIMARY KEY,
-	`menuItemName` VARCHAR(255) NOT NULL,
+	`menuItemName` VARCHAR(255) NOT NULL UNIQUE,
 	`cuisineID` INT(11) NOT NULL,
 	`price` DECIMAL(10,2) NOT NULL,
 	FOREIGN KEY(`cuisineID`)
@@ -111,10 +111,10 @@ INSERT INTO `restaurantSchedule` (dayofWeek, cuisineID) VALUES ('Thursday', '2')
 INSERT INTO `restaurantSchedule` (dayofWeek, cuisineID) VALUES ('Friday', '3');
 INSERT INTO `restaurantSchedule` (dayofWeek, cuisineID) VALUES ('Saturday', '3');
 INSERT INTO `restaurantSchedule` (dayofWeek, cuisineID) VALUES ('Sunday', '3');
-INSERT INTO `chefSchedule` (dayofWeek, chefID) VALUES ('Monday', '1');
-INSERT INTO `chefSchedule` (dayofWeek, chefID) VALUES ('Tuesday', '1');
-INSERT INTO `chefSchedule` (dayofWeek, chefID) VALUES ('Wednesday', '2');
-INSERT INTO `chefSchedule` (dayofWeek, chefID) VALUES ('Thursday', '2');
-INSERT INTO `chefSchedule` (dayofWeek, chefID) VALUES ('Friday', '3');
-INSERT INTO `chefSchedule` (dayofWeek, chefID) VALUES ('Saturday', '3');
-INSERT INTO `chefSchedule` (dayofWeek, chefID) VALUES ('Sunday', '3');
+INSERT INTO `chefSchedule` (dayofWeek, chefID) VALUES ('Monday', '3');
+INSERT INTO `chefSchedule` (dayofWeek, chefID) VALUES ('Tuesday', '3');
+INSERT INTO `chefSchedule` (dayofWeek, chefID) VALUES ('Wednesday', '1');
+INSERT INTO `chefSchedule` (dayofWeek, chefID) VALUES ('Thursday', '1');
+INSERT INTO `chefSchedule` (dayofWeek, chefID) VALUES ('Friday', '2');
+INSERT INTO `chefSchedule` (dayofWeek, chefID) VALUES ('Saturday', '2');
+INSERT INTO `chefSchedule` (dayofWeek, chefID) VALUES ('Sunday', '2');

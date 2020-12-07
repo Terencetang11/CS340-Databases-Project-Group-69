@@ -204,6 +204,13 @@ def browse_cuisines():
             execute_query(db_connection, query)
             print('Cuisine deleted')
 
+            # deletes relevant chef schedules where restaurant schedule cuisine is now NULL
+            days = execute_query(db_connection, "SELECT dayofWeek FROM restaurantSchedule WHERE cuisineID IS NULL")
+            for day in days:
+                query = 'DELETE FROM chefSchedule WHERE dayofWeek = "' + day + '"'
+                execute_query(db_connection, query)
+            print('Chef Schedule updated')
+
         # checks URL params for type = EDIT for updating an existing item and then executes query to DB
         elif request.args.get('type') == "edit":
             print("Edit a cuisine!")
@@ -227,7 +234,6 @@ def browse_cuisines():
         return render_template('error.html', prev='/cuisines')
 
 
-# need to add functionality for removing chefs if a cuisine for the schedule is updated and chef does not have specialty
 @webapp.route('/restaurantSchedule', methods=['POST','GET'])
 def browse_restuarantSchedule():
     db_connection = connect_to_database()
@@ -403,69 +409,6 @@ def browse_chefSchedule():
         return render_template('error.html', prev='/chefSchedule')
 
 
-
-
-@webapp.route('/add_new_menuItemIngredient', methods=['POST','GET'])
-def add_new_menuItemIngredient():
-    db_connection = connect_to_database()
-    if request.method == 'GET':
-        query = 'SELECT menuItemID, ingredientID from menuItemIngredients'
-        result = execute_query(db_connection, query).fetchall()
-        print(result)
-
-        return render_template('menuItemIngredient_add_new.html', menuItemIngredients = result)
-    elif request.method == 'POST':
-        print("Add new Menu Item Ingredient!")
-        menuItemID = request.form['menuItemID']
-        ingredientID = request.form['ingredientID']
-
-        query = 'INSERT INTO menuItemIngredients (menuItemID, ingredientID) VALUES (%s,%s)'
-        data = (menuItemID, ingredientID)
-        execute_query(db_connection, query, data)
-        return ('Menu Item Ingredient added!')
-
-
-@webapp.route('/add_new_menuItem', methods=['POST','GET'])
-def add_new_menuItem():
-    db_connection = connect_to_database()
-    if request.method == 'GET':
-        query = 'SELECT menuItemName, cuisineID, price from menuItems'
-        result = execute_query(db_connection, query).fetchall()
-        print(result)
-
-        return render_template('menuItem_add_new.html', menuItems = result)
-    elif request.method == 'POST':
-        print("Add new Menu Item!")
-        menuItemName = request.form['menuItemName']
-        cuisineID = request.form['cuisineID']
-        price = request.form['price']
-
-        query = 'INSERT INTO menuItems (menuItemName, cuisineID, price) VALUES (%s,%s,%s)'
-        data = (menuItemName, cuisineID, price)
-        execute_query(db_connection, query, data)
-        return ('Menu Item added!')
-
-
-@webapp.route('/add_new_chefSchedule', methods=['POST','GET'])
-def add_new_chefSchedule():
-    db_connection = connect_to_database()
-    if request.method == 'GET':
-        query = 'SELECT * from restaurantSchedule'
-        result = execute_query(db_connection, query).fetchall()
-        print(result)
-
-        return render_template('chefSchedule_add_new.html', chefSchedule = result)
-    elif request.method == 'POST':
-        print("Add new entry to Chef Schedule!")
-        dayofWeek = request.form['dayofWeek']
-        chefID = request.form['chefID']
-
-        query = 'INSERT INTO chefSchedule (dayofWeek, chefID) VALUES (%s,%s)'
-        data = (dayofWeek, chefID)
-        execute_query(db_connection, query, data)
-        return ('Entry added!')
-
-
 @webapp.route('/')
 def index():
     print("Fetching and rendering Index web page")
@@ -474,6 +417,7 @@ def index():
     result = execute_query(db_connection, query).fetchall()
     print(result)
     return render_template('index.html', rows=result)
+
 
 @webapp.route('/index_search', methods=['GET', 'POST'])
 def index_search():
