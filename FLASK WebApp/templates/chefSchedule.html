@@ -244,7 +244,10 @@
     document.getElementById('newDayOfWeek').addEventListener('change', function(element) {
 
         // Clearing the price selector and getting the selected fruit
-        document.getElementById('newChefName').empty()
+        x = document.getElementById('newChefName')
+        while (x.firstChild) {
+            x.removeChild(x.firstChild);
+        }
         selectedDay = this.value;
 
         // For each chef in the chefOptions for this day
