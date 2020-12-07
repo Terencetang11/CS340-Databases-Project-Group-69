@@ -236,7 +236,7 @@
 
     scheduleChefOptions = {}
     for (day of schedule){
-        day[0] = dayofWeek;
+        dayofWeek = day[0];
         chefOptions = [];
         for (chef of chefs){
             if (day[1] == chef[3]) {
@@ -245,7 +245,7 @@
         }
         scheduleChefOptions[dayofWeek] = chefOptions;
     }
-    
+
     console.log(scheduleChefOptions);
 
 <!--    // Listen to changes in selected fruit-->
