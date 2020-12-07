@@ -241,7 +241,7 @@
     console.log(scheduleChefOptions);
 
     // Listen to changes in selected day of Week
-    document.getElementById('newDayOfWeek').on('change', function(element) {
+    document.getElementById('newDayOfWeek').addEventListener('change', function(element) {
 
         // Clearing the price selector and getting the selected fruit
         document.getElementById('newChefName').empty()
