@@ -205,7 +205,7 @@ def browse_cuisines():
             print('Cuisine deleted')
 
             # deletes relevant chef schedules where restaurant schedule cuisine is now NULL
-            days = execute_query(db_connection, "SELECT dayofWeek FROM restaurantSchedule WHERE cuisineID IS NULL")
+            days = execute_query(db_connection, "SELECT dayofWeek FROM restaurantSchedule WHERE cuisineID IS NULL").fetchall()
             for day in days:
                 query = 'DELETE FROM chefSchedule WHERE dayofWeek = "' + day + '"'
                 execute_query(db_connection, query)
