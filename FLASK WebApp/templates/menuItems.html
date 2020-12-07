@@ -50,7 +50,7 @@
              document.getElementById("new_entry_container").style.display = "none";
           }
 
-          document.getElementById("editCMenuItemID").value = id;
+          document.getElementById("editMenuItemID").value = id;
           document.getElementById("editMenuItemName").value = menuItemName;
           document.getElementById("cuisineName").value = cuisineName;
           document.getElementById("price").value = price;
@@ -111,7 +111,7 @@
         <p class="lead">Menu Items</p>
         </div>
 <table class="table">
-      <thead>
+        <thead>
         <tr>
           <th scope="col">Menu Item ID</th>
           <th scope="col">Menu Item Name</th>
@@ -120,7 +120,7 @@
           <th scope="col">Price</th>
           <th scope="col">Actions</th>
         </tr>
-      </thead>
+        </thead>
         <tbody>
             {% for r in rows %}
             <tr>
@@ -128,11 +128,11 @@
                 <td> {{ r[1] }}</td>
                 <td> {{ r[2] }}</td>
                 <td> {{ r[3] }}</td>
-                <td> ${{ r[4] }}</td>        
+                <td> ${{ r[4] }}</td>
                 <td>
                 <button type="button" class="btn btn-success" title = "Update" onClick="showEditInputForm('{{ r.0 }}', '{{ r.1 }}', '{{ r.3 }}', '{{ r.4 }}')"><i class="fas fa-edit"></i></button>
                 <button type="button" class="btn btn-danger" title = "Delete" onClick="window.location='/menuItems?type=delete&id={{ r.0 }}'"><i class="far fa-trash-alt"></i></button>
-                </td>            
+                </td>
             </tr>
             {% endfor %}
         </tbody>
@@ -140,7 +140,7 @@
     <div class="container">
         <div class="row" id="new_entry_container">
             <div class="col text-center">
-                <button type="button" class="btn btn-primary btn-lg" align = "center" onClick="showNewInputForm()">Add Menu Item</button>
+                <button type="button" class="btn btn-primary btn-lg" onClick="showNewInputForm()">Add Menu Item</button>
             </div>
         </div>
 
@@ -187,7 +187,7 @@
                 <fieldset>
                     <legend>Edit a menu item below:</legend>
                     <p><strong>Instructions:</strong> Please update the menu item name, it's cuisine type, it's price!</p>
-                    <input id="editMenuItemID" type="text" name="menuItemID" required="1" style="display:none">
+                    <input id="editMenuItemID" name="menuItemID" type="text" required="1" style="display:none">
                     <label>
                         Menu Item Name: <input id="editMenuItemName" type="text" name="menuItemName" required="1">
                     </label>
