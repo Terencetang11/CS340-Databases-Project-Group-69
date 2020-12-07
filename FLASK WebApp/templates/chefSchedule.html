@@ -212,7 +212,6 @@
                     <label>
                         Day of Week:
                         <select id="newDayOfWeek" name="dayOfWeek" required="1"> Select Day
-                            <option value=''>Select a Day</option>
                             {% for d in restaurantSchedule %}
                             <option value='{{ d.0 }}'>{{ d.0 }}</option>
                             {% endfor %}
@@ -238,7 +237,6 @@
                     <label>
                         Day of Week:
                         <select id="editDayOfWeek" name="dayOfWeek" required="1"> Select Day
-                            <option value=''>Select a Day</option>
                             {% for d in restaurantSchedule %}
                             <option value='{{ d.0 }}'>{{ d.0 }}</option>
                             {% endfor %}
