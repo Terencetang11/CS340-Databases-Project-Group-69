@@ -249,7 +249,7 @@ def browse_chefs():
         print('Error has occurred!')
         return render_template('error.html', prev='/chefs')
 
-@webapp.route('/chefSchedule')
+@webapp.route('/chefSchedule', methods=['POST','GET'])
 def browse_chefSchedule():
     db_connection = connect_to_database()
 
