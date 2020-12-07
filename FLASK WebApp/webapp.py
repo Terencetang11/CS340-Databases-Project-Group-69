@@ -172,7 +172,7 @@ def browse_restuarantSchedule():
             print('RestaurantSchedule Updated!')
 
             query = 'DELETE FROM chefSchedule WHERE dayofWeek = "' + dayOfWeek + '"'
-            execute_query(db_connection, query, data)
+            execute_query(db_connection, query)
             print('ChefSchedule Updated!')
 
         print("Fetching and rendering Restaurant Schedule web page")
@@ -250,7 +250,7 @@ def browse_chefs():
             print('Chef Updated!')
 
             query = 'DELETE FROM chefSchedule WHERE chefID = "' + chefID + '"'
-            execute_query(db_connection, query, data)
+            execute_query(db_connection, query)
             print('ChefSchedule Updated!')
 
         print("Fetching and rendering Chefs web page")
