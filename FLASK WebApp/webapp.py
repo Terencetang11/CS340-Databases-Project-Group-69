@@ -275,6 +275,7 @@ def browse_chefSchedule():
         print(request.form)
         dayOfWeek = request.form['dayOfWeek']
         chefID = request.form['chefID']
+        print(chefID)
 
         query = 'INSERT INTO chefSchedule (dayofWeek, chefID) VALUES (%s,%s)'
         data = (dayOfWeek, chefID)
