@@ -417,8 +417,17 @@ def index():
 
     if request.args.get('type') == 'reset':
         with open('DDL_Queries.txt', 'r') as file:
-            query = file.read()
-        execute_query(db_connection, query)
+            data = file.read().replace('\n', '')
+
+        query = ''
+        for char in data:
+            if char == ';':
+                data = data[1:]
+                execute_query(db_connection, query)
+                query = ''
+            else:
+                query += char
+                data = data[1:]
         print('Database has been reset')
 
     print("Fetching and rendering Index web page")
