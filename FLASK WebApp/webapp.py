@@ -79,6 +79,49 @@ def browse_menuItems():
     cuisines = execute_query(db_connection, query).fetchall()
     print(cuisines)
 
+    # checks URL params for type = INSERT for adding a new ingredient and then executes query for adding new ingredient
+    if request.args.get('type') == "insert":
+        print("Add new menu item!")
+        print(request.form)
+        menuItemName = request.form['menuItemName']
+        cuisineID = request.form['cuisineName']
+        price = request.form['price']
+        mainIngredient = request.form['ingredientName']
+
+        query = 'INSERT INTO menuItems (menuItemName, cuisineID, price) VALUES (%s,%s,%s)'
+        data = (menuItemName, cuisineID, price)
+        execute_query(db_connection, query, data)
+        print('Menu Item added!')
+
+        query = 'SELECT menuItemID FROM menuItems where menuItemName = %s AND cuisineID = %s AND price = %s'
+        menuItemID = execute_query(db_connection, query, data).fetchall()
+
+        query = 'INSERT INTO menuItemIngredients (menuItemID, ingredientID) VALUES (%s,%s)'
+        data = (menuItemID, mainIngredient)
+        execute_query(db_connection, query, data)
+        print('Menu Item Ingredient added!')
+
+    # checks URL params for type = DELETE for deleting an existing ingredient and then executes query to DB
+    elif request.args.get('type') == "delete":
+        print("Deletes an ingredient!")
+        print("id = " + request.args.get('id'))
+        query = 'DELETE FROM ingredients WHERE ingredientID = ' + request.args.get('id')
+        execute_query(db_connection, query)
+        print('Ingredient deleted')
+
+    # checks URL params for type = EDIT for updating an existing ingredient and then executes query to DB
+    elif request.args.get('type') == "edit":
+        print("Edit an ingredient!")
+        print(request.form)
+        ingredientID = request.form['ingredientID']
+        ingredientName = request.form['ingredientName']
+        isVegan = request.form['isVegan']
+        inventory = request.form['inventory']
+
+        query = "UPDATE ingredients SET ingredientName = %s, isVegan = %s, inventory = %s WHERE ingredientID = %s"
+        data = (ingredientName, isVegan, inventory, ingredientID)
+        execute_query(db_connection, query, data)
+        print('Ingredient Updated!')
 
 
 
