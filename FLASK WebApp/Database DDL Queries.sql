@@ -71,7 +71,7 @@ CREATE TABLE `restaurantSchedule` (
 
 CREATE TABLE `chefSchedule` (
 	`dayofWeek` VARCHAR(255) NOT NULL,
-	`chefID` INT(11),
+	`chefID` INT(11) NOT NULL,
 	PRIMARY KEY (`dayofWeek`, `chefID`),
 	FOREIGN KEY (`dayofWeek`)
 	REFERENCES restaurantSchedule(`dayofWeek`)

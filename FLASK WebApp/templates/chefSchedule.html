@@ -9,8 +9,55 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
     <script src="https://use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
-    <script src="script.js"></script>
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+
+    <!---- Javascript Sources Placeholder ---->
+    <script>
+    <!--   Script for new chefSchedule button   -->
+        function showNewInputForm() {
+              var x = document.getElementById("new_entry_container");
+              if (x.style.display === "none") {
+                    x.style.display = "block";
+              } else {
+                    x.style.display = "none";
+              }
+
+              var x = document.getElementById("new_entry_form");
+              if (x.style.display === "none") {
+                    x.style.display = "block";
+              } else {
+                    x.style.display = "none";
+              }
+        }
+
+    <!--   Script for edit chefSchedule button   -->
+<!--        function showEditInputForm(dayOfWeek, chefID, chefFName, chefLName) {-->
+<!--              var x = document.getElementById("edit_entry_form");-->
+<!--              if (x.style.display === "none") {-->
+<!--                    x.style.display = "block";-->
+<!--              } else {-->
+<!--                    x.style.display = "none";-->
+<!--              }-->
+
+<!--              showNewInputForm();-->
+
+<!--              if (document.getElementById("new_entry_form").style.display === "block") {-->
+<!--                document.getElementById("new_entry_form").style.display = "none";-->
+<!--              }-->
+
+<!--              if (document.getElementById("new_entry_container").style.display === "block" &&-->
+<!--                    x.style.display === "block") {-->
+<!--                 document.getElementById("new_entry_container").style.display = "none";-->
+<!--              }-->
+
+<!--              document.getElementById("editDayOfWeek").value = dayOfWeek;-->
+<!--              document.getElementById("editChefName").value = chefFName;-->
+<!--        }-->
+
+    </script>
+
+
+
 </head>
 <body>
 
@@ -83,35 +130,72 @@
                 <td> {{ r[2] }}</td>
                 <td> {{ r[3] }}</td>         
                 <td>
-                <button type="button" class="btn btn-success" title = "Update"><i class="fas fa-edit"></i></button>
-                <button type="button" class="btn btn-danger" title = "Delete"><i class="far fa-trash-alt"></i></button>
+<!--                <button id="edit-btn" type="button" class="btn btn-success" title = "Update" onClick="showEditInputForm('{{ r.0 }}', '{{ r.1 }}', '{{ r.2 }}', '{{ r.3 }}')"><i class="fas fa-edit"></i></button>-->
+                <button type="button" class="btn btn-danger" title = "Delete" onClick="window.location='/chefSchedule?type=delete&dayofWeek={{ r.0 }}&chefID={{ r.1 }}'"><i class="far fa-trash-alt"></i></button>
                 </td>            
             </tr>
             {% endfor %}
         </tbody>
             </table>
     <div class="container">
-        <div class="row">
+        <div class="row" id="new_entry_container">
             <div class="col text-center">
-                <button type="button" class="btn btn-primary btn-lg" align = "center" onClick="window.location='/add_new_chefSchedule'">Add Day & Chef</button>
+                <button type="button" class="btn btn-primary btn-lg" align = "center" onClick="showNewInputForm()">Add Day & Chef</button>
             </div>
         </div>
-    </div>
-    <div class="container-fluid padding">
-        <ul>
-            <li><p align = "left">Database:</h6></p>
-                <ul>
-                    <li><p align = "left">Add: Adds a new record of a newly scheduled chef in the ChefSchedule table</p></li>
-                    <li><p align = "left">Delete: Deletes an existing record of a scheduled chef in the ChefSchedule table</p></li>
-                    <li><p align = "left">Update: Updates an existing record of a scheduled chef in the ChefSchedule table</p></li>
-                </ul>
-            <li><p align = "left">Cascade Effects:</p></li>
-                <ul>
-                    <li><p align = "left">On Add: N/A</p></li>
-                    <li><p align = "left">On Delete: N/A</p></li>
-                    <li><p align = "left">On Update: N/A</p></li>
-                </ul>
-        </ul>    
+
+        <!---- New RestaurantSchedule Input Form Placeholder  ----->
+        <div id="new_entry_form" style="display:none">
+            <form id="addingchefschedule" action="/chefSchedule?type=insert" method="post">
+                <fieldset>
+                    <legend>Add a new Chef Schedule below:</legend>
+                    <p><strong>Instructions:</strong> Please input a new day of week and assign a chef below!</p>
+                    <label>
+                        Day of Week:
+                        <select id="newDayOfWeek" name="dayOfWeek" required="1"> Select Day
+                            <option value=''>Select a Day</option>
+                            {% for d in restaurantSchedule %}
+                            <option value='{{ d.0 }}'>{{ d.0 }}</option>
+                            {% endfor %}
+                        </select>
+                    </label>
+                    <label>
+                        Chef Name:
+                        <select id="newChefName" name="chefID" required="1"></select>
+                    </label>
+                    <input type="submit" value="Submit">
+                </fieldset>
+                <br>
+                <br>
+            </form>
+        </div>
+
+        <!---- Edit RestaurantSchedule Form Placeholder  ----->
+<!--        <div id="edit_entry_form" style="display:none">-->
+<!--            <form id="editchefschedule" action="/chefSchedule?type=edit" method="post">-->
+<!--                <fieldset>-->
+<!--                    <legend>Edit Chef Schedule below:</legend>-->
+<!--                    <p><strong>Instructions:</strong> Please update a day of the week and an assigned chef below!</p>-->
+<!--                    <label>-->
+<!--                        Day of Week:-->
+<!--                        <select id="editDayOfWeek" name="dayOfWeek" required="1"> Select Day-->
+<!--                            <option value=''>Select a Day</option>-->
+<!--                            {% for d in restaurantSchedule %}-->
+<!--                            <option value='{{ d.0 }}'>{{ d.0 }}</option>-->
+<!--                            {% endfor %}-->
+<!--                        </select>-->
+<!--                    </label>-->
+<!--                    <label>-->
+<!--                        Chef Name:-->
+<!--                        <select id="editChefName" name="chefName" required="1"></select>-->
+<!--                    </label>-->
+<!--                    <input type="submit" value="Submit">-->
+<!--                </fieldset>-->
+<!--                <br>-->
+<!--                <br>-->
+<!--            </form>-->
+<!--        </div>-->
+
     </div>
     </div>
     </div>
@@ -135,6 +219,70 @@
     <div class="col-md-4"></div>
 </div>       
 </footer>
+
+
+<!--   Script for dynamically editing chef selection dropdown based on day selected and cuisine schedule  -->
+<script>
+    // First we initialize a variable with the days of the week and available corresponding chefs per cuisine
+    scheduleChefOptions = {}
+    {% for d in restaurantSchedule %}
+        dayofWeek = '{{ d.0 }}';
+        chefOptions = [];
+        {% for c in chefs %}
+            None = -1;
+            if ( {{ d.1 }} == {{ c.3 }} ) {
+                chefOptions.push( ['{{ c.0 }}', '{{ c.1 }}', '{{ c.2 }}', '{{ c.3 }}'] );
+            }
+        {% endfor %}
+        scheduleChefOptions[dayofWeek] = chefOptions;
+    {% endfor %}
+
+    // Then we listen to changes in selected day of Week
+    document.getElementById('newDayOfWeek').addEventListener('change', function(element) {
+
+        // Clearing the price selector and getting the selected fruit
+        x = document.getElementById('newChefName')
+        while (x.firstChild) {
+            x.removeChild(x.firstChild);
+        }
+        selectedDay = this.value;
+        console.log(selectedDay);
+
+        // For each chef in the chefOptions for this day
+        for (index in scheduleChefOptions[selectedDay]) {
+
+            // Get the chef ID, fName, and lName and create an option element for it
+            chef = scheduleChefOptions[selectedDay][index];
+            chef_option = '<option value={0}>{1} {2}</option>'.replace('{0}', chef[0]).replace('{1}', chef[1]).replace('{2}', chef[2]);
+
+            // Add the option to the price selector
+            document.getElementById('newChefName').innerHTML += chef_option;
+        }
+    })
+
+<!--    // Then we listen to changes in selected day of Week-->
+<!--    document.getElementById('edit-btn').addEventListener('click', function(element) {-->
+
+<!--        // Clearing the price selector and getting the selected fruit-->
+<!--        x = document.getElementById('editChefName')-->
+<!--        while (x.firstChild) {-->
+<!--            x.removeChild(x.firstChild);-->
+<!--        }-->
+<!--        selectedDay = this.value;-->
+<!--        console.log(selectedDay);-->
+
+<!--        // For each chef in the chefOptions for this day-->
+<!--        for (index in scheduleChefOptions[selectedDay]) {-->
+
+<!--            // Get the chef ID, fName, and lName and create an option element for it-->
+<!--            chef = scheduleChefOptions[selectedDay][index];-->
+<!--            chef_option = '<option value={0}>{1} {2}</option>'.replace('{0}', chef[0]).replace('{1}', chef[1]).replace('{2}', chef[2]);-->
+
+<!--            // Add the option to the price selector-->
+<!--            document.getElementById('editChefName').innerHTML += chef_option;-->
+<!--        }-->
+<!--    })-->
+</script>
 
 </body>
 </html>
