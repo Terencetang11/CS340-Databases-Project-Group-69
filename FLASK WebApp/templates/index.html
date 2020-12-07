@@ -84,8 +84,34 @@
                 {% endfor %}
             </tbody>
 	</table>
-	</div>
+        <div class="container">
+            <div class="row">
+                <div class="col text-center">
+                    <button type="button" id="search_chefs_button" class="btn btn-primary btn-lg" align = "center" onClick="showNewInputForm()">Search Chef</button>
+                </div>
+            </div>
+
+            <!---- Search Chef Input Form Placeholder  ----->
+            <div id="search_chefs_form" style="display:none">
+                <form id="searchchefs" action="/index_search" method="POST">
+                    <fieldset>
+                        <legend>Search a Chef's Shifts Below:</legend>
+                        <p><strong>Instructions:</strong> Please input the chef's name below!</p>
+                        <label>
+                            First Name: <input type="text" name="firstName" required="1">
+                        </label>
+                        <label>
+                            Last Name: <input type="text" name="lastName" required="1">
+                        </label>
+                        <input type="submit" value="Submit">
+                    </fieldset>
+                    <br>
+                    <br>
+                </form>
+            </div>
+	   </div>
     </div>
+</div>
         
 <div class="container-fluid padding">
     <div class="row welcome text-center">
@@ -153,6 +179,24 @@
     <div class="col-md-4"></div>
 </div>       
 </footer>
+
+<script>
+    function showNewInputForm() {
+          var x = document.getElementById("search_chefs_button");
+          if (x.style.display === "none") {
+                x.style.display = "block";
+          } else {
+                x.style.display = "none";
+          }
+
+          var x = document.getElementById("search_chefs_form");
+          if (x.style.display === "none") {
+                x.style.display = "block";
+          } else {
+                x.style.display = "none";
+          }
+    }
+</script>
 
 </body>
 </html>
