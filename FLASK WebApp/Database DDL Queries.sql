@@ -7,12 +7,14 @@ DROP TABLE IF EXISTS cuisines;
 DROP TABLE IF EXISTS ingredients;
 
 
+/* Cuisines Table */
 CREATE TABLE `cuisines` (
 	`cuisineID` INT(11) AUTO_INCREMENT PRIMARY KEY,
 	`cuisineName` VARCHAR(255) NOT NULL
 	) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 
+/* Ingredients Table */
 CREATE TABLE `ingredients` (
 	`ingredientID` INT(11) AUTO_INCREMENT PRIMARY KEY,
 	`ingredientName` VARCHAR(255) NOT NULL UNIQUE,
@@ -21,6 +23,10 @@ CREATE TABLE `ingredients` (
 	) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 
+/* 
+	Menu Items Table. Each Menu Item has a Cuisine reference using cuisineID as FK.
+	Each Menu Item can have 1 and only 1 cuisineID.
+*/
 CREATE TABLE `menuItems` (
 	`menuItemID` INT(11) AUTO_INCREMENT PRIMARY KEY,
 	`menuItemName` VARCHAR(255) NOT NULL UNIQUE,
@@ -33,9 +39,15 @@ CREATE TABLE `menuItems` (
 	) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 
+/* 
+	Intersection Table for Menu Items and Ingredients. 
+	A Menu Item can have one to many ingredients, and an ingredient can be in zero to many Menu Items.
+	Cascades on Update and Delete.
+*/
 CREATE TABLE `menuItemIngredients` (
 	`menuItemID` INT(11) NOT NULL,
 	`ingredientID` INT(11) NOT NULL,
+	PRIMARY KEY (`menuItemID`, `ingredientID`),
 	FOREIGN KEY(`ingredientID`)
 	REFERENCES ingredients(`ingredientID`)
 		ON UPDATE CASCADE
@@ -47,6 +59,10 @@ CREATE TABLE `menuItemIngredients` (
 	) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 
+/* 
+	Chefs Table. Each Chef has a Cuisine reference using cuisineID as FK.
+	Each Chef can have 1 and only 1 cuisineID.  
+*/
 CREATE TABLE `chefs` (
 	`chefID` INT(11) AUTO_INCREMENT PRIMARY KEY,
 	`firstName` VARCHAR(255) NOT NULL,
@@ -59,6 +75,10 @@ CREATE TABLE `chefs` (
 	) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 
+/* 
+	Restaurant Schedule table that pairs a cuisine to each day of the week using cuisineID as FK.
+	Each day of the week can have one and only one cuisine. 
+*/
 CREATE TABLE `restaurantSchedule` (
 	`dayofWeek` VARCHAR(255) NOT NULL PRIMARY KEY,
 	`cuisineID` INT(11),
@@ -69,6 +89,13 @@ CREATE TABLE `restaurantSchedule` (
 	) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 
+/*
+	Chef Schedule table that is an intersection table between Restaurant Schedule and Chefs.
+	Table pairs chefs to a day of the week using dayofWeek and chefID as FKs.
+	A chef can be scheduled in none to many days of the week.
+	Any day of the week can have one to many chefs scheduled.
+	Chefs are scheduled to days of the week based on cuisine.
+*/
 CREATE TABLE `chefSchedule` (
 	`dayofWeek` VARCHAR(255) NOT NULL,
 	`chefID` INT(11) NOT NULL,
@@ -84,6 +111,7 @@ CREATE TABLE `chefSchedule` (
 	) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 
+/* Sample Data with multiple entries for each Table in Database Schema */
 INSERT INTO `cuisines` (cuisineName) VALUES ('Italian');
 INSERT INTO `cuisines` (cuisineName) VALUES ('South Asian');
 INSERT INTO `cuisines` (cuisineName) VALUES ('Southern');
